@@ -1,0 +1,55 @@
+{
+  "country": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 17,
+    "confused_with": {}
+  },
+  "destination_purpose": {
+    "precision": 1.0,
+    "recall": 0.8571428571428571,
+    "f1-score": 0.923076923076923,
+    "support": 7,
+    "confused_with": {}
+  },
+  "entity_type": {
+    "precision": 0.925,
+    "recall": 0.9736842105263158,
+    "f1-score": 0.9487179487179489,
+    "support": 38,
+    "confused_with": {}
+  },
+  "stay_duaration": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 10,
+    "confused_with": {}
+  },
+  "transport_type": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 7,
+    "confused_with": {}
+  },
+  "micro avg": {
+    "precision": 0.9625,
+    "recall": 0.9746835443037974,
+    "f1-score": 0.9685534591194969,
+    "support": 79
+  },
+  "macro avg": {
+    "precision": 0.985,
+    "recall": 0.9661654135338346,
+    "f1-score": 0.9743589743589745,
+    "support": 79
+  },
+  "weighted avg": {
+    "precision": 0.9639240506329114,
+    "recall": 0.9746835443037974,
+    "f1-score": 0.9685167153521586,
+    "support": 79
+  }
+}

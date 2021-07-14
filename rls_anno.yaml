@@ -1,0 +1,77 @@
+version: "2.0"
+rules:
+  - rule: greet
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - action: utter_welcome_message
+
+  - rule: goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+
+ # - rule: ask country
+ #   steps:
+ #    - intent: query_regulations
+ #     - slot_was_set:
+ #       - entity_type: entry_regulations
+ #     - action: destination_country_form
+
+  - rule: transit_rule
+    condition:
+    - slot_was_set:
+      - transit: True
+    steps:
+    - action: action_query_knowledgebase_cases
+
+  - rule: transit
+    condition:
+    - active_loop: no_entry_regulations_apply_form
+    - slot_was_set:
+      - transit: True
+    steps:
+    - active_loop: null
+    - action: action_query_knowledgebase_cases
+
+#ACTIVATE FORMS
+  - rule: activate destination_country_form
+    steps:
+   # - slot_was_set:
+   #   - entity_type: entry_regulations
+    - action: destination_country_form
+    - active_loop: destination_country_form
+
+
+  - rule: activate no_entry_regulations_apply_form
+    condition:
+    - slot_was_set:
+      - country: "Germany"
+    steps:
+    #- intent: query_regulations
+   # - slot_was_set:
+   #   - entity_type: entry_regulations
+    - action: no_entry_regulations_apply_form
+    - active_loop: no_entry_regulations_apply_form
+
+
+#DEACTIVATE FORMS
+#  - rule: deactivate no_entry_regulations_apply_form
+#    condition:
+  # Condition that form is active.
+#    - active_loop: no_entry_regulations_apply_form
+#    steps:
+  # Form is deactivated
+#    - action: no_entry_regulations_apply_form
+#    - active_loop: null
+ #   - slot_was_set:
+ #     - requested_slot: null
+
+
+
+  - rule: bot challenge
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+      - action: utter_welcome_message

@@ -1,0 +1,207 @@
+[
+  {
+    "text": "show entry regulations for travel to Germany",
+    "entities": [
+      {
+        "start": 5,
+        "end": 22,
+        "value": "entry_regulations",
+        "entity": "entity_type"
+      },
+      {
+        "start": 37,
+        "end": 44,
+        "value": "Germany",
+        "entity": "country"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "entity_type",
+        "start": 5,
+        "end": 22,
+        "confidence_entity": 0.8000288605690002,
+        "value": "entry_regulations",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "entity_type",
+        "start": 27,
+        "end": 33,
+        "confidence_entity": 0.4053199291229248,
+        "value": "leisure",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "country",
+        "start": 37,
+        "end": 44,
+        "confidence_entity": 0.9989903569221497,
+        "value": "Germany",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "rules for entry for one day",
+    "entities": [
+      {
+        "start": 0,
+        "end": 15,
+        "value": "entry_regulations",
+        "entity": "entity_type"
+      },
+      {
+        "start": 20,
+        "end": 27,
+        "value": "one_day",
+        "entity": "stay_duaration"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "entity_type",
+        "start": 0,
+        "end": 9,
+        "confidence_entity": 0.8385122418403625,
+        "value": "rules for",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "entity_type",
+        "start": 10,
+        "end": 19,
+        "confidence_entity": 0.7477462887763977,
+        "value": "entry for",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "stay_duaration",
+        "start": 20,
+        "end": 27,
+        "confidence_entity": 0.9911646246910095,
+        "value": "one_day",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "rules that apply to go to Germany for less than a day",
+    "entities": [
+      {
+        "start": 17,
+        "end": 25,
+        "value": "entry_regulations",
+        "entity": "entity_type"
+      },
+      {
+        "start": 26,
+        "end": 33,
+        "value": "Germany",
+        "entity": "country"
+      },
+      {
+        "start": 38,
+        "end": 53,
+        "value": "one_day",
+        "entity": "stay_duaration"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "entity_type",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.6411234736442566,
+        "value": "rules",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "entity_type",
+        "start": 17,
+        "end": 25,
+        "confidence_entity": 0.5467532873153687,
+        "value": "entry_regulations",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "country",
+        "start": 26,
+        "end": 33,
+        "confidence_entity": 0.9995198249816895,
+        "value": "Germany",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "stay_duaration",
+        "start": 38,
+        "end": 53,
+        "confidence_entity": 0.9879627823829651,
+        "value": "one_day",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "rules to fly to{\"entity\":\"transport_type\", \"value\":\"by air\"} Luxembourg",
+    "entities": [
+      {
+        "start": 9,
+        "end": 15,
+        "value": "entry_regulations",
+        "entity": "entity_type"
+      },
+      {
+        "start": 61,
+        "end": 71,
+        "value": "Luxembourg",
+        "entity": "country"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "entity_type",
+        "start": 9,
+        "end": 12,
+        "confidence_entity": 0.9970197081565857,
+        "value": "fly",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "country",
+        "start": 61,
+        "end": 71,
+        "confidence_entity": 0.9983806610107422,
+        "value": "Luxembourg",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "I am going for travel",
+    "entities": [
+      {
+        "start": 15,
+        "end": 21,
+        "value": "leisure",
+        "entity": "destination_purpose"
+      }
+    ],
+    "predicted_entities": []
+  }
+]

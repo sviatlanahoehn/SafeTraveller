@@ -1,0 +1,556 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: false
+intents:
+- query_open_places:
+    use_entities: true
+- nothing_else:
+    use_entities: true
+- main_menu:
+    use_entities: true
+- restart:
+    use_entities: true
+- test_details:
+    use_entities: true
+- go_back:
+    use_entities: true
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- wellbeing_check:
+    use_entities: true
+- query_regulations:
+    use_entities: true
+- inform:
+    use_entities: true
+- deny:
+    use_entities: true
+- affirm:
+    use_entities: true
+- query_local_regulations:
+    use_entities: true
+- thank_you:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- ask_other_countries:
+    use_entities: true
+- what_can_u_do:
+    use_entities: true
+- ask_which_countries:
+    use_entities: true
+- rephrase:
+    use_entities: true
+- repeat_please:
+    use_entities: true
+- inform_incorrect:
+    use_entities: true
+- change_of_plans:
+    use_entities: true
+
+entities:
+- entity_type
+- transit_DE
+- visit_purpose
+- transport_type
+- indoors/outdoors
+- location
+- incorrect_slot
+- incorrect_country
+- country_to
+- country:
+    roles:
+    - to
+    - from
+- <24h
+slots:
+  want_more_local_info:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  want_to_continue:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  incorrect_slot:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+    values:
+    - visit_purpose
+    - transport_type
+    - <24h
+    - transit_de
+    - transport_sector_worker
+  query_counter:
+    type: rasa.shared.core.slots.FloatSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+    max_value: 2.0
+    min_value: 1.0
+  common_border:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  want_open_places:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  travelling_with_children:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  want_localinfo:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  entity_type:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+    values:
+    - entry_regulations
+    - local_regulations
+  country_to:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+    values:
+    - Luxembourg
+    - Germany
+    - Netherlands
+  country_from:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+    values:
+    - Luxembourg
+    - Germany
+    - Netherlands
+  correct_info:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  correct_countries:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  indoors/outdoors:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+    values:
+    - indoors
+    - outdoors
+    - both
+  going_from_work:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  one_household:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  transit_DE:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  <24h:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  visit_purpose:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+    values:
+    - leisure
+    - work
+    - family
+  transport_sector_worker:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  NL_worker:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  transport_type:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+    values:
+    - car
+    - coach
+    - plane
+  #requested_slot:
+  #  type: rasa.shared.core.slots.TextSlot
+  #  initial_value: null
+  #  auto_fill: true
+  #  influence_conversation: true
+
+responses:
+  utter_type_restart:
+  - text: You can type 'restart' to restart the conversation.
+  utter_restart_please:
+  - text: Please type 'restart' to restart the conversation.
+  utter_prompt_continue:
+  #- text: For more rules, type in a question or type 'main menu' to go to the regulations menu
+  - text: You can type 'main menu' to go to the regulations menu
+  utter_announce_local:
+  - text: I am going to look for the local regulations.
+  utter_redo:
+  - text: You can type 'back' and go to the previous menu in case it is not what you're looking for.
+  utter_ask_want_more_local_info:
+  - text: Would you like to know more local regulations?
+  utter_ask_entity_type:
+  - buttons:
+    - payload: '/query_regulations{{"entity_type": "entry_regulations"}}'
+      title: Entry Restrictions
+    - payload: '/query_local_regulations{{"entity_type": "local_regulations"}}'
+      title: Local Regulations
+    text: What type of regulations would you like to know?
+  utter_ask_country_from:
+  - buttons:
+    - payload: '/inform{{"country": "Luxembourg", "correct_countries":true}}'
+      title: Luxembourg
+    - payload: '/inform{{"country": "Netherlands", "correct_countries":true}}'
+      title: Netherlands
+    - payload: '/inform{{"country": "Germany", "correct_countries":true}}'
+      title: Germany
+    text: Let me know which country you are planning to travel from
+  utter_ask_country_to:
+  - buttons:
+    - payload: '/inform{{"country": "Luxembourg", "correct_countries":true}}'
+      title: Luxembourg
+    - payload: '/inform{{"country": "Netherlands", "correct_countries":true}}'
+      title: Netherlands
+    - payload: '/inform{{"country": "Germany", "correct_countries":true}}'
+      title: Germany
+    text: Which country are you planning to travel to?
+  utter_ask_incorrect_slot:
+  - buttons:
+    - payload: '/inform_incorrect{{"incorrect_slot": "visit_purpose"}}'
+      title: visit purpose
+    - payload: '/inform_incorrect{{"incorrect_slot": "transport_type"}}'
+      title: transport type
+    - payload: '/inform_incorrect{{"incorrect_slot": "<24h"}}'
+      title: stay duration
+   # - payload: '/inform_incorrect{{"incorrect_slot": "transit_DE"}}'
+   #   title: transit
+   # - payload: '/inform_incorrect{{"incorrect_slot": "transport_sector_worker"}}'
+   #   title: transport sector worker
+    text: Okay, could you say which information is incorrect?
+  utter_ask_want_to_continue:
+  - text: Anything else?
+  utter_ask_want_localinfo:
+  - text: Would you also like to know local covid rules that will apply upon arrival to {country_to}?
+  utter_ask_want_open_places:
+  - text: Would you also like to know the information about open/closed places?
+  utter_ask_travelling_with_children:
+  - text: Are you travelling with children?
+  #utter_custom_fallback:
+  #- text: This is the new default ;)
+  utter_default:
+  - text: I could not undersatnd that, sorry. Please rephrase to continue.
+  utter_greet:
+  - text: Hello :)
+  - text: Hey!
+  - text: Hello there!
+  utter_goodbye:
+  - text: Goodbye! Enjoy your travel and see you soon:)
+  - text: Have a nice day :) Bye!
+  - text: Bye, enjoy your trip!
+  utter_ur_welcome:
+  - text: You're welcome!
+  utter_mood:
+  - text: I'm good, thank you!
+  - text: I'm well, thanks.
+  - text: Everything's fine ;)
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_welcome_message:
+  - text: I am a Travel-Rules Chatbot designed to help travellers prepare for trips during the pandemic. I can share information on Covid-19-related travel restrictions and measures applicable upon arrival.
+  utter_ask_trip_details:
+  - text: Please tell me where you are travelling from and what is the country of your destination.
+  utter_ask_additional:
+  - text: Hint:... you can add other trip details, too, for the query to go faster.
+  utter_warn_collect_info:
+  - text: Thanks. I'll need now to ask some details of your trip to know which category you belong to as a traveller.
+  utter_explain_functionality:
+  - text: If you are travelling from and to Luxembourg, Germany or the Netherlands, I can tell you what entry regulations or local measures will apply to you in one of these countries.
+  utter_explain_collect_info:
+  - text: Depending on details such as the travel purpose, duration of stay and/or the transport type, different entry regulations might apply.
+  utter_answer_for_other_countries:
+  - text: "I only know the rules for the three mentioned countries: Germany, the Netherlands and Luxembourg. Unfortunately I can't help if you're travelling to or from any other country."
+  - text: I can't help you with information for other countries, unfortunately. As mentioned before, you need to be a traveller from the Netherlands, Luxembourg or Germany and your travel should be to one of these countries.
+  - text: I can only help you if you're going from and planning a trip to one of the three countries mentioned above.
+  utter_query_failed:
+  - text: Failed to query the knowledge-base...
+  utter_list_the_countries:
+  - text: Luxembourg, Germany and the Netherlands
+  - text: The Netherlands, Germany and Luxembourg
+  utter_wrong_country_to:
+  - text: Sorry, I could not recognise the destination country. Make sure to only include the countries that I was designed to recognise.
+  utter_wrong_country_from:
+  - text: Sorry, I could not recognise the departure country. Make sure to only include the countries that I was designed to recognise.
+ # utter_ask_country_from:
+ # - text: Please tell me from which country you are going
+  utter_not_understood:
+  - text: I am still learning and could not understand all of the information I need.
+ # utter_ask_country_to:
+ # - text: Which country are you planning to go to?
+  utter_ask_correct_info:
+  - text: You would like me to look for local regulations, is that correct?
+  #- text: Did I collect the correct information?
+  #- text: Did I get everything right?
+  utter_ask_indoors/outdoors:
+  - buttons:
+    - payload: '/inform{{"indoors/outdoors":"indoors"}}'
+      title: Indoors
+    - payload: '/inform{{"indoors/outdoors":"outdoors"}}'
+      title: Outdoors
+    - payload: '/inform{{"indoors/outdoors":"both"}}'
+      title: Both
+    text: "Specify the type of regulations, please:"
+  utter_ask_outdoors:
+  - text:  outdoors?
+  utter_ask_going_from_work:
+  - text: Are planning to be outside to go to/from work or studies?
+  utter_ask_one_household:
+  - text: Are you planning to be with people from your household?
+  utter_did_not_find_the_country:
+  - text: Could not find the country of destination...
+  utter_no_rules_apply:
+  - text: You are free to travel, no applicable rules.
+  utter_ask_transit_DE:
+  - text: Are you transiting through Germany?
+  utter_ask_<24h:
+  - text: Are you going to enter {country_to} for less than 24h?
+  utter_ask_rephrase:
+  - text: Sorry, I did not quite understand. Can you please rephrase?
+  utter_rephrase:
+  - text: Okay. Please rephrase.
+  utter_ask_visit_purpose:
+  - text: What is the purpose of your visit to {country_to} (e.g. work or leisure)?
+  utter_ask_transport_sector_worker:
+  - text: If you are going for work, are you a worker in the transport sector?
+  utter_ask_transport_type:
+  - text: What transport type are you planning on using?
+  utter_ask_location:
+  - text: For which country would you like to know the local regulations?
+  utter_ask_NL_worker:
+  - text: Are you planning to go there for less than one week and will be physically present at work?
+  utter_restart:
+  - text: Okay, I have restarted our conversation.
+actions:
+#- validate_transit_DE_form
+- action_set_open
+- action_reset_entity_type
+- action_set_local
+- action_validate_transit
+- action_clear_countries
+- action_query_knowledgebase_cases
+- action_set_country_slots_to_none
+- validate_want_local_info_form
+- action_default_fallback_custom
+#- validate_extended_local_regulations_form
+- action_utter_disclaimer
+- action_ask_confirm_collected_info
+- action_reset_transport_slot
+- action_ask_correct_countries
+#- validate_country_form
+- action_validate_countries
+- action_repeat_last
+- action_check_borders
+- action_go_back
+#- action_session_start
+forms:
+  correct_local_form:
+    correct_info:
+    - intent: thank_you
+      type: from_intent
+      value: true
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  want_more_local_info_form:
+    want_more_local_info:
+    - intent: thank_you
+      type: from_intent
+      value: true
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  regulation_type_form:
+    entity_type:
+    - type: from_entity
+      entity: entity_type
+  country_form_II:
+    country_from:
+    - type: from_entity
+      entity: country
+      #role: from
+    country_to:
+    - type: from_entity
+      entity: country
+      #role: to
+  country_form:
+    country_from:
+    - type: from_entity
+      entity: country
+      #role: from
+    country_to:
+    - type: from_entity
+      entity: country
+      #role: to
+  continue_form:
+    want_to_continue:
+    - intent: thank_you
+      type: from_intent
+      value: true
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  children_travel_form:
+    travelling_with_children:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  want_local_info_form:
+    want_localinfo:
+    - intent: thank_you
+      type: from_intent
+      value: true
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  local_regulations_form:
+    country_to:
+    #- entity: location
+    - entity: country
+      type: from_entity
+    indoors/outdoors:
+    - entity: indoors/outdoors
+      type: from_entity
+  extended_local_regulations_form:
+    one_household:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  open_places_form:
+    want_open_places:
+    - intent: thank_you
+      type: from_intent
+      value: true
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  incorrect_slot_form:
+    incorrect_slot:
+    - entity: incorrect_slot
+      type: from_entity
+  confirm_form:
+    correct_info:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  confirm_country_form:
+    correct_countries:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  <24h_form:
+    <24h:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  visit_purpose_form:
+    visit_purpose:
+    - entity: visit_purpose
+      type: from_entity
+  transport_type_form:
+    transport_type:
+    - entity: transport_type
+      type: from_entity
+  transport_sector_worker_form:
+    transport_sector_worker:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  transit_DE_form:
+    transit_DE:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+  NL_worker_form:
+    NL_worker:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
+e2e_actions: []

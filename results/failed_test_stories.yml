@@ -1,0 +1,41 @@
+version: "2.0"
+stories:
+- story: Going to Germany by transit (c:\Temp\tmp0pjqbuvp\bd9b284714a14e60b3068186a0bb3121_test_stories.yml)
+  steps:
+  - intent: query_regulations  # predicted: query_regulations: show me the [regulations to go](entity_type) to [Germany](country)
+    entities:
+    - country: Germany
+  - slot_was_set:
+    - country: Germany
+  - slot_was_set:
+    - country: Germany
+  - slot_was_set:
+    - entity_type: entry_regulations
+  - action: no_entry_regulations_apply_form
+  - active_loop: no_entry_regulations_apply_form
+  - intent: affirm
+  - slot_was_set:
+    - transit: true
+  - active_loop: null
+  - action: action_query_knowledgebase_cases  # predicted: action_default_fallback
+- story: Going to Germany for >24h (c:\Temp\tmp0pjqbuvp\bd9b284714a14e60b3068186a0bb3121_test_stories.yml)
+  steps:
+  - intent: query_regulations  # predicted: query_regulations: show me the [regulations to go](entity_type) to [Germany](country)
+    entities:
+    - country: Germany
+  - slot_was_set:
+    - country: Germany
+  - slot_was_set:
+    - country: Germany
+  - slot_was_set:
+    - entity_type: entry_regulations
+  - action: no_entry_regulations_apply_form
+  - active_loop: no_entry_regulations_apply_form
+  - intent: affirm
+  - slot_was_set:
+    - transit: false
+  - active_loop: no_entry_regulations_apply_form
+  - slot_was_set:
+    - entry_for_less_than_24h: true
+  - active_loop: null
+  - action: action_query_knowledgebase_cases  # predicted: action_default_fallback
