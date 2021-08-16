@@ -53,7 +53,7 @@ intents:
     use_entities: true
 
 entities:
-- entity_type
+- regulations_type
 - transit_DE
 - visit_purpose
 - transport_type
@@ -116,7 +116,7 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: true
-  entity_type:
+  regulations_type:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
     auto_fill: true
@@ -209,11 +209,6 @@ slots:
     - car
     - coach
     - plane
-  #requested_slot:
-  #  type: rasa.shared.core.slots.TextSlot
-  #  initial_value: null
-  #  auto_fill: true
-  #  influence_conversation: true
 
 responses:
   utter_type_restart:
@@ -221,7 +216,6 @@ responses:
   utter_restart_please:
   - text: Please type 'restart' to restart the conversation.
   utter_prompt_continue:
-  #- text: For more rules, type in a question or type 'main menu' to go to the regulations menu
   - text: You can type 'main menu' to go to the regulations menu
   utter_announce_local:
   - text: I am going to look for the local regulations.
@@ -229,11 +223,11 @@ responses:
   - text: You can type 'back' and go to the previous menu in case it is not what you're looking for.
   utter_ask_want_more_local_info:
   - text: Would you like to know more local regulations?
-  utter_ask_entity_type:
+  utter_ask_regulations_type:
   - buttons:
-    - payload: '/query_regulations{{"entity_type": "entry_regulations"}}'
+    - payload: '/query_regulations{{"regulations_type": "entry_regulations"}}'
       title: Entry Restrictions
-    - payload: '/query_local_regulations{{"entity_type": "local_regulations"}}'
+    - payload: '/query_local_regulations{{"regulations_type": "local_regulations"}}'
       title: Local Regulations
     text: What type of regulations would you like to know?
   utter_ask_country_from:
@@ -262,10 +256,6 @@ responses:
       title: transport type
     - payload: '/inform_incorrect{{"incorrect_slot": "<24h"}}'
       title: stay duration
-   # - payload: '/inform_incorrect{{"incorrect_slot": "transit_DE"}}'
-   #   title: transit
-   # - payload: '/inform_incorrect{{"incorrect_slot": "transport_sector_worker"}}'
-   #   title: transport sector worker
     text: Okay, could you say which information is incorrect?
   utter_ask_want_to_continue:
   - text: Anything else?
@@ -275,8 +265,6 @@ responses:
   - text: Would you also like to know the information about open/closed places?
   utter_ask_travelling_with_children:
   - text: Are you travelling with children?
-  #utter_custom_fallback:
-  #- text: This is the new default ;)
   utter_default:
   - text: I could not undersatnd that, sorry. Please rephrase to continue.
   utter_greet:
@@ -320,16 +308,10 @@ responses:
   - text: Sorry, I could not recognise the destination country. Make sure to only include the countries that I was designed to recognise.
   utter_wrong_country_from:
   - text: Sorry, I could not recognise the departure country. Make sure to only include the countries that I was designed to recognise.
- # utter_ask_country_from:
- # - text: Please tell me from which country you are going
   utter_not_understood:
   - text: I am still learning and could not understand all of the information I need.
- # utter_ask_country_to:
- # - text: Which country are you planning to go to?
   utter_ask_correct_info:
   - text: You would like me to look for local regulations, is that correct?
-  #- text: Did I collect the correct information?
-  #- text: Did I get everything right?
   utter_ask_indoors/outdoors:
   - buttons:
     - payload: '/inform{{"indoors/outdoors":"indoors"}}'
@@ -370,9 +352,8 @@ responses:
   utter_restart:
   - text: Okay, I have restarted our conversation.
 actions:
-#- validate_transit_DE_form
 - action_set_open
-- action_reset_entity_type
+- action_reset_regulations_type
 - action_set_local
 - action_validate_transit
 - action_clear_countries
@@ -380,17 +361,16 @@ actions:
 - action_set_country_slots_to_none
 - validate_want_local_info_form
 - action_default_fallback_custom
-#- validate_extended_local_regulations_form
 - action_utter_disclaimer
-- action_ask_confirm_collected_info
+#- action_ask_confirm_collected_info
 - action_reset_transport_slot
 - action_ask_correct_countries
-#- validate_country_form
 - action_validate_countries
 - action_repeat_last
 - action_check_borders
 - action_go_back
-#- action_session_start
+
+
 forms:
   correct_local_form:
     correct_info:
@@ -415,9 +395,9 @@ forms:
       type: from_intent
       value: false
   regulation_type_form:
-    entity_type:
+    regulations_type:
     - type: from_entity
-      entity: entity_type
+      entity: regulations_type
   country_form_II:
     country_from:
     - type: from_entity

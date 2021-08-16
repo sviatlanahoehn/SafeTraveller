@@ -11,11 +11,7 @@ from rasa_sdk.forms import FormValidationAction
 from rasa_sdk.forms import FormAction
 from rasa_sdk.events import AllSlotsReset
 from rasa_sdk.events import FollowupAction
-#from rasa_core.events import UserUtteranceReverted
-        #slot_evt = tracker.get_last_event_for("slot")
-        #name = slot_evt.get('name')
-        #rule_entry = slot_evt.get('rule_entry')
-        #dispatcher.utter_message(f"This slot was set: '{name}'; rule_entry: '{rule_entry}'")
+
 class ActionCheckBorders(Action):
     def name(self):
         return 'action_go_back'
@@ -37,50 +33,32 @@ class ActionCheckBorders(Action):
 
 class ActionResetEntityType(Action):
     def name(self):
-        return 'action_reset_entity_type'
+        return 'action_reset_regulations_type'
     def run(self, dispatcher, tracker, domain):
-        return [SlotSet("entity_type", None)]
+        return [SlotSet("regulations_type", None)]
 
 class ActionSetLocal(Action):
     def name(self):
         return 'action_set_local'
     def run(self, dispatcher, tracker, domain):
-       # dispatcher.utter_message(response="utter_announce_local")
-        #dispatcher.utter_message(response="utter_redo")
-        return [SlotSet("entity_type", "local_regulations")]
+        return [SlotSet("regulations_type", "local_regulations")]
 class ActionSetOpen(Action):
     def name(self):
         return 'action_set_open'
     def run(self, dispatcher, tracker, domain):
-        #dispatcher.utter_message(response="utter_redo")
         return [SlotSet("want_open_places", True)]
 
 class ActionRepeatLast(Action):
     def name(self):
         return 'action_repeat_last'
     def run(self, dispatcher, tracker, domain):
-        #last_utter = tracker.get_last_event_for("text")
-        #dispatcher.utter_message(last_utter)
         return [UserUtteranceReverted(), ActionReverted()]
 
 class ActionValidateTransit(Action):
     def name(self):
         return 'action_validate_transit'
     def run(self, dispatcher, tracker, domain):
-        #transit = tracker.get_slot("transit_DE")
-        #transport_type = tracker.get_slot("transport_type")
-        #common_border = tracker.get_slot("common_border")
         slots = []
-        #if common_border==False:
-        #if transport_type==None:
-        #    if transit==True:
-        #        slots.append(SlotSet("transport_type", "car"))
-        #    else:
-        #        slots.append(SlotSet("transport_type", "plane"))
-        #elif transport_type.lower()=="plane":
-        #    slots.append(SlotSet("transit_DE", False))
-        #else:
-        #    slots.append(SlotSet("transit_DE", True))
         return slots
 
 
@@ -88,41 +66,28 @@ class ActionValidateTransit(Action):
 class ActionValidateCountries(Action):
     def name(self):
         return 'action_validate_countries'
-    #def map_lower(country):
-    #    countries = [Luxembourg, Germany, Netherlands]
-    #    for item in countries:
-    #        if item.lower==country:
-    #            country = item
-    #            return country
-    #    return country
     def run(self, dispatcher, tracker, domain):
         countries = ["germany","luxembourg","netherlands"]
         country_main_lettrs = ["germ","lux","nether"]
-        slots = [SlotSet("entity_type", "entry_regulations")]
+        slots = [SlotSet("regulations_type", "entry_regulations")]
         common_border=False
 
-        num_country_from = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="from")))
-        num_country_to = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="to")))
+        num_country_from = len(list(tracker.get_latest_entity_values(regulations_type="country", entity_role="from")))
+        num_country_to = len(list(tracker.get_latest_entity_values(regulations_type="country", entity_role="to")))
         if num_country_to==1 and num_country_from==1:
-            country_from = next(tracker.get_latest_entity_values(entity_type="country", entity_role="from"), None)
-            country_to = next(tracker.get_latest_entity_values(entity_type="country", entity_role="to"), None)
-            distict_countries = country_from.lower()!=country_to.lower()
+            country_from = next(tracker.get_latest_entity_values(regulations_type="country", entity_role="from"), None)
+            country_to = next(tracker.get_latest_entity_values(regulations_type="country", entity_role="to"), None)
+            distinct_countries = country_from.lower()!=country_to.lower()
 
             if country_to.lower() in countries:
                 slots.append(SlotSet("country_to", country_to))
             else:
-                #for item in country_main_lettrs:
-                #    if item in country_to.lower():
-                #        slots.append(SlotSet("country_to", country_to))
                 dispatcher.utter_message(response="utter_wrong_country_to")
                 slots.append(SlotSet("country_to", None))
 
-            if country_from.lower() in countries and distict_countries:
+            if country_from.lower() in countries and distinct_countries:
                 slots.append(SlotSet("country_from", country_from))
             else:
-                #for item in country_main_lettrs:
-                 #   if item in country_from.lower() and distict_countries:
-                 #       slots.append(SlotSet("country_from", None))
                 dispatcher.utter_message(response="utter_wrong_country_from")
                 slots.append(SlotSet("country_from", None))
 
@@ -190,16 +155,10 @@ class ActionAskConfirmCollectedInfo(Action):
             tsw = tracker.get_slot("transport_sector_worker")
             if tsw==True:
                 dispatcher.utter_message(f"You are a transport sector worker\n")
-        #dispatcher.utter_message(f"Is everithing correct?\n")
-        #elif country_to=="Luxembourg"
-        #elif country_to=="Netherlands"
-        #    dispatcher.utter_message(f"Would you like to know local covid rules that will apply upon arrival to {country}?\n")
         return []
 
 
 class ActionDefaultFallback(Action):
-    """Executes the fallback action and goes back to the previous state
-    of the dialogue"""
 
     def name(self) -> Text:
         return "action_default_fallback_custom"
@@ -217,8 +176,8 @@ class ActionDefaultFallback(Action):
         current_slots.append(country_from)
         country_to = tracker.get_slot("country_to")
         current_slots.append(country_to)
-        entity_type = tracker.get_slot("entity_type")
-        current_slots.append(entity_type)
+        regulations_type = tracker.get_slot("regulations_type")
+        current_slots.append(regulations_type)
         transport_type = tracker.get_slot("transport_type")
         current_slots.append(transport_type)
         visit_purpose = tracker.get_slot("visit_purpose")
@@ -227,20 +186,8 @@ class ActionDefaultFallback(Action):
         current_slots.append(one_day)
 
         dispatcher.utter_message(f"I could not undersatnd that, sorry.")
-        #if country_from!=None and country_to!=None:
-        #    dispatcher.utter_message(f"I currently have the following information about your trip:\n")
-        #    dispatcher.utter_message(f"You are planning to travel from {country_from} to {country_to}")
-        #    if visit_purpose!=None:
-        #        dispatcher.utter_message(f"for {visit_purpose} purposes;")
-        #    if one_day==True:
-        #        dispatcher.utter_message(f"you are not going for a night-stay;")
-        #    if transport_type!=None:
-        #        dispatcher.utter_message(f"you are planning to go by {transport_type}.")
         dispatcher.utter_message(f"Please rephrase, so that we can continue.")
 
-        #evt = [AllSlotsReset()]
-
-        # Revert user message which led to fallback.
         return [UserUtteranceReverted()]
 
 
@@ -273,36 +220,19 @@ class ValidateWantLocalInfoForm(FormValidationAction):
         tracker: "Tracker",
         domain: "DomainDict",
     ) -> Optional[List[Text]]:
-        required_slots = slots_mapped_in_domain + ["entity_type"]
+        required_slots = slots_mapped_in_domain + ["regulations_type"]
         return required_slots
 
-    async def extract_entity_type(
+    async def extract_regulations_type(
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> Dict[Text, Any]:
 
         last_intent = tracker.get_intent_of_latest_message()
-        entity_type = "entry_regulations"
+        regulations_type = "entry_regulations"
         if last_intent == "affirm":
-            entity_type = "local_regulations"
+            regulations_type = "local_regulations"
 
-        return {"entity_type": entity_type}
-
-#class ValidateTransitDEForm(FormValidationAction):
-#    def name(self) -> Text:
-#        return "validate_transit_DE_form"
-
-#    def validate_transit_DE(
-#        self,
-#        slot_value: Any,
-#        dispatcher: CollectingDispatcher,
-#        tracker: Tracker,
-#        domain: DomainDict,
-#    ) -> Dict[Text, Any]:
-#
-#        if slot_value.lower()=="germany" or slot_value=="DE":
-#            return {"transit_DE": True}
-#        else:
-#            return {"transit_DE": False}
+        return {"regulations_type": regulations_type}
 
 
 class ActionAskCorrectCountries(Action):
@@ -331,11 +261,11 @@ class CustomActionQueryKB(Action):
         self.knowledge_base = InMemoryKnowledgeBase("knowledge_base_data.json")
 
     def custom_get_attribute_of(
-        self, entity_type: Text, key_attribute: Text, entity: Text, attribute: Text
+        self, regulations_type: Text, key_attribute: Text, entity: Text, attribute: Text
     ) -> List[Any]:
-        if entity_type not in self.knowledge_base.data:
+        if regulations_type not in self.knowledge_base.data:
             return []
-        entities = self.knowledge_base.data[entity_type]
+        entities = self.knowledge_base.data[regulations_type]
         entity_of_interest = list(
             filter(lambda e: e[key_attribute] == entity, entities)
         )
@@ -345,9 +275,9 @@ class CustomActionQueryKB(Action):
         return [entity_of_interest[0][attribute]]
 
 
-# ------  UNNEEDED ATTRIBUTE "location" ------ !!!
+# ------  UNNECESSARY ATTRIBUTE "location" ------ !!!
     def run(self, dispatcher, tracker, domain):
-        entity_type = tracker.get_slot("entity_type")
+        regulations_type = tracker.get_slot("regulations_type")
         country_to = tracker.get_slot("country_to")
         attribute = "conditions"
         key_attribute = "id"
@@ -360,10 +290,9 @@ class CustomActionQueryKB(Action):
         case_id_outdoors = None
         case_id = None
 
-        if entity_type == "entry_regulations":
+        if regulations_type == "entry_regulations":
             visit_purpose = tracker.get_slot("visit_purpose")
             transport_type = tracker.get_slot("transport_type")
-            #transit = tracker.get_slot("transit")
             transport_sector_worker = tracker.get_slot("transport_sector_worker")
             NL_worker = tracker.get_slot("NL_worker")
             less_than_24h = tracker.get_slot("<24h")
@@ -419,20 +348,15 @@ class CustomActionQueryKB(Action):
             if transit_DE == True:
                 case_id_transit = 0
                 country_to_transit = "Germany"
-                #if less_than_24h == True:
-                #elif less_than_24h == False:
 
-        elif entity_type == "local_regulations":
+        elif regulations_type == "local_regulations":
             place = tracker.get_slot("indoors/outdoors")
             location = tracker.get_slot("country_to")
             going_from = tracker.get_slot("visit_purpose")
             one_household = tracker.get_slot("one_household")
             open_places = tracker.get_slot("want_open_places")
 
-            #if place=="both":
-            #    place = ["indoors", "outdoors"]
 
-            #for place in place:
             if location=="Germany":
                 case_id_children = 1
                 if open_places == True:
@@ -444,12 +368,9 @@ class CustomActionQueryKB(Action):
                 elif place=="both":
                     case_id_indoors = 1
                     case_id_outdoors = 0
-                #elif location=="both":
-                #    case_id = 2
                 else:
                     dispatcher.utter_message(response="utter_query_failed")
                     dispatcher.utter_message(response="utter_restart_please")
-
             elif location=="Luxembourg":
                 case_id_children = 3
                 if open_places == True:
@@ -490,7 +411,7 @@ class CustomActionQueryKB(Action):
                     elif one_household==False:
                         case_id_outdoors = 11
 
-        elif entity_type == "details":
+        elif regulations_type == "details":
             country = tracker.get_slot("country_to")
             if country=="Germany":
                 case_id = 20
@@ -505,28 +426,26 @@ class CustomActionQueryKB(Action):
             return []
 
         rule_transit = ""
-        #if case_id_transit != None and case_id != 0:
         if case_id_transit != None:
-            rule_transit = self.custom_get_attribute_of(entity_type, key_attribute, case_id_transit, attribute)[0]
+            rule_transit = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_transit, attribute)[0]
         rule_child = ""
         if children_travel == True and case_id_children != None:
             rule_child = self.custom_get_attribute_of("children_exceptions", key_attribute, case_id_children, attribute)[0]
         rule_open_pl = ""
         if case_id_open_places != None:
-            rule_open_pl = self.custom_get_attribute_of(entity_type, key_attribute, case_id_open_places, attribute)[0]
+            rule_open_pl = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_open_places, attribute)[0]
 
-        #if rule_entry:
-        if entity_type=="local_regulations":
+        if regulations_type=="local_regulations":
             rule_indoors = ""
             if case_id_indoors!=None:
-                rule_indoors = self.custom_get_attribute_of(entity_type, key_attribute, case_id_indoors, attribute)[0]
+                rule_indoors = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_indoors, attribute)[0]
             rule_outdoors = ""
             if case_id_outdoors!=None:
-                rule_outdoors = self.custom_get_attribute_of(entity_type, key_attribute, case_id_outdoors, attribute)[0]
+                rule_outdoors = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_outdoors, attribute)[0]
             dispatcher.utter_message(f"The following regulations apply in {location} : \n {rule_indoors} \n {rule_outdoors} \n {rule_open_pl} \n ")
             rule_open_pl = ""
         else:
-            rule_entry = self.custom_get_attribute_of(entity_type, key_attribute, case_id, attribute)[0]
+            rule_entry = self.custom_get_attribute_of(regulations_type, key_attribute, case_id, attribute)[0]
             if case_id!=None and case_id<20:
                 dispatcher.utter_message(f"The following regulations apply in {country_to} : \n {rule_entry}")
                 #dispatcher.utter_message(f"rule_transit: {rule_transit}")
@@ -536,20 +455,11 @@ class CustomActionQueryKB(Action):
                     dispatcher.utter_message(f"The following exceptions for children apply in {country_to} : \n {rule_child}\n")
             else:
                 dispatcher.utter_message(f"The following requirements apply: \n {rule_entry} \n ")
-        #else:
-        #    dispatcher.utter_message(f"Sorry, I could not find the needed information.")
 
-
-            #place = tracker.get_slot("indoors/outdoors")
-            #location = tracker.get_slot("country_to")
-            #going_from_work = tracker.get_slot("going_from_work")
-            #one_household = tracker.get_slot("one_household")
-            #open_places = tracker.get_slot("want_open_places")
-#SlotSet("entity_type", None),
         slots = [SlotSet("indoors/outdoors", None), SlotSet("one_household", None)]
         # SlotSet("transit_DE", None), SlotSet("transport_type", None)]
                 # SlotSet("transit", None)
-        if entity_type=="local_regulations":
+        if regulations_type=="local_regulations":
             slots.append(SlotSet("want_open_places", False))
 
 

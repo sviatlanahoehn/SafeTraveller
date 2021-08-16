@@ -203,24 +203,24 @@ nlu:
     - rules that apply locally
     - Do I need to wear a mask in Germany?
     - is there a curfew when I arrive?
-    - [local regulations]{"entity":"entity_type", "value":"local_regulations"} in [Luxembourg]{"entity":"country", "value":"Luxembourg"}
-    - [local regulations]{"entity":"entity_type", "value":"local_regulations"} in the [Netherlands]{"entity":"country", "value":"Netherlands"}
-    - [local rules]{"entity":"entity_type", "value":"local_regulations"} in [Germany]{"entity":"country", "value":"Germany"}
-    - current [local measurements]{"entity":"entity_type", "value":"local_regulations"} [Germany]{"entity":"country", "value":"Germany"}
-    - current [covid measurements]{"entity":"entity_type", "value":"local_regulations"} [Luxembourg]{"entity":"country", "value":"Luxembourg"}
-    - current [covid rules]{"entity":"entity_type", "value":"local_regulations"} in [Netherlands]{"entity":"country", "value":"Netherlands"}
-    - [local regulations]{"entity":"entity_type", "value":"local_regulations"}
-    - [local rules]{"entity":"entity_type", "value":"local_regulations"}
-    - [measures in]{"entity":"entity_type", "value":"local_regulations"} [Luxembourg]{"entity":"country", "value":"Luxembourg"}
-    - [current measures]{"entity":"entity_type", "value":"local_regulations"} in the [Netherlands]{"entity":"country", "value":"Netherlands"}
-    - [local covid measures]{"entity":"entity_type", "value":"local_regulations"} [Netherlands]{"entity":"country", "value":"Netherlands"}
-    - [local measures]{"entity":"entity_type", "value":"local_regulations"} [Germany]{"entity":"country", "value":"Germany"}
-    - [rules inside]{"entity":"entity_type", "value":"local_regulations"} [Germany]{"entity":"country", "value":"Germany"}
-    - [regulations inside]{"entity":"entity_type", "value":"local_regulations"} the [Netherlands]{"entity":"country", "value":"Netherlands"}
-    - [measures inside]{"entity":"entity_type", "value":"local_regulations"} country [Germany]{"entity":"country", "value":"Germany"}
-    - [covid rules inside]{"entity":"entity_type", "value":"local_regulations"} [Luxembourg]{"entity":"country", "value":"Luxembourg"}
-    - [covid rules in]{"entity":"entity_type", "value":"local_regulations"} the [Netherlands]{"entity":"country", "value":"Netherlands"}
-    - [Local measures]{"entity":"entity_type", "value":"local_regulations"} in [Luxembourg]{"entity":"country", "value":"Luxembourg"}
+    - [local regulations]{"entity":"regulations_type", "value":"local_regulations"} in [Luxembourg]{"entity":"country", "value":"Luxembourg"}
+    - [local regulations]{"entity":"regulations_type", "value":"local_regulations"} in the [Netherlands]{"entity":"country", "value":"Netherlands"}
+    - [local rules]{"entity":"regulations_type", "value":"local_regulations"} in [Germany]{"entity":"country", "value":"Germany"}
+    - current [local measurements]{"entity":"regulations_type", "value":"local_regulations"} [Germany]{"entity":"country", "value":"Germany"}
+    - current [covid measurements]{"entity":"regulations_type", "value":"local_regulations"} [Luxembourg]{"entity":"country", "value":"Luxembourg"}
+    - current [covid rules]{"entity":"regulations_type", "value":"local_regulations"} in [Netherlands]{"entity":"country", "value":"Netherlands"}
+    - [local regulations]{"entity":"regulations_type", "value":"local_regulations"}
+    - [local rules]{"entity":"regulations_type", "value":"local_regulations"}
+    - [measures in]{"entity":"regulations_type", "value":"local_regulations"} [Luxembourg]{"entity":"country", "value":"Luxembourg"}
+    - [current measures]{"entity":"regulations_type", "value":"local_regulations"} in the [Netherlands]{"entity":"country", "value":"Netherlands"}
+    - [local covid measures]{"entity":"regulations_type", "value":"local_regulations"} [Netherlands]{"entity":"country", "value":"Netherlands"}
+    - [local measures]{"entity":"regulations_type", "value":"local_regulations"} [Germany]{"entity":"country", "value":"Germany"}
+    - [rules inside]{"entity":"regulations_type", "value":"local_regulations"} [Germany]{"entity":"country", "value":"Germany"}
+    - [regulations inside]{"entity":"regulations_type", "value":"local_regulations"} the [Netherlands]{"entity":"country", "value":"Netherlands"}
+    - [measures inside]{"entity":"regulations_type", "value":"local_regulations"} country [Germany]{"entity":"country", "value":"Germany"}
+    - [covid rules inside]{"entity":"regulations_type", "value":"local_regulations"} [Luxembourg]{"entity":"country", "value":"Luxembourg"}
+    - [covid rules in]{"entity":"regulations_type", "value":"local_regulations"} the [Netherlands]{"entity":"country", "value":"Netherlands"}
+    - [Local measures]{"entity":"regulations_type", "value":"local_regulations"} in [Luxembourg]{"entity":"country", "value":"Luxembourg"}
 
     - More local rules
     - Are gatherings allowed in public and private meeting places?
@@ -306,7 +306,7 @@ nlu:
     - I want to go to [Netherlands]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
     - I want to go from the [Netherlands]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
     - I want to go from [Luxembourg]{"entity": "country", "role": "from"} to the [Netherlands]{"entity": "country", "role": "to"}
-    - [travel]{"entity": "entity_type", "value": "entry_regulations"} to the [Netherlands]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
+    - [travel]{"entity": "regulations_type", "value": "entry_regulations"} to the [Netherlands]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
     -  going to [Germany]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
     - going to [Germany]{"entity": "country", "role": "to"} from the [Netherlands]{"entity": "country", "role": "from"}
     - [flying]{"entity": "transport_type", "value": "plane"} to the [Netherlands]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}

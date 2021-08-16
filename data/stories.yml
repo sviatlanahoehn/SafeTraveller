@@ -35,13 +35,13 @@ stories:
       - country: Netherlands
         role: to
     - action: action_validate_countries
-  - story: beginning convo
+  - story: beginning conv
     steps:
     - action: action_validate_countries
     - slot_was_set:
       - country_to: Luxembourg
       - country_from: Netherlands
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
       - common_border: true
     - action: country_form
     - active_loop: null
@@ -56,62 +56,13 @@ stories:
     - action: transport_type_form
     - active_loop: transport_type_form
 
-  #- story: begin with entry regs
-  #  steps:
-  #  - action: regulation_type_form
-  #  - active_loop: null
-  #  - slot_was_set:
-  #    - entity_type: entry_regulations
-  #  - action: utter_ask_trip_details
-  #  - intent: query_regulations
-  ##    entities:
-  #    - country: Luxembourg
-  #      role: to
-  #    - country: Germany
-  #      role: from
-  ##  - action: action_validate_countries
-  #  - slot_was_set:
-  ##    - country_to: Luxembourg
-  #    - country_from: Germany
-  #  - action: country_form
-  #  - active_loop: null
-  #  - action: confirm_country_form
-  #  - active_loop: confirm_country_form
-  #- story: begin with entry regs + bot didn't understand
-  #  steps:
-  #  - action: regulation_type_form
-  #  - active_loop: null
-  #  - slot_was_set:
-  #    - entity_type: entry_regulations
-  #  - action: utter_ask_trip_details
-   # - intent: query_regulations
-  #  - action: action_validate_countries
-  #  - slot_was_set:
-  #    - country_to: None
-  #    - country_from: None
-  #  - action: utter_not_understood
-  #  - action: country_form
-  #  - active_loop: country_form
-
-#===== beginning =====
-  #- story: set countries
-  #  steps:
-  #  - action: action_set_entry_slots
-  #  - slot_was_set:
-  #    - common_border: false
-  #    - country_from: Luxembourg
- #     - country_to: Netherlands
-  #    - entity_type: entry_regulations
-  #  - action: confirm_country_form
-  #  - active_loop: confirm_country_form
-
 
 # ===== LOCAL REGULATIONS =====
   - story: local_regulations asked
     steps:
     - intent: query_local_regulations
       entities:
-      - entity_type: local_regulations
+      - regulations_type: local_regulations
     - action: correct_local_form
     - active_loop: correct_local_form
 
@@ -134,12 +85,7 @@ stories:
     - active_loop: null
     - slot_was_set:
       - want_open_places: false
-    #- action: action_ask_confirm_collected_info
-    #- action: confirm_form
-    #- active_loop: confirm_form
     - action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
   - story: local_reg + indoors
     steps:
     - action: correct_local_form
@@ -155,11 +101,6 @@ stories:
       - indoors/outdoors: indoors
     - action: open_places_form
     - active_loop: null
-    #- slot_was_set:
-    #  - want_open_places: false
-    #- action: action_ask_confirm_collected_info
-    #- action: confirm_form
-    #- active_loop: confirm_form
     - action: action_query_knowledgebase_cases
   - story: local_reg + country Luxembourg
     steps:
@@ -183,23 +124,15 @@ stories:
     - active_loop: null
     - slot_was_set:
       - want_open_places: true
-    #- action: action_ask_confirm_collected_info
-    #- action: confirm_form
-    #- active_loop: confirm_form
     - action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-
 
 
 # ====== TO-GERMANY STORIES ======
   - story: from LU to DE + <24h
     steps:
-    #- action: country_form
-    #- active_loop: null
     - action: action_validate_countries
     - slot_was_set:
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
       - country_to: Germany
       - country_from: Luxembourg
     - action: country_form
@@ -219,18 +152,13 @@ stories:
       - <24h: true
     - action: children_travel_form
     - active_loop: children_travel_form
-    #- active_loop: null
-    #- action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-
   - story: from NL to DE + leisure
     steps:
     - action: action_validate_countries
     - slot_was_set:
       - country_to: Germany
       - country_from: Netherlands
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
     - action: country_form
     - active_loop: null
     - action: action_check_borders
@@ -251,11 +179,6 @@ stories:
       - visit_purpose: leisure
     - action: children_travel_form
     - active_loop: children_travel_form
-    #- active_loop: null
-    #- action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-
   - story: to DE + work
     steps:
     - slot_was_set:
@@ -266,12 +189,7 @@ stories:
     - slot_was_set:
       - visit_purpose: work
     - action: transport_sector_worker_form
-    #- action: action_ask_confirm_collected_info
-    #- action: confirm_form
-   # - active_loop: confirm_form
     - action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
 
 
 # ====== TO-LUXEMBOURG STORIES ======
@@ -281,7 +199,7 @@ stories:
     - slot_was_set:
       - country_to: Luxembourg
       - country_from: Germany
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
     - action: country_form
     - active_loop: null
     - action: action_check_borders
@@ -297,20 +215,11 @@ stories:
       - transport_type: car
     - action: children_travel_form
     - active_loop: children_travel_form
-    #- active_loop: null
-    #- action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-
-# does it even make ssence for a "transport sector worker" to travel by plane?
-
   - story: from DE/NL to LUX + by plane + worker
     steps:
     - action: action_validate_countries
     - slot_was_set:
       - country_to: Luxembourg
-      #- country_from: Germany
-      #- entity_type: entry_regulations
     - action: country_form
     - active_loop: null
     - action: action_check_borders
@@ -328,20 +237,13 @@ stories:
     - active_loop: null
     - slot_was_set:
       - transport_sector_worker: true
-    #- action: action_ask_confirm_collected_info
-    #- action: confirm_form
-   # - active_loop: confirm_form
     - action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
   - story: from DE/NL to LUX + by plane
     steps:
     - action: country_form
     - active_loop: null
     - slot_was_set:
       - country_to: Luxembourg
-      #- country_from: Germany
-      #- entity_type: entry_regulations
     - action: action_check_borders
     - action: confirm_country_form
     - active_loop: null
@@ -359,14 +261,7 @@ stories:
       - transport_sector_worker: false
     - action: children_travel_form
     - active_loop: null
-    #- action: action_ask_confirm_collected_info
- #   - action: confirm_form
-#    - active_loop: confirm_form
     - action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-    #- slot_was_set:
-    #  - entity_type: local_regulations
   - story: from NL to LUX + by land
     steps:
     - action: country_form
@@ -388,10 +283,6 @@ stories:
     - action: transit_DE_form
     - action: children_travel_form
     - active_loop: children_travel_form
-   # - active_loop: null
-   # - action: action_query_knowledgebase_cases
-   # - action: want_local_info_form
-   # - active_loop: null
 
 
 # ====== TO-the-NETHERLANDS STORIES =======
@@ -400,7 +291,7 @@ stories:
     - slot_was_set:
       - country_to: Netherlands
       - country_from: Germany
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -410,21 +301,13 @@ stories:
     - slot_was_set:
       - visit_purpose: work
     - action: NL_worker_form
-    #- action: action_ask_confirm_collected_info
-    #- action: confirm_form
-   # - active_loop: confirm_form
     - action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-    #- slot_was_set:
-    #  - entity_type: local_regulations
-
   - story: from DE to NL + leisure
     steps:
     - slot_was_set:
       - country_to: Netherlands
       - country_from: Germany
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -438,16 +321,12 @@ stories:
       - transport_type: plane
     - action: children_travel_form
     - active_loop: children_travel_form
-    #- action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-
   - story: from DE to NL + family
     steps:
     - slot_was_set:
       - country_to: Netherlands
       - country_from: Germany
-      - entity_type:
+      - regulations_type:
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -461,17 +340,13 @@ stories:
       - transport_type: car
     - action: children_travel_form
     - active_loop: children_travel_form
-    #- action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-
-## is it even useful? - do workers go from NL to LUX ???
+#(do workers go from NL to LUX?)
   - story: from LUX to NL + worker rule
     steps:
     - slot_was_set:
       - country_to: Netherlands
       - country_from: Luxembourg
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -482,19 +357,13 @@ stories:
       - visit_purpose: work
     - action: NL_worker_form
     - action: transit_DE_form
-    #- action: action_ask_confirm_collected_info
-    #- action: confirm_form
-   # - active_loop: confirm_form
     - action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-
   - story: from LUX to NL + leisure
     steps:
     - slot_was_set:
       - country_to: Netherlands
       - country_from: Luxembourg
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -508,19 +377,12 @@ stories:
       - transport_type: plane
     - action: children_travel_form
     - active_loop: children_travel_form
-    #- active_loop: null
-    #- slot_was_set:
-    #  travel_with_children: true
-    #- action: action_query_knowledgebase_cases
-    #- action: want_local_info_form
-    #- active_loop: null
-
   - story: from LUX to NL + family
     steps:
     - slot_was_set:
       - country_to: Netherlands
       - country_from: Luxembourg
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -541,7 +403,6 @@ stories:
     - active_loop: children_travel_form
 
 
-
 # ===== ENTRY REGULATIONS =====
   - story: correct to/from countries extracted
     steps:
@@ -551,11 +412,10 @@ stories:
         role: from
       - country: Germany
         role: to
-   # - action: action_set_entry_slots
     - action: action_validate_countries
     - slot_was_set:
       - common_border: true
-      - entity_type: entry_regulations
+      - regulations_type: entry_regulations
       - country_to: Germany
       - country_from: Luxembourg
     - action: country_form
@@ -565,10 +425,6 @@ stories:
     - active_loop: null
     - slot_was_set:
       - correct_countries: true
-    #- action: country_form
-    #- active_loop: null
-    #- slot_was_set:
-    #  - entity_type: entry_regulations
     - action: utter_warn_collect_info
     - action: <24h_form
     - active_loop: <24h_form
@@ -577,12 +433,6 @@ stories:
       - <24h: true
     - action: children_travel_form
     - active_loop: children_travel_form
-   # - active_loop: null
-   # - action: action_query_knowledgebase_cases
-   # - action: want_local_info_form
-   # - active_loop: null
-
-
 
 
 # === QUERY the REGULATIONS after the CHILDREN FORM ===
@@ -592,23 +442,4 @@ stories:
     - active_loop: null
     - slot_was_set:
       - travelling_with_children: false
-    #- action: action_ask_confirm_collected_info
-    #- action: confirm_form
-   # - active_loop: confirm_form
     - action: action_query_knowledgebase_cases
-   # - action: want_local_info_form
-   # - active_loop: null
-   # - slot_was_set:
-   #   - want_localinfo: true
-   # - action: local_regulations_form
-   # - active_loop: null
-   # - slot_was_set:
-   #   - indoors/outdoors: indoors
-   # - action: open_places_form
-   # - active_loop: null
-   # - slot_was_set:
-   #   - want_open_places: true
-   # - action: action_query_knowledgebase_cases
-
-
-# ===== INTERACTIVE STORIES =====

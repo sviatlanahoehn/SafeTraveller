@@ -1,0 +1,321 @@
+version: "2.0"
+rules:
+
+#--------BASIC-CONVERSATION-MANAGEMENT--------
+  - rule: greet
+    steps:
+      - intent: greet
+      - action: utter_greet
+  - rule: greet at the beggining
+    conversation_start: true
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - action: utter_welcome_message
+      - action: action_utter_disclaimer
+      #- action: utter_type_restart
+      - action: regulation_type_form
+      - active_loop: regulation_type_form
+  - rule: going to main_menu
+    steps:
+    - intent: main_menu
+    - action: action_reset_regulations_type
+    - action: regulation_type_form
+    - active_loop: regulation_type_form
+  - rule: choose regulations type
+    condition:
+    - active_loop: regulation_type_form
+    - slot_was_set:
+      - regulations_type: entry_regulations
+    steps:
+    - action: regulation_type_form
+    - active_loop: null
+    - action: utter_ask_trip_details
+  - rule: goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+  - rule: thank you
+    steps:
+      - intent: thank_you
+      - action: utter_ur_welcome
+  - rule: wellbeing check
+    steps:
+      - intent: wellbeing_check
+      - action: utter_mood
+  - rule: bot challenge
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+#  - rule: inquiry about other countries
+#    steps:
+#      - intent: ask_other_countries
+#      - action: utter_answer_for_other_countries
+#  - rule: user asks to list the countries
+#    steps:
+#      - intent: ask_which_countries
+#      - action: utter_list_the_countries
+#  - rule: user asks functionality
+#    steps:
+#      - intent: what_can_u_do
+#      - action: utter_explain_functionality
+#  - rule: repeating
+#    steps:
+#      - intent: repeat_please
+#      - action: action_repeat_last
+#--------------------------------------------
+  - rule: second thank you
+    condition:
+    - slot_was_set:
+      - regulations_type: local_regulations
+    steps:
+    - intent: thank_you
+    - action: utter_ur_welcome
+    - action: utter_prompt_continue
+  - rule: first thank you
+    condition:
+    - slot_was_set:
+      - query_counter: 1
+      - regulations_type: entry_regulations
+    steps:
+    - intent: thank_you
+    - action: utter_ur_welcome
+    - action: want_local_info_form
+    - active_loop: want_local_info_form
+  - rule: end of convo afetr local info
+    condition:
+    - slot_was_set:
+      - want_localinfo: false
+    steps:
+      - action: want_local_info_form
+      - active_loop: null
+      - slot_was_set:
+        - requested_slot: null
+      - action: utter_prompt_continue
+  - rule: don't continue
+    steps:
+    - action: utter_prompt_continue
+    - intent: deny
+    - action: utter_goodbye  
+
+# ----- SECOND QUERY -----
+  - rule: run second query
+    steps:
+    - action: action_query_knowledgebase_cases
+    - intent: query_regulations
+    - action: action_validate_transit
+    wait_for_user_input: false
+
+  - rule: 2nd query
+    steps:
+    - action: action_validate_transit
+    - action: action_query_knowledgebase_cases
+  - rule: 2nd query LU+plane
+    condition:
+    - slot_was_set:
+      - transport_type: plane
+      - country_to: Luxembourg
+    steps:
+    - action: action_validate_transit
+    - action: transport_sector_worker_form
+    - active_loop: null
+    - action: action_query_knowledgebase_cases
+
+
+  - rule: local_rules_form interrupt
+    condition:
+    - active_loop: local_regulations_form
+    - slot_was_set:
+      - requested_slot: indoors/outdoors
+    steps:
+    - intent: nothing_else
+    - action: local_regulations_form
+    - active_loop: null
+    - action: utter_goodbye
+
+
+  - rule: nothing else
+    steps:
+    - intent: nothing_else
+    - action: utter_goodbye
+#  - rule: country_form interrupt
+#    condition:
+#    - active_loop: country_form
+#    steps:
+#    - intent: ask_which_countries
+#    - action: utter_list_the_countries
+#    - action: country_form
+#    - active_loop: country_form
+  - rule: regulation_type_form interrupt
+    condition:
+    - active_loop: regulation_type_form
+    steps:
+    - intent: nothing_else
+    - action: regulation_type_form
+    - active_loop: null
+    - action: utter_goodbye
+#  - rule: details on test
+#    steps:
+#    - intent: test_details
+#    - action: action_query_knowledgebase_cases
+  - rule: return
+    steps:
+    - intent: go_back
+    - action: action_go_back
+
+  - rule: validate countries
+    steps:
+    - intent: query_regulations
+    - action: action_validate_countries
+    wait_for_user_input: false
+
+  - rule: wrong country_to extracted
+    condition:
+    - slot_was_set:
+      - country_to: None
+    steps:
+    - action: action_validate_countries
+    - action: utter_not_understood
+    - action: country_form
+    - active_loop: country_form
+  - rule: wrong country_from extracted
+    condition:
+    - slot_was_set:
+      - country_from: None
+    steps:
+    - action: action_validate_countries
+    - action: utter_not_understood
+    - action: country_form
+    - active_loop: country_form
+  - rule: correct countries extracted
+    condition:
+    - slot_was_set:
+      - regulations_type: entry_regulations
+    steps:
+    - action: action_validate_countries
+    - action: country_form
+    - active_loop: country_form
+
+  - rule: submit country_form//activate confirm_country_form
+    condition:
+    - active_loop: country_form
+    steps:
+    - action: country_form
+    - active_loop: null
+    - action: action_check_borders
+    - action: confirm_country_form
+    - active_loop: confirm_country_form
+
+  - rule: correct the countries
+    condition:
+    - active_loop: confirm_country_form
+    - slot_was_set:
+      - correct_countries: false
+    steps:
+    - action: confirm_country_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_clear_countries
+    - action: country_form_II
+    - active_loop: country_form_II
+  - rule: continue convo
+    condition:
+    - slot_was_set:
+      - want_localinfo: true
+    steps:
+      - action: want_local_info_form
+      - active_loop: null
+      - slot_was_set:
+        - requested_slot: null
+      - action: local_regulations_form
+      - active_loop: local_regulations_form
+#  - rule: confirmation success
+#    steps:
+#    - action: action_ask_confirm_collected_info
+#    - action: action_query_knowledgebase_cases
+
+# ===== Transit through Germany =====
+  - rule: activate transit through Germany form (from NL to LUX + by car)
+    condition:
+    - active_loop: transport_type_form
+    - slot_was_set:
+      - country_from: Netherlands
+      - country_to: Luxembourg
+      - transport_type: car
+    steps:
+    - action: transport_type_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_DE_form
+    - active_loop: transit_DE_form
+  - rule: activate transit through Germany form (from NL to LUX + by coach)
+    condition:
+    - active_loop: transport_type_form
+    - slot_was_set:
+      - country_from: Netherlands
+      - country_to: Luxembourg
+      - transport_type: coach
+    steps:
+    - action: transport_type_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_DE_form
+    - active_loop: transit_DE_form
+  - rule: activate transit through Germany form (from LUX to NL + worker)
+    condition:
+    - active_loop: NL_worker_form
+    - slot_was_set:
+      - country_from: Luxembourg
+      - country_to: Netherlands
+      - visit_purpose: work
+    steps:
+    - action: NL_worker_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_DE_form
+    - active_loop: transit_DE_form
+  - rule: activate transit through Germany form (from LUX to NL + by car)
+    condition:
+    - active_loop: transport_type_form
+    - slot_was_set:
+      - country_from: Luxembourg
+      - country_to: Netherlands
+      - transport_type: car
+    steps:
+    - action: transport_type_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_DE_form
+    - active_loop: transit_DE_form
+  - rule: activate transit through Germany form (from LUX to NL + by coach)
+    condition:
+    - active_loop: transport_type_form
+    - slot_was_set:
+      - country_from: Luxembourg
+      - country_to: Netherlands
+      - transport_type: coach
+    steps:
+    - action: transport_type_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_DE_form
+    - active_loop: transit_DE_form
+#==== Intermediate step before collecting info ====
+  - rule: intermediate step
+    condition:
+    - active_loop: confirm_country_form
+    - slot_was_set:
+      - correct_countries: true
+    steps:
+    - action: confirm_country_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: utter_warn_collect_info
+    wait_for_user_input: false
