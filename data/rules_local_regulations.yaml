@@ -47,7 +47,7 @@ rules:
     - action: action_set_local
     - action: local_regulations_form
     - active_loop: local_regulations_form
-  - rule: choose regulations type ->local
+  - rule: choose local regulations type
     condition:
     - active_loop: regulation_type_form
     - slot_was_set:
@@ -57,38 +57,18 @@ rules:
     - active_loop: null
     - action: local_regulations_form
     - active_loop: local_regulations_form
-  - rule: Submit local_regulations_form (DE)
+  - rule: Local regulations query (open_places)
     condition:
     - active_loop: local_regulations_form
     - slot_was_set:
-      - country_to: Germany
+      - local_regulations_type: open_places
     steps:
     - action: local_regulations_form
     - active_loop: null
     - slot_was_set:
       - requested_slot: null
-    - action: open_places_form
-    - active_loop: open_places_form
-  - rule: Submit open_places_form
-    condition:
-    - active_loop: open_places_form
-    steps:
-    - action: open_places_form
-    - active_loop: null
     - action: action_query_knowledgebase_cases
-  - rule: local rules + inside
-    condition:
-    - active_loop: local_regulations_form
-    - slot_was_set:
-      - indoors/outdoors: indoors
-    steps:
-    - action: local_regulations_form
-    - active_loop: null
-    - slot_was_set:
-      - requested_slot: null
-    - action: open_places_form
-    - active_loop: open_places_form
-  - rule: Submit local_regulations_form + activate extended_local_regulations_form
+  - rule: local regulations (indoors/outdoors)
     condition:
     - active_loop: local_regulations_form
     steps:
@@ -96,13 +76,14 @@ rules:
     - active_loop: null
     - slot_was_set:
       - requested_slot: null
-    - action: extended_local_regulations_form
-    - active_loop: extended_local_regulations_form
-  - rule: Submit extended_local_regulations_form
+    - action: indoors/outdoors_form
+    - active_loop: indoors/outdoors_form
+  - rule: Submit indoors/outdoors_form
     condition:
-    - active_loop: extended_local_regulations_form
+    - active_loop: indoors/outdoors_form
     steps:
-    - action: extended_local_regulations_form
+    - action: indoors/outdoors_form
     - active_loop: null
-    - action: open_places_form
-    - active_loop: open_places_form
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_query_knowledgebase_cases
