@@ -12,7 +12,7 @@ from rasa_sdk.forms import FormAction
 from rasa_sdk.events import AllSlotsReset
 from rasa_sdk.events import FollowupAction
 
-class ActionCheckBorders(Action):
+class ActionGoBack(Action):
     def name(self):
         return 'action_go_back'
     def run(self, dispatcher, tracker, domain):
@@ -20,18 +20,32 @@ class ActionCheckBorders(Action):
 
 class ActionCheckBorders(Action):
     def name(self):
-        return 'action_check_borders'
+        return 'action_check_area'
+
     def run(self, dispatcher, tracker, domain):
+
         slots = []
         country_to = tracker.get_slot("country_to")
         country_from = tracker.get_slot("country_from")
-        common_border=False
-        if country_to=="Germany" or country_from=="Germany":
-            common_border=True
+        common_border = False
+        area_type = ""
+        safe_countries = {"Netherlands":[], "Belgium":["Luxembourg"], "Luxembourg":[]}
+
+        if country_to=="Belgium" or country_from=="Belgium":
+            common_border = True
+
+        if country_from in safe_countries[country_to]:
+            area_type = "SAFE"
+        else:
+            area_type = "RISK"
+
+
         slots.append(SlotSet("common_border", common_border))
+        slots.append(SlotSet("area_type", area_type))
         return slots
 
-class ActionResetEntityType(Action):
+
+class ActionResetRegulationsType(Action):
     def name(self):
         return 'action_reset_regulations_type'
     def run(self, dispatcher, tracker, domain):
@@ -53,7 +67,7 @@ class ActionRepeatLast(Action):
         return 'action_repeat_last'
     def run(self, dispatcher, tracker, domain):
         return [UserUtteranceReverted(), ActionReverted()]
-
+# ==== ???
 class ActionValidateTransit(Action):
     def name(self):
         return 'action_validate_transit'
@@ -67,16 +81,16 @@ class ActionValidateCountries(Action):
     def name(self):
         return 'action_validate_countries'
     def run(self, dispatcher, tracker, domain):
-        countries = ["germany","luxembourg","netherlands"]
-        country_main_lettrs = ["germ","lux","nether"]
+        countries = ["belgium","luxembourg","netherlands"]
+        country_main_lettrs = ["bel","lux","nether"]
         slots = [SlotSet("regulations_type", "entry_regulations")]
         common_border=False
 
-        num_country_from = len(list(tracker.get_latest_entity_values(regulations_type="country", entity_role="from")))
-        num_country_to = len(list(tracker.get_latest_entity_values(regulations_type="country", entity_role="to")))
+        num_country_from = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="from")))
+        num_country_to = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="to")))
         if num_country_to==1 and num_country_from==1:
-            country_from = next(tracker.get_latest_entity_values(regulations_type="country", entity_role="from"), None)
-            country_to = next(tracker.get_latest_entity_values(regulations_type="country", entity_role="to"), None)
+            country_from = next(tracker.get_latest_entity_values(entity_type="country", entity_role="from"), None)
+            country_to = next(tracker.get_latest_entity_values(entity_type="country", entity_role="to"), None)
             distinct_countries = country_from.lower()!=country_to.lower()
 
             if country_to.lower() in countries:
@@ -91,7 +105,7 @@ class ActionValidateCountries(Action):
                 dispatcher.utter_message(response="utter_wrong_country_from")
                 slots.append(SlotSet("country_from", None))
 
-            if country_to=="Germany" or country_from=="Germany":
+            if country_to=="Belgium" or country_from=="Belgium":
                 common_border=True
             slots.append(SlotSet("common_border", common_border))
         else:
@@ -107,12 +121,12 @@ class ActionResetTransportSlot(Action):
     def name(self):
         return 'action_reset_transport_slot'
     def run(self, dispatcher, tracker, domain):
-        transit = tracker.get_slot("transit_DE")
+        transit = tracker.get_slot("transit_BE")
         if transit==False:
-            transport_type = "plane"
+            plane_travel = "plane"
         else:
-            transport_type = None
-        return [SlotSet("transport_type", transport_type)]
+            plane_travel = None
+        return [SlotSet("plane_travel", plane_travel)]
 
 
 
@@ -120,42 +134,42 @@ class ActionUtterDisclaimer(Action):
     def name(self):
         return 'action_utter_disclaimer'
     def run(self, dispatcher, tracker, domain):
-        dispatcher.utter_message(f"| Important: I'm based in Luxembourg and was designed only for people travelling to and from Luxembourg, Germany or the Netherlands. |\n")
+        dispatcher.utter_message(f"| Important: I'm based in Luxembourg and was designed only for people based in and travelling within the BeNeLux countries. |\n")
         return []
 
-class ActionAskConfirmCollectedInfo(Action):
-    def name(self):
-        return 'action_ask_confirm_collected_info'
+#class ActionAskConfirmCollectedInfo(Action):
+#    def name(self):
+#        return 'action_ask_confirm_collected_info'
 
-    def run(self, dispatcher, tracker, domain):
-        country_to = tracker.get_slot("country_to")
-        dispatcher.utter_message(f"Here is the trip details that I have collected:\n")
-        if country_to=="Luxembourg":
-            transport_type = tracker.get_slot("transport_type")
-            dispatcher.utter_message(f"You are going by {transport_type}\n")
-            visit_purpose = tracker.get_slot("visit_purpose")
-            if visit_purpose=="work":
-                dispatcher.utter_message(f"You are going for {visit_purpose}-related purposes\n")
-        elif country_to=="Germany":
-            one_day = tracker.get_slot("<24h")
-            if one_day==True:
-                dispatcher.utter_message(f"You are going for one day\n")
-            visit_purpose = tracker.get_slot("visit_purpose")
-            if visit_purpose!=None:
-                dispatcher.utter_message(f"You are going for {visit_purpose}-related purposes\n")
-            tsw = tracker.get_slot("transport_sector_worker")
-            if tsw==True:
-                dispatcher.utter_message(f"You are a transport sector worker\n")
-        elif country_to=="Netherlands":
-            transport_type = tracker.get_slot("transport_type")
-            if transport_type!=None:
-                dispatcher.utter_message(f"You are going by {transport_type}\n")
-            visit_purpose = tracker.get_slot("visit_purpose")
-            dispatcher.utter_message(f"You are going for {visit_purpose}-related purposes\n")
-            tsw = tracker.get_slot("transport_sector_worker")
-            if tsw==True:
-                dispatcher.utter_message(f"You are a transport sector worker\n")
-        return []
+#    def run(self, dispatcher, tracker, domain):
+#        country_to = tracker.get_slot("country_to")
+#        dispatcher.utter_message(f"Here is the trip details that I have collected:\n")
+#        if country_to=="Luxembourg":
+#            plane_travel = tracker.get_slot("plane_travel")
+#            dispatcher.utter_message(f"You are going by {plane_travel}\n")
+#            visit_purpose = tracker.get_slot("visit_purpose")
+#            if visit_purpose=="work":
+#                dispatcher.utter_message(f"You are going for {visit_purpose}-related purposes\n")
+#        elif country_to=="Belgium":
+#            one_day = tracker.get_slot("<48h")
+#            if one_day==True:
+#                dispatcher.utter_message(f"You are going for one day\n")
+#            visit_purpose = tracker.get_slot("visit_purpose")
+#            if visit_purpose!=None:
+#                dispatcher.utter_message(f"You are going for {visit_purpose}-related purposes\n")
+#            tsw = tracker.get_slot("transport_health_worker")
+#            if tsw==True:
+#                dispatcher.utter_message(f"You are a transport sector worker\n")
+#        elif country_to=="Netherlands":
+#            plane_travel = tracker.get_slot("plane_travel")
+#            if plane_travel!=None:
+#                dispatcher.utter_message(f"You are going by {plane_travel}\n")
+#            visit_purpose = tracker.get_slot("visit_purpose")
+#            dispatcher.utter_message(f"You are going for {visit_purpose}-related purposes\n")
+#            tsw = tracker.get_slot("transport_health_worker")
+#            if tsw==True:
+#                dispatcher.utter_message(f"You are a transport sector worker\n")
+#        return []
 
 
 class ActionDefaultFallback(Action):
@@ -178,11 +192,11 @@ class ActionDefaultFallback(Action):
         current_slots.append(country_to)
         regulations_type = tracker.get_slot("regulations_type")
         current_slots.append(regulations_type)
-        transport_type = tracker.get_slot("transport_type")
-        current_slots.append(transport_type)
-        visit_purpose = tracker.get_slot("visit_purpose")
-        current_slots.append(visit_purpose)
-        one_day = tracker.get_slot("<24h")
+        plane_travel = tracker.get_slot("plane_travel")
+        current_slots.append(plane_travel)
+        #visit_purpose = tracker.get_slot("visit_purpose")
+        #current_slots.append(visit_purpose)
+        one_day = tracker.get_slot("<48h")
         current_slots.append(one_day)
 
         dispatcher.utter_message(f"I could not undersatnd that, sorry.")
@@ -289,180 +303,239 @@ class CustomActionQueryKB(Action):
         case_id_indoors = None
         case_id_outdoors = None
         case_id = None
+        case_id_VV = None
+        case_id_AV = None
 
         if regulations_type == "entry_regulations":
-            visit_purpose = tracker.get_slot("visit_purpose")
-            transport_type = tracker.get_slot("transport_type")
-            transport_sector_worker = tracker.get_slot("transport_sector_worker")
-            NL_worker = tracker.get_slot("NL_worker")
-            less_than_24h = tracker.get_slot("<24h")
-            transit_DE = tracker.get_slot("transit_DE")
-            if transport_type!=None:
-                transport_type = transport_type.lower()
-            if visit_purpose != None:
-                visit_purpose = visit_purpose.lower()
+            plane_travel = tracker.get_slot("plane_travel")
+#            transport_health_worker = tracker.get_slot("transport_health_worker")
+#            NL_worker = tracker.get_slot("NL_worker")
+            less_than_48h = tracker.get_slot("<48h")
+            transit_BE = tracker.get_slot("transit_BE")
+            area_type = tracker.get_slot("area_type")
 
-            if country_to=="Germany":
-                case_id_children = 0
-                if less_than_24h==True or transport_sector_worker==True: #or transit==True
-                    case_id = 0
-                elif visit_purpose=="work" and less_than_24h==False:
-                    case_id = 1
-                elif (visit_purpose=="leisure" or visit_purpose=="family") and less_than_24h==False:
-                    case_id = 2
-                else:
-                    dispatcher.utter_message(response="utter_query_failed")
-                    dispatcher.utter_message(response="utter_restart_please")
-
-            elif country_to=="Luxembourg":
-                if transport_type=="plane":
+            if country_to=="Luxembourg":
+                if plane_travel==True:
                     case_id_children = 2
-                if transport_type=="car" or transport_type=="car" or transport_sector_worker==True:
-                    case_id = 3
-                elif transport_type=="plane" and transport_sector_worker==False:
-                    case_id = 4
+                if plane_travel==False or transport_health_worker==True:
+                    case_id = 0
+                elif plane_travel==True and transport_health_worker==False:
+                    case_id = 1.0
                 else:
                     dispatcher.utter_message(response="utter_query_failed")
                     dispatcher.utter_message(response="utter_restart_please")
 
             elif country_to=="Netherlands":
                 case_id_children = 4
-                if (visit_purpose=="work" and NL_worker==True) or (visit_purpose=="leisure" and transport_type=="car"):
-                    case_id = 5
-                elif (visit_purpose=="work" and NL_worker==False) or (visit_purpose=="family" and transport_type=="car"):
-                    case_id = 6
-                elif visit_purpose=="family" and transport_type=="coach":
-                    case_id = 7
-                elif visit_purpose=="leisure" and transport_type=="coach":
-                    case_id = 8
-                elif visit_purpose=="leisure" and transport_type=="plane":
-                    case_id = 9
-                elif visit_purpose=="family" and transport_type=="plane": #!or changing planes in NL!
-                    case_id = 10
+                if area_type=="SAFE":
+                    if plane_travel==False:
+                        case_id = 0
+                    else:
+                        case_id = 2
+                elif area_type=="RISK":
+                    if plane_travel==False:
+                        case_id = 0
+                    else:
+                        case_id = 3
                 else:
                     dispatcher.utter_message(response="utter_query_failed")
                     dispatcher.utter_message(response="utter_restart_please")
+
+            elif country_to=="Belgium":
+                case_id_children = 0
+                if area_type=="SAFE":
+                    if less_than_48h==True and plane_travel==False:
+                        case_id = 0
+                    elif plane_travel==True or less_than_48h==False:
+                        case_id = 4
+                elif area_type=="RISK":
+                    if less_than_48h==True and plane_travel==False:
+                        case_id = 1.1
+                    elif plane_travel==True or less_than_48h==False:
+                        case_id = 5
+                else:
+                    dispatcher.utter_message(response="utter_query_failed")
+                    dispatcher.utter_message(response="utter_restart_please")
+
             else:
                 dispatcher.utter_message(response="utter_did_not_find_the_country")
 
-            if transit_DE == True:
+            if transit_BE == True:
                 case_id_transit = 0
-                country_to_transit = "Germany"
+                country_to_transit = "Belgium"
 
         elif regulations_type == "local_regulations":
             place = tracker.get_slot("indoors/outdoors")
             location = tracker.get_slot("country_to")
-            going_from = tracker.get_slot("visit_purpose")
-            one_household = tracker.get_slot("one_household")
+            #going_from = tracker.get_slot("visit_purpose")
+            different_household = tracker.get_slot("different_household")
             open_places = tracker.get_slot("want_open_places")
+            LRT = tracker.get_slot("local_regulations_type")
 
 
-            if location=="Germany":
-                case_id_children = 1
-                if open_places == True:
+            if LRT=="open_places":
+                if location=="Belgium":
+                    case_id_open_places = 12
+                elif location=="Luxembourg":
                     case_id_open_places = 13
-                if place=="indoors":
-                    case_id_indoors = 1
-                elif place=="outdoors":
-                    case_id_outdoors = 0
-                elif place=="both":
-                    case_id_indoors = 1
-                    case_id_outdoors = 0
-                else:
-                    dispatcher.utter_message(response="utter_query_failed")
-                    dispatcher.utter_message(response="utter_restart_please")
-            elif location=="Luxembourg":
-                case_id_children = 3
-                if open_places == True:
+                elif location=="Netherlands":
                     case_id_open_places = 14
-                if place=="indoors":
-                    case_id_indoors = 7
-                elif place=="outdoors":
-                    if going_from=="work" and one_household==True:
-                        case_id_outdoors = 3
-                    elif going_from=="work":
-                        case_id_outdoors = 4
-                    elif one_household==True:
-                        case_id_outdoors = 5
-                    elif one_household==False:
-                        case_id_outdoors = 6
-                elif place=="both":
-                    case_id_indoors = 7
-                    if going_from=="work" and one_household==True:
-                        case_id_outdoors = 3
-                    elif going_from=="work":
-                        case_id_outdoors = 4
-                    elif one_household==True:
-                        case_id_outdoors = 5
-                    elif one_household==False:
-                        case_id_outdoors = 6
-            elif location=="Netherlands":
-                if open_places == True:
-                    case_id_open_places = 15
-                if place=="indoors":
-                    case_id_indoors = 12
-                elif place=="outdoors":
-                    if going_from=="work" and one_household==True:
-                        case_id_outdoors = 8
-                    elif going_from=="work":
-                        case_id_outdoors = 9
-                    elif one_household==True:
-                        case_id_outdoors = 10
-                    elif one_household==False:
-                        case_id_outdoors = 11
 
-        elif regulations_type == "details":
+            else:
+                if location=="Belgium":
+                    case_id_children = 1
+                    if LRT=="both":
+                        case_id_open_places = 12
+                    if place=="outdoors":
+                        if different_household == False:
+                            case_id_outdoors = 0
+                        else:
+                            case_id_outdoors = 1
+                    elif place=="indoors":
+                        if different_household == False:
+                            case_id_indoors = 2
+                        else:
+                            case_id_indoors = 3
+                    elif place=="both":
+                        if different_household==False:
+                            case_id_outdoors = 0
+                            case_id_indoors = 2
+                        else:
+                            case_id_indoors = 1
+                            case_id_outdoors = 3
+                    #else:
+                    #    dispatcher.utter_message(response="utter_query_failed")
+                    #    dispatcher.utter_message(response="utter_restart_please")
+                elif location=="Luxembourg":
+                    case_id_children = 3
+                    if LRT=="both":
+                        case_id_open_places = 13
+                    if place=="outdoors":
+                        if different_household == False:
+                            case_id_outdoors = 4
+                        else:
+                            case_id_outdoors = 5
+                    elif place=="indoors":
+                        if different_household == False:
+                            case_id_indoors = 6
+                        else:
+                            case_id_indoors = 7
+                    elif place=="both":
+                        if different_household==False:
+                            case_id_outdoors = 4
+                            case_id_indoors = 6
+                        else:
+                            case_id_indoors = 5
+                            case_id_outdoors = 7
+                elif location=="Netherlands":
+                    if LRT=="both":
+                        case_id_open_places = 14
+                    if place=="outdoors":
+                        if different_household == False:
+                            case_id_outdoors = 8
+                        else:
+                            case_id_outdoors = 9
+                    elif place=="indoors":
+                        if different_household == False:
+                            case_id_indoors = 10
+                        else:
+                            case_id_indoors = 11
+                    elif place=="both":
+                        if different_household==False:
+                            case_id_outdoors = 8
+                            case_id_indoors = 10
+                        else:
+                            case_id_indoors = 9
+                            case_id_outdoors = 11
+
+        elif regulations_type == "vaccine_regulations":
             country = tracker.get_slot("country_to")
-            if country=="Germany":
-                case_id = 20
+            choice=tracker.get_slot("vaccine_regulations_type")
+
+            if country=="Belgium":
+                if choice=="vaccine_validity":
+                    case_id_VV = 0
+                elif choice=="approved_vaccines":
+                    case_id_AV = 1
+                elif choice=="both":
+                    case_id_VV = 0
+                    case_id_AV = 1
             elif country=="Luxembourg":
-                case_id = 21
+                if choice=="vaccine_validity":
+                    case_id_VV = 2
+                elif choice=="approved_vaccines":
+                    case_id_AV = 3
+                elif choice=="both":
+                    case_id_VV = 2
+                    case_id_AV = 3
             elif country=="Netherlands":
-                case_id = 22
+                if choice=="vaccine_validity":
+                    case_id_VV = 4
+                elif choice=="approved_vaccines":
+                    case_id_AV = 5
+                elif choice=="both":
+                    case_id_VV = 4
+                    case_id_AV = 5
         else:
             dispatcher.utter_message(response="utter_query_failed")
             dispatcher.utter_message(response="utter_restart_please")
 
             return []
 
+
+
+#-----------RETREIVING INFOR FROM THE KB---------
         rule_transit = ""
         if case_id_transit != None:
             rule_transit = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_transit, attribute)[0]
+
         rule_child = ""
         if children_travel == True and case_id_children != None:
             rule_child = self.custom_get_attribute_of("children_exceptions", key_attribute, case_id_children, attribute)[0]
+
         rule_open_pl = ""
         if case_id_open_places != None:
             rule_open_pl = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_open_places, attribute)[0]
 
         if regulations_type=="local_regulations":
+
             rule_indoors = ""
             if case_id_indoors!=None:
                 rule_indoors = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_indoors, attribute)[0]
+
             rule_outdoors = ""
             if case_id_outdoors!=None:
                 rule_outdoors = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_outdoors, attribute)[0]
             dispatcher.utter_message(f"The following regulations apply in {location} : \n {rule_indoors} \n {rule_outdoors} \n {rule_open_pl} \n ")
             rule_open_pl = ""
-        else:
-            rule_entry = self.custom_get_attribute_of(regulations_type, key_attribute, case_id, attribute)[0]
-            if case_id!=None and case_id<20:
-                dispatcher.utter_message(f"The following regulations apply in {country_to} : \n {rule_entry}")
-                #dispatcher.utter_message(f"rule_transit: {rule_transit}")
-                if rule_transit:
-                    dispatcher.utter_message(f"The following regulations apply for transitting through {country_to_transit}: \n {rule_transit}\n")
-                if rule_child:
-                    dispatcher.utter_message(f"The following exceptions for children apply in {country_to} : \n {rule_child}\n")
-            else:
-                dispatcher.utter_message(f"The following requirements apply: \n {rule_entry} \n ")
 
-        slots = [SlotSet("indoors/outdoors", None), SlotSet("one_household", None)]
-        # SlotSet("transit_DE", None), SlotSet("transport_type", None)]
+        elif regulations_type=="entry_regulations":
+            rule_entry = self.custom_get_attribute_of(regulations_type, key_attribute, case_id, attribute)[0]
+            dispatcher.utter_message(f"The following regulations apply in {country_to} : \n {rule_entry}")
+            #dispatcher.utter_message(f"rule_transit: {rule_transit}")
+            if rule_transit:
+                dispatcher.utter_message(f"The following regulations apply for transitting through {country_to_transit}: \n {rule_transit}\n")
+            if rule_child:
+                dispatcher.utter_message(f"The following exceptions for children apply in {country_to} : \n {rule_child}\n")
+
+        elif regulations_type=="vaccine_regulations":
+
+            vaccination_validity = ""
+            if case_id_VV!=None:
+                vaccination_validity = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_VV, attribute)[0]
+
+            approved_vaccines = ""
+            if case_id_AV!=None:
+                approved_vaccines = self.custom_get_attribute_of(regulations_type, key_attribute, case_id_AV, attribute)[0]
+
+            dispatcher.utter_message(f"The following applies in {country_to} : \n {vaccination_validity} \n\n {approved_vaccines} \n ")
+
+
+        slots = [SlotSet("indoors/outdoors", None), SlotSet("different_household", None)]
+        # SlotSet("transit_BE", None), SlotSet("plane_travel", None)]
                 # SlotSet("transit", None)
         if regulations_type=="local_regulations":
             slots.append(SlotSet("want_open_places", False))
-
-
         counter = tracker.get_slot("query_counter")
 #===== counting queries
         if counter==None:
