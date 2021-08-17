@@ -62,22 +62,20 @@
             "id": 5,
             "name": "Passenger Locator Form AND 3G/TGV (BE)",
             "conditions": "Present a negative PCR test result, a recovery certificate or a vaccination certificate. You must fill out a Passenger Locator Form within 48 hours before arrival."
-        },
+        }
     ],
-
-
 
     "vaccine_regulations":[
         {
             "id": 0,
             "name": "Belgium, vaccination validity",
-            "conditions":"Proof of vaccination is valid: on the 14th day after the full vaccination or the 1st out of 2 doses in case of recovery within 6 months of an infection."
+            "conditions":"Proof of vaccination is valid on the 14th day after the full vaccination or the 1st out of 2 doses in case of recovery within 6 months of an infection."
         },
         {
             "id": 1,
             "name": "Belgium, approved vaccines",
             "conditions":"Accepted vaccines: Pfizer / Moderna / AstraZeneca / Janssen"
-        }
+        },
         {
             "id": 2,
             "name": "Luxembourg, vaccination validity",
@@ -87,11 +85,11 @@
             "id": 3,
             "name": "Luxembourg, approved vaccines",
             "conditions":"Accepted vaccines: Pfizer / Moderna / AstraZeneca / Janssen"
-        }
+        },
         {
             "id": 4,
             "name": "Netherlands, vaccination validity",
-            "conditions":"Proof of vaccination is valid: on the 14th day after full vaccination; on the 28th day in case of vaccination with Janssen. "
+            "conditions":"Proof of vaccination is valid on the 14th day after full vaccination; on the 28th day in case of vaccination with Janssen. "
         },
         {
             "id": 5,
