@@ -1,0 +1,191 @@
+version: "2.0"
+rules:
+#====== RULES FOR RUNNING THE QUERY ACTION ======
+
+
+#====== FORMS ACTIVATION ======
+# ===== BELGIUM =====
+  - rule: correct country->activate <48h_form II
+    condition:
+    - slot_was_set:
+      - country_to: Belgium
+      - correct_countries: true
+    steps:
+    - action: utter_warn_collect_info
+    - action: <48h_form
+    - active_loop: <48h_form
+  - rule: correct country_II->activate <48h_form II
+    condition:
+    - active_loop: country_form_II
+    - slot_was_set:
+      - country_to: Belgium
+    steps:
+    - action: country_form_II
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_check_area
+    - action: <48h_form
+    - active_loop: <48h_form
+  - rule: BE activate plane_travel_form
+    condition:
+    - active_loop: <48h_form
+    - slot_was_set:
+      - <48h: true
+    steps:
+    - action: <48h_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: plane_travel_form
+    - active_loop: plane_travel_form
+  - rule: BE/NL deactivate plane_travel_form
+    condition:
+    - active_loop: plane_travel_form
+    steps:
+    - action: plane_travel_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: children_travel_form
+    - active_loop: children_travel_form
+# ===== BELGIUM =====
+  - rule: <48h_rule
+    condition:
+    - active_loop: <48h_form
+    - slot_was_set:
+      - <48h: false
+    steps:
+    - action: <48h_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: children_travel_form
+    - active_loop: children_travel_form
+    wait_for_user_input: false
+
+
+#====== FORMS BEACTIVATION ======
+# ===== BELGIUM =====
+
+
+# ===== NETHERLANDS =====
+#====== FORMS ACTIVATION ======
+  - rule: correct country->NL activate visit_purpose_form (II)
+    condition:
+    #- active_loop: confirm_country_form
+    - slot_was_set:
+      - country_to: Netherlands
+      - correct_countries: true
+    steps:
+    - action: utter_warn_collect_info
+    - action: plane_travel_form
+    - active_loop: plane_travel_form
+  - rule: correct country_II->NL activate visit_purpose_form (II)
+    condition:
+    - active_loop: country_form_II
+    - slot_was_set:
+      - country_to: Netherlands
+    steps:
+    - action: country_form_II
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_check_area
+    - action: plane_travel_form
+    - active_loop: plane_travel_form
+# ===== NETHERLANDS =====
+#====== FORMS BEACTIVATION ======
+# ===== NETHERLANDS =====
+
+
+#====== FORMS ACTIVATION ======
+# ===== LUXEMBOURG =====
+  - rule: correct country->LU activate plane_travel_form II
+    condition:
+    - slot_was_set:
+      - country_to: Luxembourg
+      - correct_countries: true
+    steps:
+    - action: utter_warn_collect_info
+    - action: plane_travel_form
+    - active_loop: plane_travel_form
+  - rule: correct country_II->LU activate plane_travel_form II
+    condition:
+    - active_loop: country_form_II
+    - slot_was_set:
+      - country_to: Luxembourg
+    steps:
+    - action: country_form_II
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_check_area
+    - action: plane_travel_form
+    - active_loop: plane_travel_form
+  - rule: LU submit plane_travel_form
+    condition:
+    - active_loop: plane_travel_form
+    - slot_was_set:
+      - country_to: Luxembourg
+      - plane_travel: false
+    steps:
+    - action: plane_travel_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: children_travel_form
+    - active_loop: children_travel_form
+  - rule: LU activate transport_health_worker_form
+    condition:
+    - active_loop: plane_travel_form
+    - slot_was_set:
+      - country_to: Luxembourg
+      - plane_travel: true
+    steps:
+    - action: plane_travel_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transport_health_worker_form
+    - active_loop: transport_health_worker_form
+#====== FORMS BEACTIVATION ======
+# ===== LUXEMBOURG =====
+  - rule: LU Submit transport_health_worker_form
+    condition:
+    - active_loop: transport_health_worker_form
+    steps:
+    - action: transport_health_worker_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: children_travel_form
+    - active_loop: children_travel_form
+
+
+# ===== QUERY ACTION CALL =====
+  - rule: Submit children_travel_form
+    condition:
+    - active_loop: children_travel_form
+    steps:
+    - action: children_travel_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    #- action: action_ask_confirm_collected_info
+    #- action: confirm_form
+    #- active_loop: confirm_form
+    - action: action_query_knowledgebase_cases
+   # wait_for_user_input: false
+
+#TRANSIT ---> ????
+  - rule: LU/NL Submit transit_BE_form
+    condition:
+    - active_loop: transit_BE_form
+    steps:
+    - action: transit_BE_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: children_travel_form
+    - active_loop: children_travel_form

@@ -2,12 +2,12 @@
     "children_exceptions": [
         {
            "id": 0,
-           "name": "Germany: entry rules for children",
+           "name": "Belgium: entry rules for children",
            "conditions":"Travellers under 6 years of age do not need to present a Covid test result on entry."
         },
         {
            "id": 1,
-           "name": "Germany: local rules for children",
+           "name": "Belgium: local rules for children",
            "conditions":"The regulations in which situations and from what age mouth and nose coverings or other masks are mandatory for children may differ depending on the  federal state."
         },
         {
@@ -30,93 +30,71 @@
     "entry_regulations": [
         {
             "id": 0,
-            "name": "Germany: less than 24h OR transport sector worker OR transit",
+            "name": "No restrictions",
             "conditions": "No special special requirements upon entry apply."
         },
         {
-            "id": 1,
-            "name": "Germany: entry for work AND more than 24h",
-            "conditions": "You need to fill out a registration form before entry. You can find the digital version at: www.einreiseanmeldung.de"
+            "id": 1.0,
+            "name": "3G/TGV (PCR or antigen test)",
+            "conditions": "Present a negative rapid antigen or PCR covid test result, a recovery certificate or a vaccination certificate."
         },
-
+        {
+            "id": 1.1,
+            "name": "3G/TGV (PCR test)",
+            "conditions": "Present a negative PCR covid test result, a recovery certificate or a vaccination certificate."
+        },
         {
             "id": 2,
-            "name": "Germany: entry for leisure AND more than 24h",
-            "conditions": "You must do the following: fill out a registration form at www.einreiseanmeldung.de; have a SARS-CoV-2 test result in the period of 48h after entry. The test must no older than 48 hours before entry. You should quarantine for ten days upon arrival but can finish the quarantine after the fifth day by presenting a negative covid test result."
+            "name": "Health declaration (NL)",
+            "conditions": "You need to fill out a health declaration before boarding. You can find the digital version at: https://www.government.nl/topics/coronavirus-covid-19/documents/publications/2020/07/07/information-for-passengers-flying-to-and-from-the-netherlands."
         },
         {
             "id": 3,
-            "name": "Luxembourg: travel by land OR transit OR transport sector worker",
-            "conditions": "You do not need to quarantine, present a negative Covid test or any additional documents upon your travel to Luxembourg."
+            "name": "Health declaration AND 3G/TGV (NL)",
+            "conditions": "Present a negative rapid antigen or PCR covid test result, a recovery certificate or a vaccination certificate. You need to fill out a health declaration before boarding. You can find the digital version at: https://www.government.nl/topics/coronavirus-covid-19/documents/publications/2020/07/07/information-for-passengers-flying-to-and-from-the-netherlands."
         },
         {
             "id": 4,
-            "name": "Luxembourg: travel by air OR NOT transport sector worker",
-            "conditions": "You must present a negative COVID-19 test result at boarding, it should be not older than 72 hours."
+            "name": "Passenger Locator Form (BE)",
+            "conditions": "You must fill out a Passenger Locator Form within 48 hours before arrival."
         },
         {
             "id": 5,
-            "name": "The Netherlands: (work AND (physical presence||short trip)) OR (family AND going by car)",
-            "conditions": "No special special requirements upon entry apply."
-        },
-        {
-            "id": 6,
-            "name": "The Netherlands: (work AND remote) OR (leisure AND going by car)",
-            "conditions": "You must self-quarantine for 10 days upon your arrival. You can get tested again on day 5 after your arrival. If the result is negative you can end your self-quarantine."
-        },
-        {
-            "id": 7,
-            "name": "The Netherlands: family AND going by coach",
-            "conditions": "You must present a negative NAAT (PCR) test result of a test made 72 hours before arrival."
-        },
-        {
-            "id": 8,
-            "name": "The Netherlands: leisure AND going by coach",
-            "conditions": "You must present a negative NAAT (PCR) test result of a test made 72 hours before arrival. You must self-quarantine for 10 days upon arriving. You can get tested again on day 5 after your arrival and end your self-quarantine if the result is negative."
-        },
-        {
-            "id": 9,
-            "name": "The Netherlands: leisure AND plane",
-            "conditions": "You must prove that you tested negative for Covid-19. There are two options to do this. 1)You can present a PCR test result of a test made 12 hours before boarding. 2)You can present both a PCR test result of a test made 72 hours before arrival and a rapid test result based on a sample collected 4 hours before boarding. You must self-quarantine for 10 days upon arriving in the Netherlands. You can get tested again on day 5 after your arrival and end your self-quarantine if the result is negative. In addition, you should complete a health declaration which can be found at https: www.government.nl/topics/coronavirus-covid-19/documents/publications/2020/07/07/information-for-passengers-flying-to-and-from-the-netherlands."
-        },
-
-        {
-            "id": 10,
-            "name": "The Netherlands: family AND going by plane",
-            "conditions": "You must prove that you tested negative for Covid-19. There are two options to do this. 1)You can present a NAAT (PCR) test result of a test made 12 hours before boarding. 2)You can present both a NAAT (PCR) test result of a test made 72 hours before arrival and a rapid test result of a test made 4 hours before boarding. In addition, you should complete a health declaration which can be found at https:www.government.nl/topics/coronavirus-covid-19/documents/publications/2020/07/07/information-for-passengers-flying-to-and-from-the-netherlands.  "
+            "name": "Passenger Locator Form AND 3G/TGV (BE)",
+            "conditions": "Present a negative PCR test result, a recovery certificate or a vaccination certificate. You must fill out a Passenger Locator Form within 48 hours before arrival."
         }
     ],
 
-    "details":[
+    "vaccine_regulations":[
         {
-            "id": 20,
-            "name": "Germany, test",
-            "conditions":"You must have a SARS-CoV-2 coronavirus test result in paper electronic form in English, French or German in the period of 48h after entry. The test must have been performed no more than 48 hours prior to entry (time of swabbing). You must keep the result for at least ten days after entry."
+            "id": 0,
+            "name": "Belgium, vaccination validity",
+            "conditions":"Proof of vaccination is valid on the 14th day after the full vaccination or the 1st out of 2 doses in case of recovery within 6 months of an infection."
         },
         {
-            "id": 21,
-            "name": "Luxembourg, test",
-            "conditions":"Accepted tests are: PCR (polymerase chain reaction), TAM (transcription-mediated amplification) or LAMP (loop-mediated isothermal amplification); or of a viral antigen test (in line with the World Health Organization criteria: Antigen-detection in the diagnosis of SARS-CoV-2 infection using rapid immunoassays, Interim Guidance, 11 September 2020). The test result must be in either in one of the administrative languages of Luxembourg, or in English, Spanish, Italian or Portuguese."
+            "id": 1,
+            "name": "Belgium, approved vaccines",
+            "conditions":"Accepted vaccines: Pfizer / Moderna / AstraZeneca / Janssen"
         },
         {
-            "id": 22,
-            "name": "Netherlands, test",
-            "conditions": "The negative test result must be in English, German, French, Italian, Portuguese, Spanish or Dutch and include the following information: type of test, which must be a molecular NAAT (PCR) test (either PCR, RT PCR, LAMP, TMA or mPOCT); your name and surname as stated in your passport; date and time you were tested; name and contact information of the institute or laboratory that conducted the test."
+            "id": 2,
+            "name": "Luxembourg, vaccination validity",
+            "conditions":"Proof of vaccination is valid: in case of 2 doses from the day of the 2nd dose; on the 14th day after the vaccination in case of 1 dose or the 1st out of 2 doses in case of recovery within 6 months of an infection."
         },
         {
             "id": 3,
-            "name": "Germany, masks",
-            "conditions":""
+            "name": "Luxembourg, approved vaccines",
+            "conditions":"Accepted vaccines: Pfizer / Moderna / AstraZeneca / Janssen"
         },
         {
             "id": 4,
-            "name": "Luxembourg, masks",
-            "conditions":""
+            "name": "Netherlands, vaccination validity",
+            "conditions":"Proof of vaccination is valid on the 14th day after full vaccination; on the 28th day in case of vaccination with Janssen. "
         },
         {
             "id": 5,
-            "name": "Netherlands, masks",
-            "conditions":""
+            "name": "Netherlands, approved vaccines",
+            "conditions":"Accepted vaccines: Pfizer / Moderna / AstraZeneca / Janssen / Covishield / Sinopharm BIBP / Sinovac"
         }
     ],
 
@@ -124,83 +102,78 @@
     "local_regulations": [
         {
             "id": 0,
-            "name": "Germany: outdoor covid regulations",
-            "conditions": "Outdoors: In Germany, certain regulations on the outdoors may vary in the federal states. When planning your trip, it is best to check with the local regulations of a respective state."
+            "name": "Belgium: outdoor",
+            "conditions": "Outdoors: You have to wear a mask on public transport."
         },
         {
             "id": 1,
-            "name": "Germany: indoor covid regulations",
-            "conditions": "Indoors: You should wear a mask in in any public transport, as well as inside stores and busy outdoor places. Masks must be FFP2, KN95/N95 or surgical masks."
+            "name": "Belgium: outdoor AND different_household",
+            "conditions": "Outdoors: You have to wear a mask on public transport and keep a 1,5m distance with others on the outdoors. You can sit with 7 other people at cafés."
         },
         {
             "id": 2,
-            "name": "Germany: all local covid regulations",
-            "conditions": "Indoors: You should wear a mask in public transport, as well as inside stores and busy outdoor places. Masks must be FFP2, KN95/N95 or surgical masks. In Germany, certain regulations may vary in the federal states. When planning your trip, it is best to check with the local regulations of a respective state."
+            "name": "Belgium: indoor",
+            "conditions": "Indoors: You have to wear a facemask at indoor activities open to the public. "
         },
         {
-            "id":3,
-            "name":"Luxembourg: outdoor AND going_to_work AND one_household",
-            "conditions":"Outdoors: No relevant rules apply to you outdoors."
+            "id": 3,
+            "name": "Belgium: indoor AND different_household",
+            "conditions": "Indoors: You have to wear a facemask at indoor activities open to the public and keep a 1.5m distance with others. You can sit with 7 other people at cafés."
         },
         {
-            "id":4,
-            "name":"Luxembourg: outdoor AND going_to_work",
-            "conditions":"Outdoors: For an outside gathering from 5 to 10 people masks and a 2-meter distance are required."
+            "id": 4,
+            "name": "Luxembourg: outdoor",
+            "conditions": "Outdoors: You have to wear a mask on public transport."
         },
         {
-            "id":5,
-            "name":"Luxembourg: outdoor AND one_household",
-            "conditions":"Outdoors: Between 11 p.m. and 6 a.m. the curfew applies and you cannot drink alcohol in public places. "
+            "id": 5,
+            "name": "Luxembourg: outdoor AND different_household",
+            "conditions": "Outdoors: You have to wear a mask on public transport and if you are in a gathering of more than 10 people. In the last case, you have to keep a 2m distance with others. You can sit with 9 other people outside cafés and restaurants without CovidCheck system."
         },
         {
-            "id":6,
-            "name":"Luxembourg: outdoor AND NOT one_household",
-            "conditions":"Outdoors: Between 11 p.m. and 6 a.m. the curfew applies. Drinking alcohol in public is prohibited. For an outside gathering from 5 to 10 people masks and a 2m distance are required. "
+            "id": 6,
+            "name": "Luxembourg: indoor",
+            "conditions": "Indoors: You have to wear a facemask at indoor activities open to the public."
         },
         {
-            "id":7,
-            "name":"Luxembourg: indoor",
-            "conditions":"Indoors: You have to wear a mask during all activities open to the public, in all closed spaces and on public transport. There are no restrictions on the type of mask to wear."
+            "id": 7,
+            "name": "Luxembourg: indoor AND different_household",
+            "conditions": "Indoors: You have to wear a facemask at indoor activities open to the public and if you are in a gathering of more than 10 people. In the last case, you have to keep a 2m distance with others.  You can sit with 3 other people inside cafés and restaurants without CovidCheck system."
         },
         {
-            "id":8,
-            "name":"The Netherlands: outdoor AND going_to_work AND one_household",
-            "conditions":"Outdoors: No relevant rules apply to you outdoors."
+            "id": 8,
+            "name": "Netherlands: outdoor",
+            "conditions": "Outdoors: You have to wear a mask on public transport, at stations and airports."
         },
         {
-            "id":9,
-            "name":"The Netherlands: outdoor AND going_to_work",
-            "conditions":"Outdoors: You are exempted from curfew, however, no more than one person can go somewhere together with you, except for children under 13."
+            "id": 9,
+            "name": "Netherlands: outdoor AND different_household",
+            "conditions": "Outdoors: You have to wear a mask on public transport, at stations and airports and keep a 1,5m distance with others on the outdoors."
         },
         {
-            "id":10,
-            "name":"The Netherlands: outdoor AND one_household",
-            "conditions":"Outdoors: Between 20:00 and 06:00 you may not drink alcohol or have it on you in public spaces. From 21:00 until 04:30 curfew applies."
+            "id": 10,
+            "name": "Netherlands: indoor",
+            "conditions": "Indoors: No special regulations apply."
         },
         {
-            "id":11,
-            "name":"The Netherlands: outdoor AND NOT one_household",
-            "conditions":"Outdoors: Between 20:00 and 06:00 you may not drink alcohol or have it on you in public spaces. From 21:00 until 04:30 curfew applies. No more than one person can go somewhere together with you, except for children under 13."
+            "id": 11,
+            "name": "Netherlands: indoor AND different_household",
+            "conditions": "Indoors: You should keep a 1,5m distance in the buildings with others."
         },
         {
             "id":12,
-            "name":"The Netherlands: indoor",
-            "conditions":"Indoors: You should wear a mask in all public spaces and covered areas. This includes educational institutions, public transport and locations where contact-based professions are carried out, as well as shops, town halls and train stations. You can buy or make your own face mask for general use."
+            "name":"Belgium: open places",
+            "conditions":"Non-essential shops are open. Hotels, cafés and restaurants are open with sanitary rules applicable inside. All cultural establishments are open."
         },
         {
             "id":13,
-            "name":"Germany: open places",
-            "conditions":"All nonessential shops and services remain closed."
+            "name":"Luxembourg: open places",
+            "conditions":"Non-essential shops are open. Hotels, cafés and restaurants are open; however, sanitary rules apply inside places without CovidCheck system. All cultural establishments are open."
         },
         {
             "id":14,
-            "name":"Luxembourg: open places",
-            "conditions":"All shops are open. Restaurants, bars and cafes are closed."
-        },
-        {
-            "id":15,
             "name":"Netherlands: open places",
-            "conditions":"Most indoor public spaces are closed. This applies to all non-essential shops, entertainment venues, cafes and restaurants."
+            "conditions":"Non-essential shops are open. Hotels, cafés and restaurants are open; however, registration and a health check are mandatory. All cultural establishments are open."
         }
     ]
 }

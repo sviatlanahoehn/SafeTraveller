@@ -1,0 +1,89 @@
+version: "2.0"
+rules:
+# ==== LOCAL REGULATIONS ====
+  - rule: open places query
+    steps:
+    - intent: query_open_places
+    - action: action_set_local
+    - action: action_set_open
+    - action: action_query_knowledgebase_cases
+  - rule: more local rules
+    condition:
+    - slot_was_set:
+      - regulations_type: local_regulations
+    steps:
+    - action: action_query_knowledgebase_cases
+    - action: want_more_local_info_form
+    - active_loop: want_more_local_info_form
+  - rule: submit want_more_LI
+    condition:
+    - slot_was_set:
+      - want_more_local_info: true
+    steps:
+    - action: local_regulations_form
+    - active_loop: local_regulations_form
+  - rule: activate local_regulations_form
+    steps:
+    - intent: query_local_regulations
+    - action: correct_local_form
+    - active_loop: correct_local_form
+  - rule: denied local_regulations_form
+    condition:
+    - active_loop: correct_local_form
+    - slot_was_set:
+      - correct_info: false
+    steps:
+    - action: correct_local_form
+    - active_loop: null
+    - action: utter_rephrase
+  - rule: confirmed local_regulations_form
+    condition:
+    - active_loop: correct_local_form
+    - slot_was_set:
+      - correct_info: true
+    steps:
+    - action: correct_local_form
+    - active_loop: null
+    - action: action_set_local
+    - action: local_regulations_form
+    - active_loop: local_regulations_form
+  - rule: choose local regulations type
+    condition:
+    - active_loop: regulation_type_form
+    - slot_was_set:
+      - regulations_type: local_regulations
+    steps:
+    - action: regulation_type_form
+    - active_loop: null
+    - action: local_regulations_form
+    - active_loop: local_regulations_form
+  - rule: Local regulations query (open_places)
+    condition:
+    - active_loop: local_regulations_form
+    - slot_was_set:
+      - local_regulations_type: open_places
+    steps:
+    - action: local_regulations_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_query_knowledgebase_cases
+  - rule: local regulations (indoors/outdoors)
+    condition:
+    - active_loop: local_regulations_form
+    steps:
+    - action: local_regulations_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: indoors/outdoors_form
+    - active_loop: indoors/outdoors_form
+  - rule: Submit indoors/outdoors_form
+    condition:
+    - active_loop: indoors/outdoors_form
+    steps:
+    - action: indoors/outdoors_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_query_knowledgebase_cases
