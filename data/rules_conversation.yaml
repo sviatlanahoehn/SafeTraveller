@@ -158,15 +158,15 @@ rules:
     - action: utter_ur_welcome
     - action: want_local_info_form
     - active_loop: want_local_info_form
-  #- rule: ask keep context
-  #  condition:
-  #  - slot_was_set:
-  #    - query_counter: 1
-  #  steps:
-  #  - intent: query_regulations
-  #  - action: keep_context_form
-  #  - active_loop: keep_context_form
-
+  - rule: ask keep details
+    condition:
+    - slot_was_set:
+      - query_counter: 1
+    steps:
+    - action: action_query_knowledgebase_cases
+    - action: keep_details_form
+    - active_loop: keep_details_form
+    - action: validate_context_action
 
   - rule: end of convo afetr local info
     condition:

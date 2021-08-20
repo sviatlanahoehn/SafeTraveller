@@ -7,8 +7,6 @@ session_config:
 intents:
 - query_vaccine_regulations:
     use_entities: true
-- query_open_places:
-    use_entities: true
 - nothing_else:
     use_entities: true
 - main_menu:
@@ -72,6 +70,11 @@ entities:
     - from
 - <48h
 slots:
+  keep_details:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
   vaccine_regulations_type:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
@@ -386,6 +389,7 @@ responses:
   utter_restart:
   - text: Okay, I have restarted our conversation.
 actions:
+- validate_keep_context
 - action_set_open
 - action_reset_regulations_type
 - action_set_local
@@ -406,6 +410,14 @@ actions:
 
 
 forms:
+  keep_details_form:
+    keep_details:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
   vaccine_regulations_form:
     country_to:
     - type: from_entity
