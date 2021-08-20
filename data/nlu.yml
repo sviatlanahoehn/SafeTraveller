@@ -23,11 +23,11 @@ nlu:
     - go back
     - go back please
     - can you go to the previous question?
-- intent: inform_incorrect
-  examples: |
-    - [visit purpose]{"entity":"incorrect_slot", "value":"visit_purpose"} is incorrect
-    - [transport type]{"entity":"incorrect_slot", "value":"plane_travel"}
-    - [stay duration]{"entity":"incorrect_slot", "value":"<48h"} is incorrect
+#- intent: inform_incorrect
+#  examples: |
+#    - [visit purpose]{"entity":"incorrect_slot", "value":"visit_purpose"} is incorrect
+#    - [transport type]{"entity":"incorrect_slot", "value":"plane_travel"}
+#    - [stay duration]{"entity":"incorrect_slot", "value":"<48h"} is incorrect
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -66,6 +66,7 @@ nlu:
     - okay, thank you
     - thanks
     - thank you
+    - all right
 - intent: nothing_else
   examples: |
     - nothing
@@ -157,6 +158,7 @@ nlu:
     - regulations menu
     - go back to the first step
     - go back to the menu
+    - main
 
 #---------------------------------------------------
 
@@ -194,7 +196,7 @@ nlu:
 #  examples: |
 
 
-- intent: query_3G_regulations
+- intent: query_vaccine_regulations
   examples: |
     - vaccine details
     - vaccination requirements
@@ -247,6 +249,53 @@ nlu:
     - are hotels open?
     - are restaurants open?
 
+#- intent: visit_purpose
+#  examples: |
+#    - [tourism]{"entity": "visit_purpose", "value": "leisure"}
+#    - Visit a [friend]{"entity": "visit_purpose", "value": "leisure"}
+#    - [commute]{"entity": "visit_purpose", "value": "work"} to [Belgium]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
+#    - [commuting]{"entity": "visit_purpose", "value": "work"} to [the Netherlands]{"entity": "country", "role": "to"} from [Belgium]{"entity": "country", "role": "from"}
+#    - a [commute]{"entity": "visit_purpose", "value": "work"} to [Luxembourg]{"entity": "country", "role": "to"} from [Belgium]{"entity": "country", "role": "from"}
+#    - go to [Netherlands]{"entity": "country", "role": "to"} for [work](visit_purpose)
+#    - go for a [holiday]{"entity": "visit_purpose", "value": "leisure"} from [Belgium]{"entity": "country", "role": "from"} to the [Netherlands]{"entity": "country", "role": "to"}
+#    - [commute]{"entity": "visit_purpose", "value": "work"} from [Belgium]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
+#    - [commute]{"entity": "visit_purpose", "value": "work"} from [Luxembourg]{"entity": "country", "role": "from"} to [Belgium]{"entity": "country", "role": "to"}
+#    - I am planning to go to [Switzerland]{"entity":"country", "role":"to"} for [holidays]{"entity":"visit_purpose", "value":"leisure"} and I am going from [Luxembourg]{"entity":"country", "role":"from"}
+#    - i am a [worker]{"entity":"visit_purpose", "value":"work"} and i want to travel from [Belgium]{"entity":"country", "role":"from"} to [Luxembourg]{"entity":"country", "role":"to"}
+#    - I'm visiting my [family]{"entity":"visit_purpose", "value":"family"} in [Spain]{"entity":"country", "role":"to"} and I am going from [Luxembourg]{"entity":"country", "role":"from"}
+#    - I want to [commute]{"entity":"visit_purpose", "value":"work"} to the [Netherlands]{"entity":"country", "role":"to"} from [Belgium]{"entity":"country", "role":"from"}
+#    - I am a [commuter]{"entity":"visit_purpose", "value":"work"} and i want to go from [Luxembourg]{"entity":"country", "role":"from"} to [Belgium]{"entity":"country", "role":"to"}
+#    - [studies]{"entity":"visit_purpose", "value":"work"}
+#    - I am going for [work](visit_purpose)
+#    - it's a [work](visit_purpose) trip
+#    - i'm commuting to [work](visit_purpose)
+#    - I am going for a [holiday]{"entity": "visit_purpose", "value": "leisure"}
+#    - a trip to [Belgium](country) for [shopping]{"entity": "visit_purpose", "value": "leisure"}
+#    - a [vocation]{"entity": "visit_purpose", "value": "leisure"}
+#    - visitting [relatives]{"entity": "visit_purpose", "value": "family"}
+#    - [family](visit_purpose) visit
+#    - a trip to a [family](visit_purpose) member
+#    - [leisure](visit_purpose)
+#    - visit to a [friend]{"entity": "visit_purpose", "value": "leisure"}
+
+#- intent: visit_purpose
+#  examples: |
+#    - I am going by [plane](plane_travel)
+#    - I am taking a [flight]{"entity": "plane_travel", "value": "plane"}
+#    - going by [car](plane_travel)
+#    - traveling [by bus]{"entity": "plane_travel", "value": "coach"}
+#    - [FlixBus]{"entity": "plane_travel", "value": "coach"}
+#    - [car](plane_travel) drive
+#    - [car](plane_travel)
+#    - [train]{"entity": "plane_travel", "value": "coach"}
+    - and if I travel [by car]{"entity":"plane_travel", "value":"car"}?
+    - what if i [go by plane]{"entity":"plane_travel", "value":"plane"}?
+    - what if i [go by car]{"entity":"plane_travel", "value":"car"}?
+    - Rules for [going by bus]{"entity":"plane_travel", "value":"bus"}
+    - are the rules different for [bus]{"entity":"plane_travel", "value":"bus"} travel?
+    - what if we [fly]{"entity":"plane_travel", "value":"plane"}?
+    - what if i [fly]{"entity":"plane_travel", "value":"plane"}?
+
 - intent: query_regulations
   examples: |
     - [luxembourg]{"entity":"country", "role":"from"} [germany]{"entity":"country", "role":"to"}
@@ -270,13 +319,7 @@ nlu:
     - How about going [directly]{"entity":"transit_BE", "value":"False"} to Luxembourg
     - What if I [go by transit]{"entity":"transit_BE", "value":"True"}
 
-    - and if I travel [by car]{"entity":"plane_travel", "value":"car"}?
-    - what if i [go by plane]{"entity":"plane_travel", "value":"plane"}?
-    - what if i [go by car]{"entity":"plane_travel", "value":"car"}?
-    - Rules for [going by bus]{"entity":"plane_travel", "value":"bus"}
-    - are the rules different for [bus]{"entity":"plane_travel", "value":"bus"} travel?
-    - what if we [fly]{"entity":"plane_travel", "value":"plane"}?
-    - what if i [fly]{"entity":"plane_travel", "value":"plane"}?
+
 
     - are there less rules if I [go directly]{"entity":"transit_BE", "value":"False"}?
     - do the same regulations apply if I only [cross one border]{"entity":"transit_BE", "value":"False"}?
@@ -300,13 +343,6 @@ nlu:
     - regulations for [transit]{"entity": "transit_BE", "value": "True"} through [Belgium]{"entity": "country", "role": "to"}
     - [transit]{"entity": "transit_BE", "value": "True"} through Belgium
     - [transit]{"entity": "transit_BE", "value": "True"} through germany
-    - [tourism]{"entity": "visit_purpose", "value": "leisure"}
-    - Visit a [friend]{"entity": "visit_purpose", "value": "leisure"}
-    - [commute]{"entity": "visit_purpose", "value": "work"} to [Belgium]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
-    - [commuting]{"entity": "visit_purpose", "value": "work"} to [the Netherlands]{"entity": "country", "role": "to"} from [Belgium]{"entity": "country", "role": "from"}
-    - a [commute]{"entity": "visit_purpose", "value": "work"} to [Luxembourg]{"entity": "country", "role": "to"} from [Belgium]{"entity": "country", "role": "from"}
-    - go to [Netherlands]{"entity": "country", "role": "to"} for [work](visit_purpose)
-    - go for a [holiday]{"entity": "visit_purpose", "value": "leisure"} from [Belgium]{"entity": "country", "role": "from"} to the [Netherlands]{"entity": "country", "role": "to"}
     - I want to go to [Luxembourg]{"entity": "country", "role": "to"} from the [Netherlands]{"entity": "country", "role": "from"}
     - I want to go to [Netherlands]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
     - I want to go from the [Netherlands]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
@@ -314,13 +350,13 @@ nlu:
     - [travel]{"entity": "regulations_type", "value": "entry_regulations"} to the [Netherlands]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
     -  going to [Belgium]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
     - going to [Belgium]{"entity": "country", "role": "to"} from the [Netherlands]{"entity": "country", "role": "from"}
-    - [flying]{"entity": "plane_travel", "value": "plane"} to the [Netherlands]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
-    - go to [Belgium]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"} by [car](plane_travel)
+    - [flying]{"entity": "plane_travel", "value": "true"} to the [Netherlands]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
+    - go to [Belgium]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"} by [car]{"entity": "plane_travel", "value": "false"}
     - go from [Belgium]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
     - travel from the [netherlands]{"entity": "country", "role": "from"} to [Belgium]{"entity": "country", "role": "to"}
     - travel to [Holland]{"entity": "country", "role": "to"} from [Belgium]{"entity": "country", "role": "from"}
-    - [drive]{"entity": "plane_travel", "value": "car"} from [Belgium]{"entity": "country", "role": "from"} to [Holland]{"entity": "country", "role": "to"}
-    - [fly]{"entity": "plane_travel", "value": "plane"} from [Luxembourg]{"entity": "country", "role": "from"} to the [Netherlands]{"entity": "country", "role": "to"}
+    - [drive]{"entity": "plane_travel", "value": "false"} from [Belgium]{"entity": "country", "role": "from"} to [Holland]{"entity": "country", "role": "to"}
+    - [fly]{"entity": "plane_travel", "value": "true"} from [Luxembourg]{"entity": "country", "role": "from"} to the [Netherlands]{"entity": "country", "role": "to"}
     - go to [Luxembourg]{"entity": "country", "role": "to"} from [Belgium]{"entity": "country", "role": "from"}
     - travel from the [Netherlands]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
     - from [Belgium]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
@@ -330,16 +366,14 @@ nlu:
     - go from [Netherlands]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
     - go from the [Netherlands]{"entity": "country", "role": "from"} to [Belgium]{"entity": "country", "role": "to"}
     - go from [Luxembourg]{"entity": "country", "role": "from"} to [Belgium]{"entity": "country", "role": "to"}
-    - [commute]{"entity": "visit_purpose", "value": "work"} from [Belgium]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
-    - [commute]{"entity": "visit_purpose", "value": "work"} from [Luxembourg]{"entity": "country", "role": "from"} to [Belgium]{"entity": "country", "role": "to"}
-    - [fly]{"entity": "plane_travel", "value": "plane"} from [Netherlands]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
+    - [fly]{"entity": "plane_travel", "value": "true"} from [Netherlands]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
     - travel from [Luxembourg]{"entity": "country", "role": "from"} to the [Netherlands]{"entity": "country", "role": "to"}
     - I want to go to the [Netherlands]{"entity": "country", "role": "to"} from [Luxembourg]{"entity": "country", "role": "from"}
 
-    - travel from [Luxembourg] to [France] by [car]{"entity":"plane_travel", "value":"car"}
-    - a [car]{"entity":"plane_travel", "value":"car"} ride from [Belgium]{"entity":"country", "role":"from"} to [Bangaldesh]{"entity":"country", "role":"to"}
-    - i plan a [flight]{"entity":"plane_travel", "value":"plane"} from [Belgium]{"entity":"country", "role":"to"} to [Belgium]{"entity":"country", "role":"to"}
-    - [bus]{"entity":"plane_travel", "value":"coach"} travel from [Luxembourg]{"entity":"country", "role":"from"} to the [Netherlands]{"entity":"country", "role":"to"}
+    - travel from [Luxembourg] to [France] by [car]{"entity":"plane_travel", "value":"false"}
+    - a [car]{"entity":"plane_travel", "value":"false"} ride from [Belgium]{"entity":"country", "role":"from"} to [Bangaldesh]{"entity":"country", "role":"to"}
+    - i plan a [flight]{"entity":"plane_travel", "value":"true"} from [Belgium]{"entity":"country", "role":"to"} to [Belgium]{"entity":"country", "role":"to"}
+    - [bus]{"entity":"plane_travel", "value":"false"} travel from [Luxembourg]{"entity":"country", "role":"from"} to the [Netherlands]{"entity":"country", "role":"to"}
     - I would like to know the travel from [Luxembourg]{"entity":"country", "role":"from"} to the [Netherlands]{"entity":"country", "role":"to"}
 
     - a trip from [Luxembourg]{"entity":"country", "role":"from"} to the [Netherlands]{"entity":"country", "role":"to"} by [transit]{"entity":"transit_BE", "value":"True"} through Belgium
@@ -350,12 +384,6 @@ nlu:
     - I want to travel to [France]{"entity":"country", "role":"to"} for [a weekend]{"entity":"<48h", "value":"True"}, I am going from [Luxembourg]{"entity":"country", "role":"from"}
     - i am planning to depart from [France]{"entity":"country", "role":"from"} and I am going to [Luxembourg]{"entity":"country", "role":"to"}
     - the country of departure is [Luxembourg]{"entity":"country", "role":"from"},  the destination country is [Belgium]{"entity":"country", "role":"to"} I want to go for one [week]{"entity":"<48h", "value":"True"}
-
-    - I am planning to go to [Switzerland]{"entity":"country", "role":"to"} for [holidays]{"entity":"visit_purpose", "value":"leisure"} and I am going from [Luxembourg]{"entity":"country", "role":"from"}
-    - i am a [worker]{"entity":"visit_purpose", "value":"work"} and i want to travel from [Belgium]{"entity":"country", "role":"from"} to [Luxembourg]{"entity":"country", "role":"to"}
-    - I'm visiting my [family]{"entity":"visit_purpose", "value":"family"} in [Spain]{"entity":"country", "role":"to"} and I am going from [Luxembourg]{"entity":"country", "role":"from"}
-    - I want to [commute]{"entity":"visit_purpose", "value":"work"} to the [Netherlands]{"entity":"country", "role":"to"} from [Belgium]{"entity":"country", "role":"from"}
-    - I am a [commuter]{"entity":"visit_purpose", "value":"work"} and i want to go from [Luxembourg]{"entity":"country", "role":"from"} to [Belgium]{"entity":"country", "role":"to"}
 
     - from [BE]{"entity":"country", "role":"from"} to [NL]{"entity":"country", "role":"to"}
     - from [LU]{"entity":"country", "role":"from"} to [BE]{"entity":"country", "role":"to"}
@@ -369,18 +397,7 @@ nlu:
     - to the [Netherlands]{"entity": "country", "value": "Netherlands"}
     - going to [Belgium]{"entity": "country", "value": "Belgium"}
 
-    - [studies]{"entity":"visit_purpose", "value":"work"}
-    - I am going for [work](visit_purpose)
-    - it's a [work](visit_purpose) trip
-    - i'm commuting to [work](visit_purpose)
-    - I am going for a [holiday]{"entity": "visit_purpose", "value": "leisure"}
-    - a trip to [Belgium](country) for [shopping]{"entity": "visit_purpose", "value": "leisure"}
-    - a [vocation]{"entity": "visit_purpose", "value": "leisure"}
-    - visitting [relatives]{"entity": "visit_purpose", "value": "family"}
-    - [family](visit_purpose) visit
-    - a trip to a [family](visit_purpose) member
-    - [leisure](visit_purpose)
-    - visit to a [friend]{"entity": "visit_purpose", "value": "leisure"}
+
 
     - [outdoors](indoors/outdoors)
     - [indoor rules](indoors/outdoors)
@@ -395,15 +412,6 @@ nlu:
     - [both of them]{"entity": "indoors/outdoors", "value": "both"}
     - [all of these]{"entity": "indoors/outdoors", "value": "both"}
 
-    - I am going by [plane](plane_travel)
-    - I am taking a [flight]{"entity": "plane_travel", "value": "plane"}
-    - going by [car](plane_travel)
-    - traveling [by bus]{"entity": "plane_travel", "value": "coach"}
-    - [FlixBus]{"entity": "plane_travel", "value": "coach"}
-    - [car](plane_travel) drive
-    - [car](plane_travel)
-    - spending a [holiday]{"entity": "visit_purpose", "value": "leisure"}
-    - [train]{"entity": "plane_travel", "value": "coach"}
 
 - synonym: local_regulations
   examples: |
@@ -512,8 +520,7 @@ nlu:
 - synonym: Belgium
   examples: |
     - Belgium
-    - germany
-    - Deutchland
+    - belgium
     - BE
 - synonym: Luxembourg
   examples: |
