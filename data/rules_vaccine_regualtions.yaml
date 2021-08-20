@@ -9,17 +9,13 @@ rules:
     steps:
     - action: regulation_type_form
     - active_loop: null
-    - action: vaccine_regulations_form
-    - active_loop: vaccine_regulations_form
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_query_knowledgebase_cases
+
   - rule: query vaccine regulations
     steps:
     - intent: query_vaccine_regulations
-    - action: vaccine_regulations_form
-    - active_loop: vaccine_regulations_form
-  - rule: submit vaccine_regulations_form
-    steps:
-    - action: vaccine_regulations_form
-    - active_loop: vaccine_regulations_form
     - active_loop: null
     - slot_was_set:
       - requested_slot: null

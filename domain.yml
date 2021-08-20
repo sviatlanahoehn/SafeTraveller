@@ -62,7 +62,6 @@ entities:
 - incorrect_slot
 - incorrect_country
 - local_regulations_type
-- vaccine_regulations_type
 - country_to
 - country:
     roles:
@@ -75,14 +74,11 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  vaccine_regulations_type:
-    type: rasa.shared.core.slots.CategoricalSlot
+  want_vaccine_regulations:
+    type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
     auto_fill: true
     influence_conversation: true
-    values:
-    - vaccination_validity
-    - approved_vaccines
   want_more_local_info:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
@@ -240,15 +236,6 @@ responses:
   - text: You can type 'back' and go to the previous menu in case it is not what you're looking for.
   utter_ask_want_more_local_info:
   - text: Would you like to know more local regulations?
-  utter_ask_vaccine_regulations_type:
-  - buttons:
-    - payload: '/query_vaccine_regulations{{"vaccine_regulations_type": "vaccination_validity"}}'
-      title: Vaccination Validity
-    - payload: '/query_vaccine_regulations{{"vaccine_regulations_type": "approved_vaccines"}}'
-      title: Approved Vaccines
-    - payload: '/query_vaccine_regulations{{"vaccine_regulations_type": "both"}}'
-      title: Both
-    text: What would you like to know?
   utter_ask_regulations_type:
   - buttons:
     - payload: '/query_regulations{{"regulations_type": "entry_regulations"}}'
@@ -276,15 +263,15 @@ responses:
     - payload: '/inform{{"country": "Belgium", "correct_countries":true}}'
       title: Belgium
     text: Which country are you planning to travel to?
-  utter_ask_incorrect_slot:
-  - buttons:
-    - payload: '/inform_incorrect{{"incorrect_slot": "visit_purpose"}}'
-      title: visit purpose
-    - payload: '/inform_incorrect{{"incorrect_slot": "plane_travel"}}'
-      title: transport type
-    - payload: '/inform_incorrect{{"incorrect_slot": "<48h"}}'
-      title: stay duration
-    text: Okay, could you say which information is incorrect?
+#  utter_ask_incorrect_slot:
+#  - buttons:
+#    - payload: '/inform_incorrect{{"incorrect_slot": "visit_purpose"}}'
+#      title: visit purpose
+#    - payload: '/inform_incorrect{{"incorrect_slot": "plane_travel"}}'
+#      title: transport type
+#    - payload: '/inform_incorrect{{"incorrect_slot": "<48h"}}'
+#      title: stay duration
+#    text: Okay, could you say which information is incorrect?
   utter_ask_want_to_continue:
   - text: Anything else?
   utter_ask_want_localinfo:
@@ -340,24 +327,6 @@ responses:
   - text: I am still learning and could not understand all of the information I need.
   utter_ask_correct_info:
   - text: You would like me to look for local regulations, is that correct?
-  utter_ask_indoors/outdoors:
-  - buttons:
-    - payload: '/inform{{"indoors/outdoors":"indoors"}}'
-      title: Indoors
-    - payload: '/inform{{"indoors/outdoors":"outdoors"}}'
-      title: Outdoors
-    - payload: '/inform{{"indoors/outdoors":"both"}}'
-      title: Both
-    text: "Specify the type of regulations, please:"
-  utter_ask_local_regulations_type:
-  - buttons:
-    - payload: '/inform{{"local_regulations_type":"indoors/outdoors"}}'
-      title: Indoors/Outdoors
-    - payload: '/inform{{"local_regulations_type":"open_places"}}'
-      title: Open Places
-    - payload: '/inform{{"local_regulations_type":"both"}}'
-      title: Both
-    text: "Specify the type of regulations, please:"
   utter_ask_outdoors:
   - text:  outdoors?
   utter_ask_going_from_work:
@@ -422,22 +391,15 @@ forms:
     country_to:
     - type: from_entity
       entity: country
-    vaccine_regulations_type:
-    - type: from_entity
-      entity: vaccine_regulations_type
-  correct_local_form:
-    correct_info:
-    - intent: thank_you
-      type: from_intent
-      value: true
+    want_vaccine_regulations:
     - intent: affirm
       type: from_intent
       value: true
     - intent: deny
       type: from_intent
       value: false
-  want_more_local_info_form:
-    want_more_local_info:
+  correct_local_form:
+    correct_info:
     - intent: thank_you
       type: from_intent
       value: true
@@ -488,29 +450,6 @@ forms:
     - intent: deny
       type: from_intent
       value: false
-  want_local_info_form:
-    want_localinfo:
-    - intent: thank_you
-      type: from_intent
-      value: true
-    - intent: affirm
-      type: from_intent
-      value: true
-    - intent: deny
-      type: from_intent
-      value: false
-  local_regulations_form:
-    country_to:
-    #- entity: location
-    - entity: country
-      type: from_entity
-    local_regulations_type:
-    - entity: local_regulations_type
-      type: from_entity
-  indoors/outdoors_form:
-    indoors/outdoors:
-    - entity: indoors/outdoors
-      type: from_entity
     different_household:
     - intent: affirm
       type: from_intent
@@ -557,10 +496,6 @@ forms:
     - intent: deny
       type: from_intent
       value: false
-  visit_purpose_form:
-    visit_purpose:
-    - entity: visit_purpose
-      type: from_entity
   plane_travel_form:
     plane_travel:
     - intent: affirm
@@ -579,14 +514,6 @@ forms:
       value: false
   transit_BE_form:
     transit_BE:
-    - intent: affirm
-      type: from_intent
-      value: true
-    - intent: deny
-      type: from_intent
-      value: false
-  NL_worker_form:
-    NL_worker:
     - intent: affirm
       type: from_intent
       value: true
