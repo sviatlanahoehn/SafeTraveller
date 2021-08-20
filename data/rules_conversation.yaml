@@ -58,8 +58,10 @@ rules:
       - action: utter_greet
       - action: utter_welcome_message
       - action: action_utter_disclaimer
-      - action: regulation_type_form
-      - active_loop: regulation_type_form
+      - action: utter_prompt_begin
+      - action: utter_type_restart
+      #- action: regulation_type_form
+      #- active_loop: regulation_type_form
   - rule: choose entry regulations type
     condition:
     - active_loop: regulation_type_form
@@ -156,6 +158,16 @@ rules:
     - action: utter_ur_welcome
     - action: want_local_info_form
     - active_loop: want_local_info_form
+  #- rule: ask keep context
+  #  condition:
+  #  - slot_was_set:
+  #    - query_counter: 1
+  #  steps:
+  #  - intent: query_regulations
+  #  - action: keep_context_form
+  #  - active_loop: keep_context_form
+
+
   - rule: end of convo afetr local info
     condition:
     - slot_was_set:
@@ -175,6 +187,14 @@ rules:
     steps:
     - intent: nothing_else
     - action: utter_goodbye
+
+#------IN BETWEEN QUERIES-----
+#- rule: ask keep context
+#  condition:
+#  - slot_was_set:
+#    query_counter: 1
+#  steps:
+#  - action:
 
 # ----- SECOND QUERY -----
   - rule: run second query

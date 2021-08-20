@@ -5,7 +5,7 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: false
 intents:
-- query_3G_regulations:
+- query_vaccine_regulations:
     use_entities: true
 - query_open_places:
     use_entities: true
@@ -227,8 +227,10 @@ responses:
   - text: You can type 'restart' to restart the conversation.
   utter_restart_please:
   - text: Please type 'restart' to restart the conversation.
+  utter_prompt_begin:
+  - text: You can type in what interests you or type "main menu" to go to the Main Menu.
   utter_prompt_continue:
-  - text: You can type 'main menu' to go to the regulations menu
+  - text: You can go to the Main Menu for more regulations.
   utter_announce_local:
   - text: I am going to look for the local regulations.
   utter_redo:
