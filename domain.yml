@@ -250,7 +250,7 @@ responses:
     - payload: '/query_local_regulations{{"regulations_type": "local_regulations"}}'
       title: Local Regulations
     - payload: '/query_vaccine_regulations{{"regulations_type": "vaccine_regulations"}}'
-      title: Vaccination Requirements
+      title: Vaccination Details
     text: What would you like to know?
   utter_ask_country_from:
   - buttons:
@@ -282,11 +282,19 @@ responses:
   utter_ask_want_to_continue:
   - text: Anything else?
   utter_ask_want_localinfo:
-  - text: Would you also like to know local covid rules that will apply upon arrival to {country_to}?
-  utter_ask_want_open_places:
-  - text: Would you also like to know the information about open/closed places?
+  - buttons:
+    - payload: '/affirm{{"want_localinfo": "True"}}'
+      title: "Yes"
+    - payload: '/deny{{"want_localinfo": "False"}}'
+      title: "No"
+    text: Would you also like to know local covid rules that will apply upon arrival to {country_to}?
   utter_ask_travelling_with_children:
-  - text: Are you travelling with children?
+  - buttons:
+    - payload: '/affirm{{"travelling_with_children": "True"}}'
+      title: "Yes"
+    - payload: '/deny{{"travelling_with_children": "False"}}'
+      title: "No"
+    text: Are you travelling with children?
   utter_default:
   - text: I could not undersatnd that, sorry. Please rephrase to continue.
   utter_greet:
@@ -334,8 +342,6 @@ responses:
   - text: I am still learning and could not understand all of the information I need.
   utter_ask_correct_info:
   - text: You would like me to look for local regulations, is that correct?
-  utter_ask_outdoors:
-  - text:  outdoors?
   utter_ask_going_from_work:
   - text: Are planning to be outside to go to/from work or studies?
   utter_ask_different_household:
@@ -347,23 +353,34 @@ responses:
   utter_ask_transit_BE:
   - text: Are you transiting through Belgium?
   utter_ask_<48h:
-  - text: Are you going to enter {country_to} for less than 48h?
+  - buttons:
+    - payload: '/affirm{{"<48h": "True"}}'
+      title: "Yes"
+    - payload: '/deny{{"<48h": "False"}}'
+      title: "No"
+    text: Are you going to enter {country_to} for less than 48h?
+  utter_ask_transport_health_worker:
+  - buttons:
+    - payload: '/affirm{{"transport_health_worker": "True"}}'
+      title: "Yes"
+    - payload: '/deny{{"transport_health_worker": "False"}}'
+      title: "No"
+    text: Are you a worker in the transport or health sector?
+  utter_ask_plane_travel:
+  - buttons:
+    - payload: '/affirm{{"plane_travel": "True"}}'
+      title: "Yes"
+    - payload: '/deny{{"plane_travel": "False"}}'
+      title: "No"
+    text: Are you planning to travel by plane?
+  utter_ask_location:
+  - text: For which country would you like to know the local regulations?
+  utter_restart:
+  - text: Okay, I have restarted our conversation.
   utter_ask_rephrase:
   - text: Sorry, I did not quite understand. Can you please rephrase?
   utter_rephrase:
   - text: Okay. Please rephrase.
-  utter_ask_visit_purpose:
-  - text: What is the purpose of your visit to {country_to} (e.g. work or leisure)?
-  utter_ask_transport_health_worker:
-  - text: Are you a worker in the transport or health sector?
-  utter_ask_plane_travel:
-  - text: Are you planning to travel by plane?
-  utter_ask_location:
-  - text: For which country would you like to know the local regulations?
-  utter_ask_NL_worker:
-  - text: Are you planning to go there for less than one week and will be physically present at work?
-  utter_restart:
-  - text: Okay, I have restarted our conversation.
 actions:
 - validate_keep_context
 - action_set_open
