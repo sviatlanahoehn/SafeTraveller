@@ -222,6 +222,13 @@ slots:
     influence_conversation: true
 
 responses:
+  utter_ask_keep_details:
+  - buttons:
+    - payload: '/affirm{{"keep_details": "True"}}'
+      title: "Yes"
+    - payload: '/deny{{"keep_details": "False"}}'
+      title: "No"
+    text: Would you like to keep the details I collected?
   utter_type_restart:
   - text: You can type 'restart' to restart the conversation.
   utter_restart_please:

@@ -166,7 +166,10 @@ rules:
     - action: action_query_knowledgebase_cases
     - action: keep_details_form
     - active_loop: keep_details_form
-    - action: validate_context_action
+      - active_loop: null
+      - slot_was_set:
+        - requested_slot: null
+    - action: validate_keep_context
 
   - rule: end of convo afetr local info
     condition:
