@@ -9,6 +9,15 @@ rules:
     steps:
     - action: regulation_type_form
     - active_loop: null
+    - action: vaccine_regulations_form
+    - active_loop: vaccine_regulations_form
+
+  - rule: submit vaccine_regulations_form
+    condition:
+    - active_loop: vaccine_regulations_form
+    steps:
+    - action: vaccine_regulations_form
+    - active_loop: null
     - slot_was_set:
       - requested_slot: null
     - action: action_query_knowledgebase_cases
@@ -19,4 +28,5 @@ rules:
     - active_loop: null
     - slot_was_set:
       - requested_slot: null
-    - action: action_query_knowledgebase_cases
+    - action: vaccine_regulations_form
+    - active_loop: vaccine_regulations_form

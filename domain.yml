@@ -224,9 +224,9 @@ slots:
 responses:
   utter_ask_keep_details:
   - buttons:
-    - payload: '/affirm{{"keep_details": "True"}}'
+    - payload: '/affirm' #{{"keep_details": "True"}}'
       title: "Yes"
-    - payload: '/deny{{"keep_details": "False"}}'
+    - payload: '/deny' #{{"keep_details": "False"}}'
       title: "No"
     text: Would you like to keep the details I collected?
   utter_type_restart:
@@ -236,7 +236,7 @@ responses:
   utter_prompt_begin:
   - text: You can type in what interests you or type "main menu" to go to the Main Menu.
   utter_prompt_continue:
-  - text: You can go to the Main Menu for more regulations.
+  - text: You can type in a question or go to the Main Menu for more regulations.
   utter_announce_local:
   - text: I am going to look for the local regulations.
   utter_redo:
@@ -280,19 +280,24 @@ responses:
 #      title: stay duration
 #    text: Okay, could you say which information is incorrect?
   utter_ask_want_to_continue:
-  - text: Anything else?
+  - buttons:
+    - payload: '/affirm' #{}' #{"want_to_continue": "True"}}'
+      title: "Yes"
+    - payload: '/deny' #{}' #{"want_to_continue": "False"}}'
+      title: "No"
+    text: Would you like to know more regulations?
   utter_ask_want_localinfo:
   - buttons:
-    - payload: '/affirm{{"want_localinfo": "True"}}'
+    - payload: '/affirm' #{}' #{"want_localinfo": "True"}}'
       title: "Yes"
-    - payload: '/deny{{"want_localinfo": "False"}}'
+    - payload: '/deny' #{}' #{"want_localinfo": "False"}}'
       title: "No"
     text: Would you also like to know local covid rules that will apply upon arrival to {country_to}?
   utter_ask_travelling_with_children:
   - buttons:
-    - payload: '/affirm{{"travelling_with_children": "True"}}'
+    - payload: '/affirm' #{}' #{"travelling_with_children": "True"}}'
       title: "Yes"
-    - payload: '/deny{{"travelling_with_children": "False"}}'
+    - payload: '/deny' #{}' #{"travelling_with_children": "False"}}'
       title: "No"
     text: Are you travelling with children?
   utter_default:
@@ -302,7 +307,7 @@ responses:
   - text: Hey!
   - text: Hello there!
   utter_goodbye:
-  - text: Goodbye! Enjoy your travel and see you soon:)
+  - text: Goodbye! Travel safely:)
   - text: Have a nice day :) Bye!
   - text: Bye, enjoy your trip!
   utter_ur_welcome:
@@ -345,7 +350,12 @@ responses:
   utter_ask_going_from_work:
   - text: Are planning to be outside to go to/from work or studies?
   utter_ask_different_household:
-  - text: Are you planning to be with people from another household(s)?
+  - buttons:
+    - payload: '/affirm' #{}' #{"<48h": "True"}}'
+      title: "Yes"
+    - payload: '/deny' #{}' #{"<48h": "False"}}'
+      title: "No"
+    text: Are you planning to be with people from another household(s)?
   utter_did_not_find_the_country:
   - text: Could not find the country of destination...
   utter_no_rules_apply:
@@ -354,23 +364,23 @@ responses:
   - text: Are you transiting through Belgium?
   utter_ask_<48h:
   - buttons:
-    - payload: '/affirm{{"<48h": "True"}}'
+    - payload: '/affirm' #{}' #{"<48h": "True"}}'
       title: "Yes"
-    - payload: '/deny{{"<48h": "False"}}'
+    - payload: '/deny' #{}' #{"<48h": "False"}}'
       title: "No"
     text: Are you going to enter {country_to} for less than 48h?
   utter_ask_transport_health_worker:
   - buttons:
-    - payload: '/affirm{{"transport_health_worker": "True"}}'
+    - payload: '/affirm' #{}' #{"transport_health_worker": "True"}}'
       title: "Yes"
-    - payload: '/deny{{"transport_health_worker": "False"}}'
+    - payload: '/deny' #{}' #{"transport_health_worker": "False"}}'
       title: "No"
     text: Are you a worker in the transport or health sector?
   utter_ask_plane_travel:
   - buttons:
-    - payload: '/affirm{{"plane_travel": "True"}}'
+    - payload: '/affirm' #{}' #{"plane_travel": "True"}}'
       title: "Yes"
-    - payload: '/deny{{"plane_travel": "False"}}'
+    - payload: '/deny' #{}' #{"plane_travel": "False"}}'
       title: "No"
     text: Are you planning to travel by plane?
   utter_ask_location:
@@ -381,6 +391,13 @@ responses:
   - text: Sorry, I did not quite understand. Can you please rephrase?
   utter_rephrase:
   - text: Okay. Please rephrase.
+  utter_ask_correct_countries:
+  - buttons:
+    - payload: '/affirm' #{}'
+      title: "Yes"
+    - payload: '/deny' #{}'
+      title: "No"
+    text: "I am going to look for regulations on travel from {country_from} to {country_to}. Is that what you are looking for?"
 actions:
 - validate_keep_context
 - action_set_open
@@ -415,13 +432,13 @@ forms:
     country_to:
     - type: from_entity
       entity: country
-    want_vaccine_regulations:
-    - intent: affirm
-      type: from_intent
-      value: true
-    - intent: deny
-      type: from_intent
-      value: false
+#    want_vaccine_regulations:
+#    - intent: affirm
+#      type: from_intent
+#      value: true
+#    - intent: deny
+#      type: from_intent
+#      value: false
   correct_local_form:
     correct_info:
     - intent: thank_you
@@ -474,6 +491,10 @@ forms:
     - intent: deny
       type: from_intent
       value: false
+  local_regulations_form:
+    country_to:
+    - type: from_entity
+      entity: country
     different_household:
     - intent: affirm
       type: from_intent
