@@ -1,0 +1,109 @@
+version: "2.0"
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - Hello
+    - hi
+    - good morning
+    - good evening
+    - hey there
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you around
+    - see you later
+    - that's it
+    - i'm good, bye
+    - i want to go now
+    - that's all, thanks
+    - I want to quit
+    - stop
+    - quit
+    - Quit
+- intent: thank_you
+  examples: |
+    - okay
+    - I see
+    - OK
+    - Okay, thank you for telling me
+    - okay, thank you
+    - thanks
+    - thank you
+    - all right
+- intent: affirm
+  examples: |
+    - yeah
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - yes, I am going by transit
+    - yes, I am going for less than<48h
+    - sure
+    - yeah, sure
+    - yes, tell me
+    - that's right
+    - Yes, thank you
+    - yes, thanks
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - No, thanks
+    - No thank you
+- intent: wellbeing_check
+  examples: |
+    - How are you?
+    - what's up?
+    - sup
+    - wazza
+    - what is up
+    - how is it going
+    - hOW ARE you feeling?
+- intent: rephrase
+  examples: |
+    - I didn't get that
+    - i don't understand
+    - wasn't clear
+    - I do not undestand you
+    - what do you mean
+    - what does that mean
+    - can you rephrase
+    - please rephrase
+    - explain
+    - explain it to me
+    - need an explanation
+- intent: main_menu
+  examples: |
+    - main menu
+    - go to the main menu
+    - rules menu
+    - regulations menu
+    - go back to the first step
+    - go back to the menu
+    - main
+- intent: nothing_else
+  examples: |
+    - nothing
+    - nothing else
+    - no more regulations
+    - i don't want anything
+    - that's it than you
+    - no more questions
+- intent: restart
+  examples: |
+    - restart
+    - can you restart
+    - please restart
+    - start again
+    - start from the beginning

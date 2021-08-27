@@ -1,0 +1,73 @@
+version: "2.0"
+rules:
+# ===== Transit through Germany =====
+  - rule: activate transit through Germany form (from NL to LUX + by car)
+    condition:
+    - active_loop: plane_travel_form
+    - slot_was_set:
+      - country_from: Netherlands
+      - country_to: Luxembourg
+      - plane_travel: car
+    steps:
+    - action: plane_travel_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_BE_form
+    - active_loop: transit_BE_form
+  - rule: activate transit through Germany form (from NL to LUX + by coach)
+    condition:
+    - active_loop: plane_travel_form
+    - slot_was_set:
+      - country_from: Netherlands
+      - country_to: Luxembourg
+      - plane_travel: coach
+    steps:
+    - action: plane_travel_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_BE_form
+    - active_loop: transit_BE_form
+  - rule: activate transit through Germany form (from LUX to NL + worker)
+    condition:
+    - active_loop: NL_worker_form
+    - slot_was_set:
+      - country_from: Luxembourg
+      - country_to: Netherlands
+      - visit_purpose: work
+    steps:
+    - action: NL_worker_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_BE_form
+    - active_loop: transit_BE_form
+  - rule: activate transit through Germany form (from LUX to NL + by car)
+    condition:
+    - active_loop: plane_travel_form
+    - slot_was_set:
+      - country_from: Luxembourg
+      - country_to: Netherlands
+      - plane_travel: car
+    steps:
+    - action: plane_travel_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_BE_form
+    - active_loop: transit_BE_form
+  - rule: activate transit through Germany form (from LUX to NL + by coach)
+    condition:
+    - active_loop: plane_travel_form
+    - slot_was_set:
+      - country_from: Luxembourg
+      - country_to: Netherlands
+      - plane_travel: coach
+    steps:
+    - action: plane_travel_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: transit_BE_form
+    - active_loop: transit_BE_form
