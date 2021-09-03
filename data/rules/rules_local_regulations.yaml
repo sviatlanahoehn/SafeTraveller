@@ -7,9 +7,10 @@ rules:
 #    - action: action_set_local
 #    - action: action_set_open
 #    - action: action_query_knowledgebase_cases
-  - rule: activate local_regulations_form
+  - rule: ask correct_local
     steps:
     - intent: query_local_regulations
+    - action: action_validate_countries
     - action: correct_local_form
     - active_loop: correct_local_form
   - rule: denied local_regulations_form
@@ -35,11 +36,11 @@ rules:
 
   - rule: choose local regulations type
     condition:
-    - active_loop: regulation_type_form
+    - active_loop: regulations_type_form
     - slot_was_set:
       - regulations_type: local_regulations
     steps:
-    - action: regulation_type_form
+    - action: regulations_type_form
     - active_loop: null
     - slot_was_set:
       - requested_slot: null

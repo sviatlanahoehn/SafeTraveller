@@ -1,40 +1,40 @@
 version: "2.0"
 stories:
-  - story: begin 1.0)
-    steps:
-    - intent: inform
-      entities:
-      - country: Luxembourg
-        role: to
-    - action: action_validate_countries
-  - story: begin 1.1)
-    steps:
-    - intent: inform
-      entities:
-      - country: Luxembourg
-        role: from
-    - action: action_validate_countries
-  - story: begin 2.0)
-    steps:
-    - intent: inform
-      entities:
-      - country: Belgium
-        role: to
-    - action: action_validate_countries
-  - story: begin 2.1)
-    steps:
-    - intent: inform
-      entities:
-      - country: Belgium
-        role: from
-    - action: action_validate_countries
-  - story: begin 3.0)
-    steps:
-    - intent: inform
-      entities:
-      - country: Netherlands
-        role: to
-    - action: action_validate_countries
+#  - story: begin 1.0)
+#    steps:
+#    - intent: inform
+#      entities:
+#      - country: Luxembourg
+#        role: to
+#    - action: action_validate_countries
+#  - story: begin 1.1)
+#    steps:
+#    - intent: inform
+#      entities:
+#      - country: Luxembourg
+#        role: from
+#    - action: action_validate_countries
+#  - story: begin 2.0)
+#    steps:
+#    - intent: inform
+#      entities:
+#      - country: Belgium
+#        role: to
+#    - action: action_validate_countries
+#  - story: begin 2.1)
+#    steps:
+#    - intent: inform
+#      entities:
+#      - country: Belgium
+#        role: from
+#    - action: action_validate_countries
+#  - story: begin 3.0)
+#    steps:
+#    - intent: inform
+#      entities:
+#      - country: Netherlands
+#        role: to
+#    - action: action_validate_countries
   - story: beginning conv
     steps:
     - action: action_validate_countries
@@ -52,7 +52,11 @@ stories:
     - slot_was_set:
       - correct_countries: true
     - active_loop: null
-    - action: utter_warn_collect_info
+    - action: stay_OR_transit_form
+    - active_loop: stay_OR_transit_form
+    - active_loop: null
+    - slot_was_set:
+      - transit: false
     - action: plane_travel_form
     - active_loop: plane_travel_form
 
@@ -63,6 +67,7 @@ stories:
     - intent: query_local_regulations
       entities:
       - regulations_type: local_regulations
+    - action: action_validate_countries
     - action: correct_local_form
     - active_loop: correct_local_form
 
@@ -111,7 +116,11 @@ stories:
     - active_loop: null
     - slot_was_set:
       - correct_countries: true
-    - action: utter_warn_collect_info
+    - action: stay_OR_transit_form
+    - active_loop: stay_OR_transit_form
+    - active_loop: null
+    - slot_was_set:
+      - transit: false
     - action: <48h_form
     - active_loop: <48h_form
     - active_loop: null
@@ -136,7 +145,11 @@ stories:
     - active_loop: null
     - slot_was_set:
       - correct_countries: true
-    - action: utter_warn_collect_info
+    - action: stay_OR_transit_form
+    - active_loop: stay_OR_transit_form
+    - active_loop: null
+    - slot_was_set:
+      - transit: false
     - action: <48h_form
     - active_loop: <48h_form
     - active_loop: null
@@ -161,7 +174,11 @@ stories:
     - active_loop: null
     - slot_was_set:
       - correct_countries: true
-    - action: utter_warn_collect_info
+    - action: stay_OR_transit_form
+    - active_loop: stay_OR_transit_form
+    - active_loop: null
+    - slot_was_set:
+      - transit: false
     - action: plane_travel_form
     - active_loop: plane_travel_form
     - active_loop: null
@@ -183,7 +200,11 @@ stories:
     - active_loop: null
     - slot_was_set:
       - correct_countries: true
-    - action: utter_warn_collect_info
+    - action: stay_OR_transit_form
+    - active_loop: stay_OR_transit_form
+    - active_loop: null
+    - slot_was_set:
+      - transit: false
     - action: plane_travel_form
     - active_loop: plane_travel_form
     - active_loop: null
@@ -215,7 +236,6 @@ stories:
 #    - active_loop: null
 #    - slot_was_set:
 #      - correct_countries: true
-#    - action: utter_warn_collect_info
 #    - action: plane_travel_form
 #    - active_loop: plane_travel_form
 #    - active_loop: null
@@ -237,7 +257,11 @@ stories:
     - active_loop: null
     - slot_was_set:
       - correct_countries: true
-    - action: utter_warn_collect_info
+    - action: stay_OR_transit_form
+    - active_loop: stay_OR_transit_form
+    - active_loop: null
+    - slot_was_set:
+      - transit: false
     - action: plane_travel_form
     - active_loop: null
     - action: children_travel_form
@@ -252,7 +276,6 @@ stories:
 #    - active_loop: null
 #    - slot_was_set:
 #      - correct_countries: true
-#    - action: utter_warn_collect_info
 #    - action: visit_purpose_form
 #    - slot_was_set:
 #      - visit_purpose: leisure
@@ -271,12 +294,15 @@ stories:
 # ===== ENTRY REGULATIONS =====
   - story: correct to/from countries extracted
     steps:
-    - intent: query_regulations
+    - intent: query_entry_regulations
       entities:
       - country: Luxembourg
         role: from
       - country: Belgium
         role: to
+    - action: set_regulations_type_form
+    - active_loop: set_regulations_type_form
+    - active_loop: null
     - action: action_validate_countries
     - slot_was_set:
       - common_border: true
@@ -290,7 +316,11 @@ stories:
     - active_loop: null
     - slot_was_set:
       - correct_countries: true
-    - action: utter_warn_collect_info
+    - action: stay_OR_transit_form
+    - active_loop: stay_OR_transit_form
+    - active_loop: null
+    - slot_was_set:
+      - transit: false
     - action: <48h_form
     - active_loop: <48h_form
     - active_loop: null

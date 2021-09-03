@@ -5,6 +5,8 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: false
 intents:
+- inform_countries:
+    use_entities: true
 - query_vaccine_regulations:
     use_entities: true
 - nothing_else:
@@ -23,9 +25,7 @@ intents:
     use_entities: true
 - wellbeing_check:
     use_entities: true
-- query_regulations:
-    use_entities: true
-- inform:
+- query_entry_regulations:
     use_entities: true
 - deny:
     use_entities: true
@@ -45,16 +45,21 @@ intents:
     use_entities: true
 - rephrase:
     use_entities: true
-- repeat_please:
-    use_entities: true
 - inform_incorrect:
     use_entities: true
 - change_of_plans:
+    use_entities: true
+- inform_land_travel:
+    use_entities: true
+- inform_air_travel:
+    use_entities: true
+- query_transit:
     use_entities: true
 
 entities:
 - regulations_type
 - transit_BE
+- transit
 #- visit_purpose
 - plane_travel
 - indoors/outdoors
@@ -200,11 +205,16 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: false
-  transit_BE:
+  transit:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
     auto_fill: true
     influence_conversation: true
+#  transit_BE:
+#    type: rasa.shared.core.slots.BooleanSlot
+#    initial_value: null
+#    auto_fill: true
+#    influence_conversation: true
   <48h:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
@@ -222,6 +232,13 @@ slots:
     influence_conversation: true
 
 responses:
+  utter_ask_transit:
+  - buttons:
+    - payload: '/affirm {{"<48h": "True"}}'
+      title: "Yes"
+    - payload: '/deny' #{{"<48h": "False"}}'
+      title: "No"
+    text: Are you going to {country_to} for transit?
   utter_ask_keep_details:
   - buttons:
     - payload: '/affirm' #{{"keep_details": "True"}}'
@@ -245,29 +262,29 @@ responses:
   - text: Would you like to know more local regulations?
   utter_ask_regulations_type:
   - buttons:
-    - payload: '/query_regulations{{"regulations_type": "entry_regulations"}}'
+    - payload: '/query_entry_regulations' #{{"regulations_type": "entry_regulations"}}'
       title: Entry Restrictions
-    - payload: '/query_local_regulations{{"regulations_type": "local_regulations"}}'
+    - payload: '/query_local_regulations' #{{"regulations_type": "local_regulations"}}'
       title: Local Regulations
-    - payload: '/query_vaccine_regulations{{"regulations_type": "vaccine_regulations"}}'
+    - payload: '/query_vaccine_regulations' #{{"regulations_type": "vaccine_regulations"}}'
       title: Vaccination Details
     text: What would you like to know?
   utter_ask_country_from:
   - buttons:
-    - payload: '/inform{{"country": "Luxembourg", "correct_countries":true}}'
+    - payload: '/inform_countries{{"country": "Luxembourg", "correct_countries":true}}'
       title: Luxembourg
-    - payload: '/inform{{"country": "Netherlands", "correct_countries":true}}'
+    - payload: '/inform_countries{{"country": "Netherlands", "correct_countries":true}}'
       title: Netherlands
-    - payload: '/inform{{"country": "Belgium", "correct_countries":true}}'
+    - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
       title: Belgium
     text: Let me know which country you are planning to travel from
   utter_ask_country_to:
   - buttons:
-    - payload: '/inform{{"country": "Luxembourg", "correct_countries":true}}'
+    - payload: '/inform_countries{{"country": "Luxembourg", "correct_countries":true}}'
       title: Luxembourg
-    - payload: '/inform{{"country": "Netherlands", "correct_countries":true}}'
+    - payload: '/inform_countries{{"country": "Netherlands", "correct_countries":true}}'
       title: Netherlands
-    - payload: '/inform{{"country": "Belgium", "correct_countries":true}}'
+    - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
       title: Belgium
     text: Which country are you planning to travel to?
 #  utter_ask_incorrect_slot:
@@ -319,7 +336,7 @@ responses:
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
   utter_welcome_message:
-  - text: I am a Travel Rules Chatbot designed to help BeNeLux travellers prepare for trips during the pandemic. I can share information on Covid-19-related travel restrictions and measures applicable upon arrival, as well as the information on vaccination and test requirements for travel.
+  - text: I am SafeTraveller, a chatbot designed to help BeNeLux travellers prepare for trips during the pandemic. I can share information on Covid-19 travel restrictions, measures applicable upon arrival and the vaccination requirements for travel.
   utter_ask_trip_details:
   - text: Please tell me where you are travelling from and what is the country of your destination.
   utter_ask_additional:
@@ -340,13 +357,17 @@ responses:
   - text: Luxembourg, Belgium and the Netherlands
   - text: The Netherlands, Belgium and Luxembourg
   utter_wrong_country_to:
-  - text: Sorry, I could not recognise the destination country. Make sure to only include the countries that I was designed to recognise.
+  - text: Sorry, I couldn't recognise your destination. Make sure that it is one of the BeNeLux countries.
   utter_wrong_country_from:
-  - text: Sorry, I could not recognise the departure country. Make sure to only include the countries that I was designed to recognise.
-  utter_not_understood:
+  - text: Sorry, I could not recognise the departure country. Make sure that it is one of the BeNeLux countries.
   - text: I am still learning and could not understand all of the information I need.
   utter_ask_correct_info:
-  - text: You would like me to look for local regulations, is that correct?
+  - buttons:
+    - payload: '/affirm' #{}' #{"<48h": "True"}}'
+      title: "Yes"
+    - payload: '/deny' #{}' #{"<48h": "False"}}'
+      title: "No"
+    text: You would like me to look for local regulations, is that correct?
   utter_ask_going_from_work:
   - text: Are planning to be outside to go to/from work or studies?
   utter_ask_different_household:
@@ -360,8 +381,8 @@ responses:
   - text: Could not find the country of destination...
   utter_no_rules_apply:
   - text: You are free to travel, no applicable rules.
-  utter_ask_transit_BE:
-  - text: Are you transiting through Belgium?
+#  utter_ask_transit_BE:
+#  - text: Are you transiting through Belgium?
   utter_ask_<48h:
   - buttons:
     - payload: '/affirm' #{}' #{"<48h": "True"}}'
@@ -412,7 +433,7 @@ actions:
 - action_utter_disclaimer
 #- action_ask_confirm_collected_info
 - action_reset_transport_slot
-- action_ask_correct_countries
+#- action_ask_correct_countries
 - action_validate_countries
 - action_repeat_last
 - action_check_area
@@ -420,6 +441,14 @@ actions:
 
 
 forms:
+  stay_OR_transit_form:
+    transit:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
   keep_details_form:
     keep_details:
     - intent: affirm
@@ -450,10 +479,51 @@ forms:
     - intent: deny
       type: from_intent
       value: false
-  regulation_type_form:
+  regulations_type_form:
     regulations_type:
-    - type: from_entity
-      entity: regulations_type
+    - intent: query_entry_regulations
+      type: from_intent
+      value: "entry_regulations"
+    - intent: query_local_regulations
+      type: from_intent
+      value: "local_regulations"
+    - intent: query_vaccine_regulations
+      type: from_intent
+      value: "vaccine_regulations"
+  set_transit_form:
+    transit:
+    - intent: query_transit
+      type: from_trigger_intent
+      value: True
+    regulations_type:
+    - intent: query_transit
+      type: from_trigger_intent
+      value: "entry_regulations"
+  transportation_type_form:
+    plane_travel:
+    - intent: inform_air_travel
+      type: from_trigger_intent
+      value: True
+    - intent: inform_land_travel
+      type: from_trigger_intent
+      value: False
+  set_regulations_type_form:
+    regulations_type:
+    - intent: query_entry_regulations
+      type: from_trigger_intent
+      value: "entry_regulations"
+#    - intent: query_transport_type
+#      type: from_trigger_intent
+#      value: "entry_regulations"
+    - intent: query_transit
+      type: from_trigger_intent
+      value: "entry_regulations"
+    - intent: query_local_regulations
+      type: from_trigger_intent
+      value: "local_regulations"
+    - intent: query_vaccine_regulations
+      type: from_trigger_intent
+      value: "vaccine_regulations"
   country_form_II:
     country_from:
     - type: from_entity
@@ -557,12 +627,12 @@ forms:
     - intent: deny
       type: from_intent
       value: false
-  transit_BE_form:
-    transit_BE:
-    - intent: affirm
-      type: from_intent
-      value: true
-    - intent: deny
-      type: from_intent
-      value: false
+#  transit_BE_form:
+#    transit_BE:
+#    - intent: affirm
+#      type: from_intent
+#      value: true
+#    - intent: deny
+#      type: from_intent
+#      value: false
 e2e_actions: []

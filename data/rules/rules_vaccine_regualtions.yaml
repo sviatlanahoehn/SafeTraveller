@@ -21,12 +21,14 @@ rules:
     - slot_was_set:
       - requested_slot: null
     - action: action_query_knowledgebase_cases
+    wait_for_user_input: false
 
   - rule: query vaccine regulations
     steps:
     - intent: query_vaccine_regulations
+    - action: action_validate_countries
+    - action: set_regulations_type_form
+    - active_loop: set_regulations_type_form
     - active_loop: null
-    - slot_was_set:
-      - requested_slot: null
     - action: vaccine_regulations_form
     - active_loop: vaccine_regulations_form
