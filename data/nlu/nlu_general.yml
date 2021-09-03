@@ -23,6 +23,11 @@ nlu:
     - stop
     - quit
     - Quit
+    - ok bye
+- intent: inform_transport
+  examples: |
+    - go by bus
+    - what if i go by bus
 - intent: thank_you
   examples: |
     - okay
@@ -38,6 +43,7 @@ nlu:
     - yeah
     - yes
     - y
+    - yup
     - indeed
     - of course
     - that sounds good
@@ -61,6 +67,10 @@ nlu:
     - not really
     - No, thanks
     - No thank you
+    - nope
+    - no, that's it
+    - I'm good, bye
+    - no, i'm good
 - intent: wellbeing_check
   examples: |
     - How are you?
