@@ -86,36 +86,31 @@ class ActionValidateCountries(Action):
         return 'action_validate_countries'
     def run(self, dispatcher, tracker, domain):
         countries = ["belgium","luxembourg","netherlands"]
-        country_main_lettrs = ["bel","lux","nether"]
-        slots = [SlotSet("regulations_type", "entry_regulations")]
-        common_border=False
+        slots = [] #SlotSet("regulations_type", "entry_regulations")]
 
         num_country_from = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="from")))
         num_country_to = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="to")))
-        if num_country_to==1 and num_country_from==1:
-            country_from = next(tracker.get_latest_entity_values(entity_type="country", entity_role="from"), None)
-            country_to = next(tracker.get_latest_entity_values(entity_type="country", entity_role="to"), None)
-            distinct_countries = country_from.lower()!=country_to.lower()
+        country_from = next(tracker.get_latest_entity_values(entity_type="country", entity_role="from"), None)
+        country_to = next(tracker.get_latest_entity_values(entity_type="country", entity_role="to"), None)
+#        distinct_countries = country_from.lower()!=country_to.lower()
 
+        if num_country_to==2 or num_country_from==2:
+            dispatcher.utter_message("Sorry, I am still learning and could not understand what countries you mentioned.")
+
+        if num_country_to==1: #and distinct_countries:
             if country_to.lower() in countries:
                 slots.append(SlotSet("country_to", country_to))
             else:
                 dispatcher.utter_message(response="utter_wrong_country_to")
                 slots.append(SlotSet("country_to", None))
 
-            if country_from.lower() in countries and distinct_countries:
+        if num_country_from==1: #and distinct_countries:
+            if country_from.lower() in countries:
                 slots.append(SlotSet("country_from", country_from))
             else:
                 dispatcher.utter_message(response="utter_wrong_country_from")
                 slots.append(SlotSet("country_from", None))
 
-            if country_to=="Belgium" or country_from=="Belgium":
-                common_border=True
-            slots.append(SlotSet("common_border", common_border))
-        else:
-            slots.append(SlotSet("country_to", None))
-            slots.append(SlotSet("country_from", None))
-            dispatcher.utter_message(response="utter_not_understood")
         return slots
 
 
@@ -263,7 +258,7 @@ class CustomActionQueryKB(Action):
         if country_to=="Luxembourg":
             if plane_travel==False or transport_health_worker==True:
                 case_IDs.append(0)
-            elif plane_travel==True and transport_health_worker==False:
+            else: #plane_travel==True and transport_health_worker==False:
                 case_IDs.append(1.0)
 
         elif country_to=="Netherlands":
@@ -280,14 +275,18 @@ class CustomActionQueryKB(Action):
 
         elif country_to=="Belgium":
             if area_type=="SAFE":
-                if less_than_48h==True and plane_travel==False:
-                    case_IDs.append(0)
-                elif plane_travel==True or less_than_48h==False:
+                if less_than_48h==True:
+                    if plane_travel==False:
+                        case_IDs.append(0)
+                else:
                     case_IDs.append(4)
             elif area_type=="RISK":
-                if less_than_48h==True and plane_travel==False:
-                    case_IDs.append(1.1)
-                elif plane_travel==True or less_than_48h==False:
+                if less_than_48h==True:
+                    if plane_travel==False:
+                        case_IDs.append(0)
+                    else:
+                        case_IDs.append(4)
+                else:
                     case_IDs.append(5)
 
         return case_IDs
@@ -401,7 +400,7 @@ class CustomActionQueryKB(Action):
         plane_travel = tracker.get_slot("plane_travel")
         transport_health_worker = tracker.get_slot("transport_health_worker")
         less_than_48h = tracker.get_slot("<48h")
-        transit_BE = tracker.get_slot("transit_BE")
+#        transit_BE = tracker.get_slot("transit_BE")
         area_type = tracker.get_slot("area_type")
         different_household = tracker.get_slot("different_household")
 #        choice=tracker.get_slot("vaccine_regulations_type")
