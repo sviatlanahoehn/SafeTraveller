@@ -14,7 +14,9 @@ USER root
 # RUN pip install -r requirements-actions.txt
 
 # Copy actions folder to working directory
-COPY ./actions /app/actions
+COPY ./actions/actions.py /app/actions/actions.py
+
+COPY ./actions/knowledge_base_data.json /app/actions/knowledge_base_data.json
 
 # By best practices, don't run the code with root user
 USER 1001

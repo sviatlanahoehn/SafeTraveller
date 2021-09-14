@@ -234,7 +234,7 @@ class CustomActionQueryKB(Action):
         return "action_query_knowledgebase_cases"
 
     def __init__(self):
-        self.knowledge_base = InMemoryKnowledgeBase("knowledge_base_data.json")
+        self.knowledge_base = InMemoryKnowledgeBase("/app/actions/knowledge_base_data.json")
 
     def custom_get_attribute_of(
         self, regulations_type: Text, key_attribute: Text, entity: Text, attribute: Text

@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   rasa:
-    image: rasa/rasa:2.8.5-full
+    image: rasa/rasa:2.4.0-full
     ports:
       - 5005:5005
     volumes:
@@ -9,5 +9,6 @@ services:
     command:
       - run
   app:
-    image: kudrkr/repo-covtravbot:08-09
-    expose: 5055
+    image: kudrkr/repo-covtravbot:14-09-01
+    expose: 
+      - "5055"
