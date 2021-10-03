@@ -41,35 +41,31 @@ nlu:
 #- synonym: 'True'
 #  examples: |
 #    - transit
-- synonym: work
-  examples: |
-    - commute
-    - commuting
-    - studies
-    - Work
-    - university
-    - school
-- synonym: leisure
-  examples: |
-    - vacation
-    - holiday
-    - shopping
-    - vocation
-    - holidays
-    - Holidays
-    - Leisure
-    - hiking
-    - visit a friend
-    - tourism
-    - Tourism
-    - friend
+#- synonym: work
+#  examples: |
+#    - commute
+#    - commuting
+#    - studies
+#    - Work
+#    - university
+#    - school
+#- synonym: leisure
+#  examples: |
+#    - vacation
+#    - holiday
+#    - shopping
+##    - vocation
+#    - holidays
+#    - Holidays
+#    - Leisure
+#    - hiking
+#    - visit a friend
+#    - tourism
+#    - Tourism
+#    - friend
 #- synonym: car
 #  examples: |
 #    - drive
-- synonym: Luxembourg
-  examples: |
-    - Luxembourh
-    - luxembourg
 - synonym: family
   examples: |
     - relatives

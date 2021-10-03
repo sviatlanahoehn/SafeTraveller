@@ -8,7 +8,17 @@ nlu:
     - hi
     - good morning
     - good evening
+    - good afternoon
     - hey there
+    - howdy
+    - heya
+    - hihi
+    - sup
+    - what's up
+    - hey there
+    - hello buddy
+    - wazzup
+    - yo
 - intent: goodbye
   examples: |
     - bye
@@ -24,10 +34,9 @@ nlu:
     - quit
     - Quit
     - ok bye
-- intent: inform_transport
-  examples: |
-    - go by bus
-    - what if i go by bus
+    - talk to you later
+    - cya
+    - ciao
 - intent: thank_you
   examples: |
     - okay
@@ -56,6 +65,14 @@ nlu:
     - that's right
     - Yes, thank you
     - yes, thanks
+    - yep
+    - that's right
+    - ok
+    - great
+    - correct
+    - perfect
+    - sounds good
+    - sounds great
 - intent: deny
   examples: |
     - no
@@ -80,6 +97,8 @@ nlu:
     - what is up
     - how is it going
     - hOW ARE you feeling?
+    - hey how ru doing
+    - tell me what is up
 - intent: rephrase
   examples: |
     - I didn't get that
@@ -110,10 +129,21 @@ nlu:
     - i don't want anything
     - that's it than you
     - no more questions
+    - that is it
+    - stop
+    - nothing left
+    - that's it for now
+    - no more questions
 - intent: restart
   examples: |
     - restart
     - can you restart
     - please restart
+    - start from the beginning
+    - restart please
+    - begin again
+    - begin anew
+    - new conversation
+    - retsart the conversation
     - start again
     - start from the beginning

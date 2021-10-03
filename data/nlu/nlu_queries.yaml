@@ -9,7 +9,11 @@ nlu:
     - vaccines allowed in [LU]{"entity":"country"}
     - vaccination details [Belgium]{"entity":"country"}
     - vaccines [Germany]
-
+    - what kind of vaccines are acceted?
+    - when is my vaccination valid?
+    - vaccination validity
+    - [Netherlands]{"entity": "country", "role": "to"} vaccination certificates
+    - certificat of vaccination requirements
     - is Moderna accepted in [netherlands]{"entity":"country"}?
 
 - intent: query_local_regulations
@@ -18,7 +22,7 @@ nlu:
     - what rules apply upon arrival?
     - Do I need to wear a mask in [BE]{"entity":"country"}?
     - is there a curfew when I arrive?
-    - what plases are open?
+    - what places are open?
     - do i need a mask in cafes?
     - are hotels open?
     - Are gatherings allowed in public and private meeting places?
@@ -63,6 +67,7 @@ nlu:
     - are restaurants open?
 
     - Do children have to wear masks?
+    - do i need to wear a mask?
 
 - intent: query_entry_regulations
   examples: |
@@ -116,24 +121,47 @@ nlu:
     - i want to travel by bus
     - car travel to [Belgium]
     - bus travel
+    - train tickets to [Poland]{"entity": "country", "role": "to"}
+    - coach transfer to [Bulgaria]{"entity": "country", "role": "to"}
     - go by train
     - go to [Austria]{"entity": "country", "role": "to"} by train
+    - road trip to [Vienna]{"entity": "country", "role": "to"}
+    - covidCheck for bus travel
+    - FlixBus travel requirements
+
 - intent: inform_air_travel
   examples: |
     - i want to fly to [Malta]{"entity": "country", "role": "to"}
     - what if i go by plane?
+    - do I need a CovidCheck for plane travel?
+    - airport requirements
+    - airport covid measures
+    - do i need to get tested before boarding
+    - requirements upon boarding
+    - 3G rules for boarding
     - travel by plane
+    - I'm taking a flight to [Brazil]{"entity": "country", "role": "to"}
+    - air travel to [Canada]{"entity": "country", "role": "to"}
+    - flight to [Netherlands]{"entity": "country", "role": "to"}
+    - i plan a plane trip
     - travel by air
     - plane trip to [Luxembourg]{"entity": "country", "role": "to"}
 
 - intent: query_transit
   examples: |
+    - rules for change of planes in [Iceland]{"entity": "country", "role": "to"}
+    - cross [Belgium]{"entity": "country", "role": "to"} border for transit
     - transit thorugh [France]{"entity": "country", "role": "to"}
     - transit
     - what if I go by transit
     - rules for transitting
     - rules for transit travel [Belgium]{"entity": "country", "role": "to"}
     - transit [Germany]{"entity": "country", "role": "to"}
+    - transit through [France]{"entity": "country", "role": "to"}
+    - plane transit [Austria]{"entity": "country", "role": "to"}
+    - do the measures apply for transit?
+    - do I need a covidCheck to transit through [Belgium]{"entity": "country", "role": "to"}?
+    - requirements for transit travellers
 
 - intent: inform_countries
   examples: |

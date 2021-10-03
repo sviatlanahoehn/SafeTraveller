@@ -1,14 +1,14 @@
 version: "2.0"
 nlu:
 #===== FAQ ======
-- intent: test_details
-  examples: |
-    - any special requirement on tests?
-    - what kind of test is needed?
-    - what should be in the test?
-    - tell me more about the test
-    - what test is required
-    - what test should i do?
+#- intent: test_details
+#  examples: |
+#    - any special requirement on tests?
+#    - what kind of test is needed?
+#    - what should be in the test?
+#    - tell me more about the test
+#    - what test is required
+#    - what test should i do?
 - intent: go_back
   examples: |
     - can we go back?
@@ -23,6 +23,10 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+    - are you a bot?
+    - am I talking to an actual person?
+    - you're a bot aren't you?
+    - are you even a real person?
 - intent: ask_other_countries
   examples: |
     - what about other countries?
