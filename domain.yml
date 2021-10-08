@@ -15,8 +15,6 @@ intents:
     use_entities: true
 - restart:
     use_entities: true
-- test_details:
-    use_entities: true
 - go_back:
     use_entities: true
 - greet:

@@ -404,7 +404,6 @@ class CustomActionQueryKB(Action):
         area_type = tracker.get_slot("area_type")
         different_household = tracker.get_slot("different_household")
 #        choice=tracker.get_slot("vaccine_regulations_type")
-        country_to_transit = "Belgium"
         case_IDs = []
         buttons = []
 

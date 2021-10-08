@@ -18,5 +18,9 @@ COPY ./actions/actions.py /app/actions/actions.py
 
 COPY ./actions/knowledge_base_data.json /app/actions/knowledge_base_data.json
 
+COPY ./certs/fullchain.pem /app/letsencrypt/live/safetraveller-bot.com/fullchain.pem
+
+COPY ./certs/privkey.pem /app/letsencrypt/live/safetraveller-bot.com/privkey.pem
+
 # By best practices, don't run the code with root user
 USER 1001
