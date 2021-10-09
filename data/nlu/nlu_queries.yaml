@@ -71,6 +71,8 @@ nlu:
 
 - intent: query_entry_regulations
   examples: |
+
+
     - [Netherlands]{"entity":"country", "role":"to"} entry restrictions
     - entry restrictions [LU]{"entity":"country", "role":"to"}
     - do i need to get tested

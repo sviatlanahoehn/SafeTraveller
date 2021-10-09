@@ -66,10 +66,7 @@ entities:
 - incorrect_country
 - local_regulations_type
 - country_to
-- country:
-    roles:
-    - to
-    - from
+- country_from
 - <48h
 slots:
   keep_details:

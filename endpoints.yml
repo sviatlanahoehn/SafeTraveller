@@ -1,5 +1,5 @@
 action_endpoint:
-  url: http://app:5055/webhook
+  url: http://localhost:5055/webhook
 #  url: "http://localhost:5055/webhook"
 #nlu:
     #url: "http://localhost:5005"

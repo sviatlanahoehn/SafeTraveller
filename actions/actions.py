@@ -85,28 +85,28 @@ class ActionValidateCountries(Action):
     def name(self):
         return 'action_validate_countries'
     def run(self, dispatcher, tracker, domain):
-        country_names = {"belgium":['be', 'belgium'],"luxembourg":['lu', 'lux', 'luxembourg'],"netherlands":['holland', 'nl', 'netherlands', 'netherlands', 'the']}
+        country_names = {"Belgium":['be', 'belgium'],"Luxembourg":['lu', 'lux', 'luxembourg'],"Netherlands":['holland', 'nl', 'netherlands', 'netherlands', 'the']}
         slots = [] #SlotSet("regulations_type", "entry_regulations")]
 
         country_from = []
         country_to = []
         prepositions = ["to", "from"]
         sentence = list(tracker.latest_message['text'].split(" "))
-        countries = tracker.get_latest_entity_values(entity_type="country")
+#        countries = tracker.get_latest_entity_values(entity_type="country")
 # countries = ['luxembourg', 'netherlands']
         for p in prepositions:
             if p in sentence:
                 index = sentence.index(p)
                 index += 1
                 country_role = f"country_{p}"
-                country_role = sentence[index]
+                country = sentence[index]
                 countries = country_names.keys()
                 for country_key in countries:
-                    if country_role.lower() in country_names.get(country_key):
+                    if country.lower() in country_names.get(country_key):
                         slots.append(SlotSet(country_role, country_key))
-                        return slots
-                dispatcher.utter_message(response=f"utter_wrong_country_{p}")
-                slots.append(SlotSet(country_role, None))
+                        break
+#                dispatcher.utter_message(response=f"utter_wrong_country_{p}")
+#                slots.append(SlotSet(country_role, None))
 
 #        num_country_from = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="from")))
 #        num_country_to = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="to")))
