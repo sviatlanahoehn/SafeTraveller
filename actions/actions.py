@@ -85,31 +85,36 @@ class ActionValidateCountries(Action):
     def name(self):
         return 'action_validate_countries'
     def run(self, dispatcher, tracker, domain):
-        countries = ["belgium","luxembourg","netherlands"]
+        country_names = {"belgium":['be', 'belgium'],"luxembourg":['lu', 'lux', 'luxembourg'],"netherlands":['holland', 'nl', 'netherlands', 'netherlands', 'the']}
         slots = [] #SlotSet("regulations_type", "entry_regulations")]
 
-        num_country_from = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="from")))
-        num_country_to = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="to")))
-        country_from = next(tracker.get_latest_entity_values(entity_type="country", entity_role="from"), None)
-        country_to = next(tracker.get_latest_entity_values(entity_type="country", entity_role="to"), None)
-#        distinct_countries = country_from.lower()!=country_to.lower()
+        country_from = []
+        country_to = []
+        prepositions = ["to", "from"]
+        sentence = list(tracker.latest_message['text'].split(" "))
+        countries = tracker.get_latest_entity_values(entity_type="country")
+# countries = ['luxembourg', 'netherlands']
+        for p in prepositions:
+            if p in sentence:
+                index = sentence.index(p)
+                index += 1
+                country_role = f"country_{p}"
+                country_role = sentence[index]
+                countries = country_names.keys()
+                for country_key in countries:
+                    if country_role.lower() in country_names.get(country_key):
+                        slots.append(SlotSet(country_role, country_key))
+                        return slots
+                dispatcher.utter_message(response=f"utter_wrong_country_{p}")
+                slots.append(SlotSet(country_role, None))
 
-        if num_country_to==2 or num_country_from==2:
-            dispatcher.utter_message("Sorry, I am still learning and could not understand what countries you mentioned.")
+#        num_country_from = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="from")))
+#        num_country_to = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="to")))
+#        country_from = next(tracker.get_latest_entity_values(entity_type="country", entity_role="from"), None)
+#        country_to = next(tracker.get_latest_entity_values(entity_type="country", entity_role="to"), None)
 
-        if num_country_to==1: #and distinct_countries:
-            if country_to.lower() in countries:
-                slots.append(SlotSet("country_to", country_to))
-            else:
-                dispatcher.utter_message(response="utter_wrong_country_to")
-                slots.append(SlotSet("country_to", None))
-
-        if num_country_from==1: #and distinct_countries:
-            if country_from.lower() in countries:
-                slots.append(SlotSet("country_from", country_from))
-            else:
-                dispatcher.utter_message(response="utter_wrong_country_from")
-                slots.append(SlotSet("country_from", None))
+#        if num_country_to==2 or num_country_from==2:
+#            dispatcher.utter_message("Sorry, I am still learning and could not understand what countries you mentioned.")
 
         return slots
 
@@ -234,7 +239,8 @@ class CustomActionQueryKB(Action):
         return "action_query_knowledgebase_cases"
 
     def __init__(self):
-        self.knowledge_base = InMemoryKnowledgeBase("/app/actions/knowledge_base_data.json")
+#        self.knowledge_base = InMemoryKnowledgeBase("/app/actions/knowledge_base_data.json")
+        self.knowledge_base = InMemoryKnowledgeBase("actions/knowledge_base_data.json")
 
     def custom_get_attribute_of(
         self, regulations_type: Text, key_attribute: Text, entity: Text, attribute: Text

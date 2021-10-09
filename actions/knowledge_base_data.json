@@ -64,6 +64,16 @@
             "conditions": "Present a negative PCR test result, a recovery certificate or a vaccination certificate. You must fill out a self-assessment form within 48 hours before arrival.",
             "title": "Online Form",
             "payload": "https://travel.info-coronavirus.be/public-health-passenger-locator-form"
+        },
+        {
+            "ID": 6,
+            "name": "3G/TGV (FR) SAFE country",
+            "conditions": "You have to present a vaccination proof and a sworn COVID-19 declaration. Alternatively you can present a negative result of a PCR test taken less than 72h ago or a recovery certificate.",
+        },
+        {
+            "ID": 7,
+            "name": "3G/TGV (FR) RISK country",
+            "conditions": "You have to present a vaccination proof and a sworn COVID-19 declaration or alternatively a negative result of a PCR test taken less than 24h ago or a recovery certificate.",
         }
     ],
 
@@ -204,6 +214,11 @@
            "ID": 4,
            "name": "Netherlands: entry rules for children",
            "conditions":"Childeren younger than 13 years old do not need to present negative Covid test results or vaccination certificates on entry."
+        },
+        {
+           "ID": 5,
+           "name": "France: entry rules for children",
+           "conditions":"Childeren younger than 12 years old do not need to present negative Covid test results or vaccination certificates on entry."
         }
     ]
 }
