@@ -21,7 +21,7 @@ rules:
     steps:
     - action: transportation_type_form
     - active_loop: null
-    - action: action_validate_countries
+    - action: action_extract_countries
     wait_for_user_input: false
 #====== RULES FOR RUNNING THE QUERY ACTION ======
   - rule: correct country->activate <48h_form II

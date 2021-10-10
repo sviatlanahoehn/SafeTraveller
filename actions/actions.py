@@ -81,9 +81,9 @@ class ActionValidateTransit(Action):
         return slots
 
 
-class ActionValidateCountries(Action):
+class ActionExtractCountries(Action):
     def name(self):
-        return 'action_validate_countries'
+        return 'action_extract_countries'
     def run(self, dispatcher, tracker, domain):
         country_names = {"Belgium":['be', 'belgium'],"Luxembourg":['lu', 'lux', 'luxembourg'],"Netherlands":['holland', 'nl', 'netherlands', 'netherlands', 'the']}
         slots = [] #SlotSet("regulations_type", "entry_regulations")]
@@ -118,6 +118,23 @@ class ActionValidateCountries(Action):
 
         return slots
 
+class ActionValidateCountries(Action):
+    def name(self):
+        return 'action_validate_countries'
+    def run(self, dispatcher, tracker, domain):
+        country_names = ["Belgium", "Luxembourg","Netherlands"]
+        slots = [] #SlotSet("regulations_type", "entry_regulations")]
+        prepositions = ["to", "from"]
+        for p in prepositions:
+            country = tracker.get_slot(f"country_{p}")
+            if country not in country_names:
+                dispatcher.utter_message(response=f"utter_wrong_country_{p}")
+                slots.append(SlotSet(f"country_{p}", None))
+                break
+#        else:
+#            dispatcher.utter_message(response=f"utter_wrong_country_to")
+
+        return slots
 
 #class ActionResetTransportSlot(Action):
 #    def name(self):

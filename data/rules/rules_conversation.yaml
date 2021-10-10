@@ -4,16 +4,28 @@ rules:
   - rule: inform_countries query
     steps:
     - intent: inform_countries
+    - action: action_extract_countries
+    - action: regulations_type_form
+    - active_loop: regulations_type_form
+
+  - rule: query_generic_regulations query
+    steps:
+    - intent: query_generic_regulations
+#    - action: action_extract_countries ----->>>>>>>>>>>>>---------
+    - action: generic_query_country_form
+    - active_loop: generic_query_country_form
+    - active_loop: null
     - action: action_validate_countries
     - action: regulations_type_form
     - active_loop: regulations_type_form
+
   - rule: inform_countries for ENTRY
     condition:
     - slot_was_set:
       - regulations_type: entry_regulations
     steps:
     - intent: inform_countries
-    - action: action_validate_countries
+    - action: action_extract_countries
     wait_for_user_input: false
   - rule: inform_countries for VACCINES
     condition:
@@ -21,7 +33,7 @@ rules:
       - regulations_type: vaccine_regulations
     steps:
     - intent: inform_countries
-    - action: action_validate_countries
+    - action: action_extract_countries
     - action: vaccine_regulations_form
     - active_loop: vaccine_regulations_form
   - rule: inform_countries for LOCAL
@@ -112,8 +124,12 @@ rules:
     steps:
     - action: regulations_type_form
     - active_loop: null
-    - action: action_validate_countries
+    - action: action_extract_countries
     wait_for_user_input: false
+
+# ---------------------------------------------
+# ------ Extracted countries validation -------
+# ---------------------------------------------
 
   - rule: validate countries
     steps:
@@ -123,7 +139,8 @@ rules:
     - active_loop: null
     - action: action_validate_countries
     wait_for_user_input: false
-  - rule: wrong country_to extracted
+
+  - rule: validation -> wrong country_to extracted
     condition:
     - slot_was_set:
       - country_to: None
@@ -132,7 +149,7 @@ rules:
 #    - action: utter_not_understood
     - action: country_form
     - active_loop: country_form
-  - rule: wrong country_from extracted
+  - rule: validation -> wrong country_from extracted
     condition:
     - slot_was_set:
       - country_from: None
@@ -141,12 +158,43 @@ rules:
 #    - action: utter_not_understood
     - action: country_form
     - active_loop: country_form
-  - rule: correct countries extracted
+  - rule: validation -> correct countries extracted
     condition:
     - slot_was_set:
       - regulations_type: entry_regulations
     steps:
     - action: action_validate_countries
+    - action: country_form
+    - active_loop: country_form
+
+# -----------------------------------
+# ------ Countries extraction -------
+# -----------------------------------
+
+  - rule: wrong country_to extracted
+    condition:
+    - slot_was_set:
+      - country_to: None
+    steps:
+    - action: action_extract_countries
+#    - action: utter_not_understood
+    - action: country_form
+    - active_loop: country_form
+  - rule: wrong country_from extracted
+    condition:
+    - slot_was_set:
+      - country_from: None
+    steps:
+    - action: action_extract_countries
+#    - action: utter_not_understood
+    - action: country_form
+    - active_loop: country_form
+  - rule: correct countries extracted
+    condition:
+    - slot_was_set:
+      - regulations_type: entry_regulations
+    steps:
+    - action: action_extract_countries
     - action: country_form
     - active_loop: country_form
   - rule: submit country_form//activate confirm_country_form

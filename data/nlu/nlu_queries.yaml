@@ -1,5 +1,21 @@
 version: "2.0"
 nlu:
+
+- intent: query_generic_regulations
+  examples: |
+    - regulations in [Portugal]{"entity":"country"}
+    - covid restrictions [Luxembourg]{"entity":"country"}
+    - [Portugal]{"entity":"country"} covid rules
+    - rules for [Luxembourg]{"entity":"country"}
+    - measures in [Belgium]{"entity":"country"}
+    - covid-19 restrictions [France]{"entity":"country"}
+    - current regulations [Austria]{"entity":"country"}
+    - latest applicable measures [Poland]{"entity":"country"}
+    - latest covid measures [Luxembourg]{"entity":"country"}
+    - covid rules in [Sweden]{"entity":"country"}
+    - [Sweden]{"entity":"country"} corona rules
+    - covid measures [Germany]{"entity":"country"}
+
 - intent: query_vaccine_regulations
   examples: |
     - vaccine details
@@ -9,20 +25,19 @@ nlu:
     - vaccines allowed in [LU]{"entity":"country"}
     - vaccination details [Belgium]{"entity":"country"}
     - vaccines [Germany]
-    - what kind of vaccines are acceted?
-    - when is my vaccination valid?
-    - vaccination validity
-    - [Netherlands]{"entity": "country", "role": "to"} vaccination certificates
-    - certificat of vaccination requirements
+    - when is my covid certificate valid
+    - when my vaccination is valid for travel
+    - vaccine requirements for border crossing
     - is Moderna accepted in [netherlands]{"entity":"country"}?
 
 - intent: query_local_regulations
   examples: |
+    - wearing masks in public spaces
     - any rules apply upon entry?
     - what rules apply upon arrival?
     - Do I need to wear a mask in [BE]{"entity":"country"}?
     - is there a curfew when I arrive?
-    - what places are open?
+    - what plases are open?
     - do i need a mask in cafes?
     - are hotels open?
     - Are gatherings allowed in public and private meeting places?
@@ -67,148 +82,120 @@ nlu:
     - are restaurants open?
 
     - Do children have to wear masks?
-    - do i need to wear a mask?
 
 - intent: query_entry_regulations
   examples: |
-
-
-    - [Netherlands]{"entity":"country", "role":"to"} entry restrictions
-    - entry restrictions [LU]{"entity":"country", "role":"to"}
+    - [Netherlands]{"entity":"country"} entry restrictions
+    - entry restrictions [LU]{"entity":"country"}
     - do i need to get tested
-    - do i need a test in [Belgium]{"entity":"country", "role":"to"}
-    - can i go to [luxembourg]{"entity":"country", "role":"to"}
-    - Can i travel to [Belgum]{"entity":"country", "role":"to"}
-    - travel to [Austria]{"entity":"country", "role":"to"}
+    - do i need a test in [Belgium]{"entity":"country"}
+    - can i go to [luxembourg]{"entity":"country"}
+    - Can i travel to [Belgum]{"entity":"country"}
+    - travel to [Austria]{"entity":"country"}
 
-    - testing requirements [Germany]{"entity":"country", "role":"to"}
-    - do I need a test if I'm vaccinated [Luxembourg]{"entity":"country", "role":"to"}
-    - do i need a vaccine to enter [Germany]{"entity":"country", "role":"to"}
-    - quarntine requirements [Belgium]{"entity":"country", "role":"to"}
-    - do i need to register to go to [Luxembourg]{"entity":"country", "role":"to"}?
-    - registration [Germany]{"entity":"country", "role":"to"}
-    - registration to enter [Netherlands]{"entity":"country", "role":"to"}
-    - doccument for entry [Belgium]{"entity":"country", "role":"to"}
-    - go from [BE]{"entity": "country", "role": "from"} to [LU]{"entity": "country", "role": "to"}
-    - travel from the [netherlands]{"entity": "country", "role": "from"} to [BE]{"entity": "country", "role": "to"}
-    - travel to [Holland]{"entity": "country", "role": "to"} from [BE]{"entity": "country", "role": "from"}
-    - go to [LU]{"entity": "country", "role": "to"} from [BE]{"entity": "country", "role": "from"}
-    - travel from the [NL]{"entity": "country", "role": "from"} to [LU]{"entity": "country", "role": "to"}
-    - from [BE]{"entity": "country", "role": "from"} to [LU]{"entity": "country", "role": "to"}
-    - travel from [BE]{"entity": "country", "role": "from"} to [LU]{"entity": "country", "role": "to"}
+    - testing requirements [Germany]{"entity":"country"}
+    - do I need a test if I'm vaccinated [Luxembourg]{"entity":"country"}
+    - do i need a vaccine to enter [Germany]{"entity":"country"}
+    - quarntine requirements [Belgium]{"entity":"country"}
+    - do i need to register to go to [Luxembourg]{"entity":"country"}?
+    - registration [Germany]{"entity":"country"}
+    - registration to enter [Netherlands]{"entity":"country"}
+    - doccument for entry [Belgium]{"entity":"country"}
+    - ban on travel from [France]{"entity":"country"} to [BE]{"entity":"country"}
+    - Entry rules in [LU]{"entity":"country"}
+    - [luxembourg]{"entity":"country"} travel restrictions
+    - [germany]{"entity":"country"} travel restrictions
+    - travel to [France]{"entity":"country"}
 
-    - i travel from [LU]{"entity":"country", "role":"from"} to [BE]{"entity":"country", "role":"to"}
-    - i'm travelling from [Belgium]{"entity":"country", "role":"from"} to [LU]{"entity":"country", "role":"to"}
-    - regulations on travel from [Luxembourg]{"entity":"country", "role":"from"} to [BE]{"entity":"country", "role":"to"}
-    - to [Belgium]{"entity":"country", "role":"to"} from [Luxembourg]{"entity":"country", "role":"from"}
-    - travelling from [luxembourg]{"entity":"country", "role":"from"} to [netherlands]{"entity":"country", "role":"to"}
-    - departing from [LU], going to [BE]{"entity":"country", "role":"to"}
-    - from [BE]{"entity":"country", "role":"from"} to [LU]{"entity":"country", "role":"to"}
-    - ban on travel from [France]{"entity":"country", "role":"from"} to [BE]{"entity":"country", "role":"to"}
-    - i want to go from [Netherlands]{"entity":"country", "role":"from"} to [Luxembourg]{"entity":"country", "role":"to"}
-    - i'm going from [Luxembourg]{"entity":"country", "role":"from"} to [BE]{"entity": "country", "role": "to"}
-    - Entry rules in [LU]{"entity":"country", "role":"to"}
-    - [luxembourg]{"entity":"country", "role":"to"} travel restrictions
-    - [germany]{"entity":"country", "role":"to"} travel restrictions
-    - restrictions for travellers from [Luxembourg]{"entity":"country", "role":"from"}
-    - trvael from [belgium]{"entity":"country", "role":"from"}
-    - travel to [France]{"entity":"country", "role":"to"}
-    - travelling from [BE]{"entity": "country", "role": "from"} to [LU]{"entity": "country", "role": "to"}
+    - trvavel rules [Netherlanfs]{"entity":"country"}
+    - travel restrictions [France]{"entity":"country"}
+    - travel rules in [Spain]{"entity":"country"}
+    - entry regulations [Luxembourg]{"entity":"country"}
+    - entry restrictions in [USA]{"entity":"country"}
+    - travel restrictions [Malta]{"entity":"country"}
+
+- intent: query_transit
+  examples: |
+    - transit thorugh [France]{"entity": "country"}
+    - transit
+    - what if I go by transit
+    - rules for transitting
+    - rules for transit travel [Belgium]{"entity": "country"}
+    - transit [Germany]{"entity": "country"}
+    - transit entry
+    - can I transit through [Spain]{"entity":"country"}
+    - may i transit [Sweden]{"entity":"country"}
+    - [Romania]{"entity":"country"} transit rules
 
 - intent: inform_land_travel
   examples: |
-    - going by car to [Netherlands]{"entity": "country", "role": "to"}
+    - going by car to [Netherlands]{"entity": "country"}
     - travel by car
     - what if I go by car?
     - i want to travel by bus
     - car travel to [Belgium]
     - bus travel
-    - train tickets to [Poland]{"entity": "country", "role": "to"}
-    - coach transfer to [Bulgaria]{"entity": "country", "role": "to"}
     - go by train
-    - go to [Austria]{"entity": "country", "role": "to"} by train
-    - road trip to [Vienna]{"entity": "country", "role": "to"}
-    - covidCheck for bus travel
-    - FlixBus travel requirements
+    - go to [Austria]{"entity": "country"} by train
 
 - intent: inform_air_travel
   examples: |
-    - i want to fly to [Malta]{"entity": "country", "role": "to"}
+    - i want to fly to [Malta]{"entity": "country"}
     - what if i go by plane?
-    - do I need a CovidCheck for plane travel?
-    - airport requirements
-    - airport covid measures
-    - do i need to get tested before boarding
-    - requirements upon boarding
-    - 3G rules for boarding
     - travel by plane
-    - I'm taking a flight to [Brazil]{"entity": "country", "role": "to"}
-    - air travel to [Canada]{"entity": "country", "role": "to"}
-    - flight to [Netherlands]{"entity": "country", "role": "to"}
-    - i plan a plane trip
     - travel by air
-    - plane trip to [Luxembourg]{"entity": "country", "role": "to"}
-
-- intent: query_transit
-  examples: |
-    - rules for change of planes in [Iceland]{"entity": "country", "role": "to"}
-    - cross [Belgium]{"entity": "country", "role": "to"} border for transit
-    - transit thorugh [France]{"entity": "country", "role": "to"}
-    - transit
-    - what if I go by transit
-    - rules for transitting
-    - rules for transit travel [Belgium]{"entity": "country", "role": "to"}
-    - transit [Germany]{"entity": "country", "role": "to"}
-    - transit through [France]{"entity": "country", "role": "to"}
-    - plane transit [Austria]{"entity": "country", "role": "to"}
-    - do the measures apply for transit?
-    - do I need a covidCheck to transit through [Belgium]{"entity": "country", "role": "to"}?
-    - requirements for transit travellers
+    - plane trip to [Luxembourg]{"entity": "country"}
+    - regulations for air travel
+    - regulations for plane travel [Malta]{"entity": "country"}
+    - rules for plane boarding
+    - boarding regulations [Germany]{"entity": "country"}
 
 - intent: inform_countries
   examples: |
-    - from [Luxembourg]{"entity": "country", "role":"to", "value": "Luxembourg"}
-    - going from [Belgium]{"entity": "country", "role":"from", "value": "Belgium"}
-    - to the [Netherlands]{"entity": "country", "role":"to", "value": "Netherlands"}
-    - going to [Belgium]{"entity": "country", "role":"to"}
 
-    - [luxembourg]{"entity":"country", "role":"from"} [belgium]{"entity":"country", "role":"to"}
-    - [Germany]{"entity":"country", "role":"from"}, [Luxembourg]{"entity":"country", "role":"to"}
-    - [NL]{"entity":"country", "role":"from"} [FR]{"entity":"country", "role":"to"}
+    - travelling from [BE]{"entity": "country"} to [LU]{"entity": "country"}
+    - restrictions for travellers from [Luxembourg]{"entity":"country"}
 
-    - I want to go to [luxembourg]{"entity":"country", "role":"to"}
-    - I want to go to [Spain]{"entity":"country", "role":"to"}
-    - I'm going to [Germany]{"entity":"country", "role":"to"}
-    - I'm going to [belgium]{"entity":"country", "role":"to"}
-    - i'm travelling to [Switzerland]{"entity":"country", "role":"to"}
-    - regulations in [Portugal]{"entity":"country", "role":"to"}
-    - covid restrictions [Luxembourg]{"entity":"country", "role":"to"}
-    - [Portugal]{"entity":"country", "role":"to"} covid rules
+    - from [Luxembourg]{"entity": "country", "value": "Luxembourg"}
+    - going from [Belgium]{"entity": "country", "value": "Belgium"}
+    - rules for going from [germany]{"entity":"country"}
+    - to the [Netherlands]{"entity": "country", "value": "Netherlands"}
+    - going to [Belgium]{"entity": "country"}
+    - I want to go to [luxembourg]{"entity":"country"}
+    - I want to go to [Spain]{"entity":"country"}
+    - I'm going to [Germany]{"entity":"country"}
+    - I'm going to [belgium]{"entity":"country"}
+    - i'm travelling to [Switzerland]{"entity":"country"}
+    - rules for going to [germany]{"entity":"country"}
 
-    - rules for [Luxembourg]{"entity":"country", "role":"from"}
-    - rules for going from [germany]{"entity":"country", "role":"from"}
-    - rules for going to [germany]{"entity":"country", "role":"to"}
+    - go from [BE]{"entity": "country"} to [LU]{"entity": "country"}
+    - travel from the [netherlands]{"entity": "country"} to [BE]{"entity": "country"}
+    - travel to [Holland]{"entity": "country"} from [BE]{"entity": "country"}
+    - go to [LU]{"entity": "country"} from [BE]{"entity": "country"}
+    - travel from the [NL]{"entity": "country"} to [LU]{"entity": "country"}
+    - from [BE]{"entity": "country"} to [LU]{"entity": "country"}
+    - travel from [BE]{"entity": "country"} to [LU]{"entity": "country"}
 
-    - [luxembourg]{"entity":"country", "role":"from"} [belgium]{"entity":"country", "role":"to"}
-    - [LU]{"entity":"country", "role":"from"} [NL]{"entity":"country", "role":"to"}
+    - i travel from [LU]{"entity":"country"} to [BE]{"entity":"country"}
+    - i'm travelling from [Belgium]{"entity":"country"} to [LU]{"entity":"country"}
+    - regulations on travel from [Luxembourg]{"entity":"country"} to [BE]{"entity":"country"}
+    - to [Belgium]{"entity":"country"} from [Luxembourg]{"entity":"country"}
+    - travelling from [luxembourg]{"entity":"country"} to [netherlands]{"entity":"country"}
+    - departing from [LU], going to [BE]{"entity":"country"}
+    - from [BE]{"entity":"country"} to [LU]{"entity":"country"}
+    - i want to go from [Netherlands]{"entity":"country"} to [Luxembourg]{"entity":"country"}
+    - i'm going from [Luxembourg]{"entity":"country"} to [BE]{"entity": "country"}
 
+    - travel from [LU]{"entity": "country"} to the [NL]{"entity": "country"}
+    - I want to go to the [NL]{"entity": "country"} from [LU]{"entity": "country"}
+    - I want to go to [LU]{"entity": "country"} from the [NL]{"entity": "country"}
+    - I want to go to [NL]{"entity": "country"} from [LU]{"entity": "country"}
+    - I want to go from the [netherlands]{"entity": "country"} to [Luxembourg]{"entity": "country"}
+    - I want to go from [LU]{"entity": "country"} to the [NL]{"entity": "country"}
+    -  going to [BE]{"entity": "country"} from [LU]{"entity": "country"}
+    - going to [BE]{"entity": "country"} from the [NL]{"entity": "country"}
 
-    - I want to go to [LU]{"entity": "country", "role": "to"} from the [NL]{"entity": "country", "role": "from"}
-    - I want to go to [NL]{"entity": "country", "role": "to"} from [LU]{"entity": "country", "role": "from"}
-    - I want to go from the [netherlands]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
-    - I want to go from [LU]{"entity": "country", "role": "from"} to the [NL]{"entity": "country", "role": "to"}
-    -  going to [BE]{"entity": "country", "role": "to"} from [LU]{"entity": "country", "role": "from"}
-    - going to [BE]{"entity": "country", "role": "to"} from the [NL]{"entity": "country", "role": "from"}
-
-    - I want to go from the [NL]{"entity": "country", "role": "from"} to [Luxembourh]{"entity": "country", "role": "to", "value": "LU"}
-    - go from [Netherlands]{"entity": "country", "role": "from"} to [Luxembourg]{"entity": "country", "role": "to"}
-    - go from the [netherlands]{"entity": "country", "role": "from"} to [belgium]{"entity": "country", "role": "to"}
-    - go from [LU]{"entity": "country", "role": "from"} to [BE]{"entity": "country", "role": "to"}
-
-    - travel from [LU]{"entity": "country", "role": "from"} to the [NL]{"entity": "country", "role": "to"}
-    - I want to go to the [NL]{"entity": "country", "role": "to"} from [LU]{"entity": "country", "role": "from"}
-
-    - from [BE]{"entity":"country", "role":"from"} to [NL]{"entity":"country", "role":"to"}
-    - from [LU]{"entity":"country", "role":"from"} to [BE]{"entity":"country", "role":"to"}
-    - travel from [LUX]{"entity":"country", "role":"from"} to [BE]{"entity":"country", "role":"to"}
-    - going from [NL]{"entity":"country", "role":"from"} to [LU]{"entity":"country", "role":"to"}
+    - from [BE]{"entity":"country"} to [NL]{"entity":"country"}
+    - from [LU]{"entity":"country"} to [BE]{"entity":"country"}
+    - travel from [LUX]{"entity":"country"} to [BE]{"entity":"country"}
+    - going from [NL]{"entity":"country"} to [LU]{"entity":"country"}

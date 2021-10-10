@@ -5,6 +5,8 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: false
 intents:
+- query_generic_regulations:
+    use_entities: true
 - inform_countries:
     use_entities: true
 - query_vaccine_regulations:
@@ -65,8 +67,7 @@ entities:
 - incorrect_slot
 - incorrect_country
 - local_regulations_type
-- country_to
-- country_from
+- country
 - <48h
 slots:
   keep_details:
@@ -429,6 +430,7 @@ actions:
 #- action_ask_confirm_collected_info
 - action_reset_transport_slot
 #- action_ask_correct_countries
+- action_extract_countries
 - action_validate_countries
 - action_repeat_last
 - action_check_area
@@ -452,10 +454,16 @@ forms:
     - intent: deny
       type: from_intent
       value: false
+
+# --------------------
+# ----- BAD NAME -----
+# --------------------
+
   vaccine_regulations_form:
     country_to:
     - type: from_entity
       entity: country
+      intent: query_vaccine_regulations
 #    want_vaccine_regulations:
 #    - intent: affirm
 #      type: from_intent
@@ -494,6 +502,10 @@ forms:
     - intent: query_transit
       type: from_trigger_intent
       value: "entry_regulations"
+    country_to:
+    - type: from_entity
+      entity: country
+      intent: query_transit
   transportation_type_form:
     plane_travel:
     - intent: inform_air_travel
@@ -519,6 +531,9 @@ forms:
     - intent: query_vaccine_regulations
       type: from_trigger_intent
       value: "vaccine_regulations"
+    country_to:
+    - type: from_entity
+      entity: country
   country_form_II:
     country_from:
     - type: from_entity
@@ -528,6 +543,11 @@ forms:
     - type: from_entity
       entity: country
       #role: to
+  generic_query_country_form:
+    country_to:
+    - type: from_entity
+      entity: country
+      intent: query_generic_regulations
   country_form:
     country_from:
     - type: from_entity
@@ -560,6 +580,7 @@ forms:
     country_to:
     - type: from_entity
       entity: country
+      intent: query_local_regulations
     different_household:
     - intent: affirm
       type: from_intent
