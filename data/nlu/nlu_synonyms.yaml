@@ -1,6 +1,5 @@
 version: "2.0"
 nlu:
-#======== SYNONYMS =========  
 - synonym: local_regulations
   examples: |
     - local measures
@@ -14,7 +13,6 @@ nlu:
     - measures in
     - measures inside country
     - inside country measures
-
 - synonym: entry_regulations
   examples: |
     - regulations for travel
@@ -31,54 +29,9 @@ nlu:
     - rules to go to
     - rules to get to
     - travel regulations
-#- synonym: plane
-#  examples: |
-#    - flying
-#    - fly
-#    - flight
-#    - by plane
-#    - on plane
-#- synonym: 'True'
-#  examples: |
-#    - transit
-#- synonym: work
-#  examples: |
-#    - commute
-#    - commuting
-#    - studies
-#    - Work
-#    - university
-#    - school
-#- synonym: leisure
-#  examples: |
-#    - vacation
-#    - holiday
-#    - shopping
-##    - vocation
-#    - holidays
-#    - Holidays
-#    - Leisure
-#    - hiking
-#    - visit a friend
-#    - tourism
-#    - Tourism
-#    - friend
-#- synonym: car
-#  examples: |
-#    - drive
 - synonym: family
   examples: |
     - relatives
-- synonym: outdoors
-  examples: |
-    - outdoor rules
-    - in open spaces
-- synonym: indoors
-  examples: |
-    - rules inside
-    - rules indoors
-    - in closed areas
-    - in closed spaces
 - synonym: both
   examples: |
     - all of the regulations
@@ -88,18 +41,15 @@ nlu:
   examples: |
     - Holland
     - the Netherlands
-    - Netherlands
     - netherlands
     - nethlands
     - NL
 - synonym: Belgium
   examples: |
-    - Belgium
     - belgium
     - BE
 - synonym: Luxembourg
   examples: |
     - LUX
     - LU
-    - Luxembourg
     - luxembourg

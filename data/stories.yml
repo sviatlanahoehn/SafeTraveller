@@ -298,9 +298,7 @@ stories:
     - intent: query_entry_regulations
       entities:
       - country: Luxembourg
-        role: from
       - country: Belgium
-        role: to
     - action: set_regulations_type_form
     - active_loop: set_regulations_type_form
     - active_loop: null
