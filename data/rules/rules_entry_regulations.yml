@@ -24,7 +24,7 @@ rules:
     - action: action_extract_countries
     wait_for_user_input: false
 #====== RULES FOR RUNNING THE QUERY ACTION ======
-  - rule: correct country->activate <48h_form II
+  - rule: correct country->activate stay_OR_transit_form II
     condition:
     - active_loop: confirm_country_form
     - slot_was_set:
@@ -36,7 +36,7 @@ rules:
       - requested_slot: null
     - action: stay_OR_transit_form
     - active_loop: stay_OR_transit_form
-  - rule: correct country_II->activate <48h_form II
+  - rule: correct country_II->activate stay_OR_transit_form II
     condition:
     - active_loop: country_form_II
     steps:
@@ -49,7 +49,7 @@ rules:
     - active_loop: stay_OR_transit_form
 #====== FORMS ACTIVATION ======
 # ===== BELGIUM =====
-  - rule: journey to BE
+  - rule: journey to BE // DE
     condition:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
@@ -183,7 +183,6 @@ rules:
     - action: cross_border_resident_form
     - active_loop: cross_border_resident_form
 
-
   - rule: FR submit cross_border_resident_form (True)
     condition:
     - active_loop: cross_border_resident_form
@@ -208,35 +207,9 @@ rules:
       - requested_slot: null
     - action: transport_health_worker_form
     - active_loop: transport_health_worker_form
-# ===== Germany =====
-  - rule: <48h_rule
-    condition:
-    - active_loop: <48h_form
-    - slot_was_set:
-      - <48h: false
-      - country_to: Germany
-    steps:
-    - action: <48h_form
-    - active_loop: null
-    - slot_was_set:
-      - requested_slot: null
-    - action: transport_health_worker_form
-    - active_loop: transport_health_worker_form
 
 #====== FORMS ACTIVATION ======
 # ===== GERMANY =====
-  - rule: journey to DE
-    condition:
-    - active_loop: stay_OR_transit_form
-    - slot_was_set:
-      - country_to: Germany
-    steps:
-    - action: stay_OR_transit_form
-    - active_loop: null
-    - action: <48h_form
-    - active_loop: <48h_form
-
-
   - rule: DE submit <48h_form
     condition:
     - active_loop: <48h_form
@@ -250,7 +223,6 @@ rules:
       - requested_slot: null
     - action: children_travel_form
     - active_loop: children_travel_form
-# ===== Germany =====
   - rule: <48h_rule
     condition:
     - active_loop: <48h_form
@@ -264,6 +236,7 @@ rules:
       - requested_slot: null
     - action: transport_health_worker_form
     - active_loop: transport_health_worker_form
+
 
 
 # ===== QUERY ACTION CALL =====
