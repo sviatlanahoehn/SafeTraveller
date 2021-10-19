@@ -174,7 +174,6 @@ rules:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
       - country_to: France
-      - transit: false
     steps:
     - action: stay_OR_transit_form
     - active_loop: null
@@ -183,6 +182,8 @@ rules:
     - active_loop: null
     - action: cross_border_resident_form
     - active_loop: cross_border_resident_form
+
+
   - rule: FR submit cross_border_resident_form (True)
     condition:
     - active_loop: cross_border_resident_form
@@ -229,12 +230,13 @@ rules:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
       - country_to: Germany
-      - transit: false
     steps:
     - action: stay_OR_transit_form
     - active_loop: null
     - action: <48h_form
     - active_loop: <48h_form
+
+
   - rule: DE submit <48h_form
     condition:
     - active_loop: <48h_form
