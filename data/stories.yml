@@ -6,38 +6,38 @@ stories:
 #      entities:
 #      - country: Luxembourg
 #        role: to
-#    - action: action_validate_countries
+#    - action: action_extract_countries
 #  - story: begin 1.1)
 #    steps:
 #    - intent: inform
 #      entities:
 #      - country: Luxembourg
 #        role: from
-#    - action: action_validate_countries
+#    - action: action_extract_countries
 #  - story: begin 2.0)
 #    steps:
 #    - intent: inform
 #      entities:
 #      - country: Belgium
 #        role: to
-#    - action: action_validate_countries
+#    - action: action_extract_countries
 #  - story: begin 2.1)
 #    steps:
 #    - intent: inform
 #      entities:
 #      - country: Belgium
 #        role: from
-#    - action: action_validate_countries
+#    - action: action_extract_countries
 #  - story: begin 3.0)
 #    steps:
 #    - intent: inform
 #      entities:
 #      - country: Netherlands
 #        role: to
-#    - action: action_validate_countries
+#    - action: action_extract_countries
   - story: beginning conv
     steps:
-    - action: action_validate_countries
+    - action: action_extract_countries
     - slot_was_set:
       - country_to: Luxembourg
       - country_from: Netherlands
@@ -62,14 +62,14 @@ stories:
 
 
 # ===== LOCAL REGULATIONS =====
-  - story: local_regulations asked
-    steps:
-    - intent: query_local_regulations
-      entities:
-      - regulations_type: local_regulations
-    - action: action_validate_countries
-    - action: correct_local_form
-    - active_loop: correct_local_form
+#  - story: local_regulations asked
+#    steps:
+#    - intent: query_local_regulations
+#      entities:
+#      - regulations_type: local_regulations
+#    - action: action_extract_countries
+#    - action: correct_local_form
+#    - active_loop: correct_local_form
 
 
   - story: confirmed local
@@ -79,6 +79,7 @@ stories:
     - slot_was_set:
       - correct_info: true
     - action: action_set_local
+    - action: action_validate_countries
     - action: local_regulations_form
     - active_loop: local_regulations_form
     - active_loop: null
@@ -101,7 +102,7 @@ stories:
 # ====== TO-BELGIUM STORIES ======
   - story: from LU to BE + <48h
     steps:
-    - action: action_validate_countries
+    - action: action_extract_countries
     - slot_was_set:
       - regulations_type: entry_regulations
       - country_to: Belgium
@@ -133,7 +134,7 @@ stories:
     - active_loop: children_travel_form
   - story: from NL to BE + leisure
     steps:
-    - action: action_validate_countries
+    - action: action_extract_countries
     - slot_was_set:
       - country_to: Belgium
       - country_from: Netherlands
@@ -162,7 +163,7 @@ stories:
 # ====== TO-LUXEMBOURG STORIES ======
   - story: from BE to LUX + by land
     steps:
-    - action: action_validate_countries
+    - action: action_extract_countries
     - slot_was_set:
       - country_to: Luxembourg
       - country_from: Belgium
@@ -297,9 +298,7 @@ stories:
     - intent: query_entry_regulations
       entities:
       - country: Luxembourg
-        role: from
       - country: Belgium
-        role: to
     - action: set_regulations_type_form
     - active_loop: set_regulations_type_form
     - active_loop: null

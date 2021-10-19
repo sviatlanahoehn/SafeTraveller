@@ -22,6 +22,7 @@ rules:
     steps:
     - action: set_transit_form
     - active_loop: null
+#    - action: action_extract_countries
     - action: action_validate_countries
     wait_for_user_input: false
 
