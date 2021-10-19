@@ -74,6 +74,11 @@ entities:
     - from
 - <48h
 slots:
+  cross_border_resident:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
   keep_details:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
@@ -232,6 +237,13 @@ slots:
     influence_conversation: true
 
 responses:
+  utter_ask_cross_border_resident:
+  - buttons:
+    - payload: '/affirm'
+      title: "Yes"
+    - payload: '/deny'
+      title: "No"
+    text: Are you a cross-border resident living withing 30km from France?
   utter_ask_transit:
   - buttons:
     - payload: '/affirm {{"<48h": "True"}}'
@@ -441,6 +453,14 @@ actions:
 
 
 forms:
+  cross_border_resident_form:
+    cross_border_resident:
+    - intent: affirm
+      type: from_intent
+      value: true
+    - intent: deny
+      type: from_intent
+      value: false
   stay_OR_transit_form:
     transit:
     - intent: affirm

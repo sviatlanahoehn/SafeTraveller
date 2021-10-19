@@ -2,7 +2,7 @@
     "transit_regulations":[
         {
             "ID": 0,
-            "name": "No restrictions",
+            "name": "No restrictions (EU)",
             "conditions": "No special special requirements for transit apply."
         },
         {
@@ -17,21 +17,21 @@
     "entry_regulations": [
         {
             "ID": 0,
-            "name": "No restrictions",
+            "name": "No restrictions (EU)",
             "conditions": "No special special requirements upon entry apply.",
             "title": "",
             "payload": ""
         },
         {
             "ID": 1.0,
-            "name": "3G/TGV (PCR or antigen test)",
+            "name": "3G/TGV (PCR or antigen test) (EU)(DE)",
             "conditions": "Present a negative rapid antigen or PCR covid test result, a recovery certificate or a vaccination certificate.",
             "title": "",
             "payload": ""
         },
         {
             "ID": 1.1,
-            "name": "3G/TGV (PCR test)",
+            "name": "3G/TGV (PCR test) (EU)",
             "conditions": "Present a negative PCR covid test result, a recovery certificate or a vaccination certificate.",
             "title": "",
             "payload": ""
@@ -64,6 +64,16 @@
             "conditions": "Present a negative PCR test result, a recovery certificate or a vaccination certificate. You must fill out a self-assessment form within 48 hours before arrival.",
             "title": "Online Form",
             "payload": "https://travel.info-coronavirus.be/public-health-passenger-locator-form"
+        },
+        {
+            "ID": 6,
+            "name": "3G/TGV (FR) SAFE country",
+            "conditions": "You have to present a vaccination proof and a sworn COVID-19 declaration. Alternatively you can present a negative result of a PCR test taken less than 72h ago or a recovery certificate."
+        },
+        {
+            "ID": 7,
+            "name": "3G/TGV (FR) RISK country",
+            "conditions": "You have to present a vaccination proof and a sworn COVID-19 declaration or alternatively a negative result of a PCR test taken less than 24h ago or a recovery certificate."
         }
     ],
 
@@ -97,6 +107,26 @@
             "ID": 5,
             "name": "Netherlands, approved vaccines",
             "conditions":"Accepted vaccines: Pfizer / Moderna / AstraZeneca / Janssen / Covishield / Sinopharm BIBP / Sinovac"
+        },
+        {
+            "ID": 6,
+            "name": "France, vaccination validity",
+            "conditions":"Proof of vaccination is valid on the 7th day after full vaccination or after  a single dose of vaccine for people who recovered from a previous COVID-19 infection; on the 28th day in case of vaccination with Janssen. "
+        },
+        {
+            "ID": 7,
+            "name": "France, approved vaccines",
+            "conditions":"Accepted vaccines: Pfizer / Moderna / AstraZeneca / Janssen"
+        },
+        {
+            "ID": 8,
+            "name": "Germany, vaccination validity",
+            "conditions":"Proof of vaccination is valid on the 14th day after full vaccination or on the 14th day after a single vaccine dose in case of recovery from previous COVID-19 infection. "
+        },
+        {
+            "ID": 9,
+            "name": "Germany, approved vaccines",
+            "conditions":"Accepted vaccines: Pfizer / Moderna / AstraZeneca / Janssen"
         }
     ],
 
@@ -176,6 +206,36 @@
             "ID":14,
             "name":"Netherlands: open places",
             "conditions":"Non-essential shops are open. Hotels, cafés and restaurants are open; however, registration and a health check are mandatory. All cultural establishments are open."
+        },
+        {
+            "ID": 15,
+            "name": "France: outdoor",
+            "conditions": "Outdoors: You have to wear a mask on public transport. The distance of 2m should be maintained everywhere in public places."
+        },
+        {
+            "ID": 16,
+            "name": "France: indoor",
+            "conditions": "Indoors: Masks are compulsory in enclosed public places. In restaurants, cafés and bars maximum of 10 people per table can sit together."
+        },
+        {
+            "ID": 17,
+            "name": "France: open places",
+            "conditions": "Restaurants, hotels and other tourist facilities are open and require a Covid-19 certificate for entry. All shops are open and are in free access."
+        },
+        {
+            "ID": 18,
+            "name": "Germany: outdoor",
+            "conditions": "Outdoors: You must wear a medical face mask in all public transport and outside places where 1.5m distance cannot be maintained."
+        },
+        {
+            "ID": 19,
+            "name": "Germany: indoor",
+            "conditions": "Indoors: You must wear a medical mask in public buildings and shops. A Covid-19 certificate is needed to access a wide range of indoor facilities including restaurants, events, hospitals, etc. Specific regulations may apply in each federal state."
+        },
+        {
+            "ID": 20,
+            "name": "Germany: open places",
+            "conditions": "Regarding open places, specific regulations for each federal state are available at the Federal Tourism Competence Centre."
         }
     ],
 
@@ -204,6 +264,26 @@
            "ID": 4,
            "name": "Netherlands: entry rules for children",
            "conditions":"Childeren younger than 13 years old do not need to present negative Covid test results or vaccination certificates on entry."
+        },
+        {
+           "ID": 5,
+           "name": "France: entry rules for children",
+           "conditions":"Childeren younger than 12 years old do not need to present negative Covid test results or vaccination certificates on entry."
+        },
+        {
+           "ID": 6,
+           "name": "France: local rules for children",
+           "conditions":"Children under 12 years old do not need a Covid-19 certificate to access places and are not required to wear facemasks. "
+        },
+        {
+           "ID": 7,
+           "name": "Germany: entry rules for children",
+           "conditions":"Childeren younger than 12 years old do not need to present negative Covid test results or vaccination certificates on entry."
+        },
+        {
+           "ID": 8,
+           "name": "Germany: local rules for children",
+           "conditions":"Children under 6 years of age do not need to wear facemasks."
         }
     ]
 }

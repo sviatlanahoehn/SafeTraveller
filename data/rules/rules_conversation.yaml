@@ -276,13 +276,17 @@ rules:
   - rule: 2nd query LU+plane
     condition:
     - slot_was_set:
-      - plane_travel: plane
+      - plane_travel: true
       - country_to: Luxembourg
     steps:
     - action: action_validate_transit
     - action: transport_health_worker_form
     - active_loop: null
     - action: action_query_knowledgebase_cases
+
+
+
+
 #  - rule: continue convo
 #    condition:
 #    - slot_was_set:

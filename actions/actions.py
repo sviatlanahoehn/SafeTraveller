@@ -289,6 +289,26 @@ class CustomActionQueryKB(Action):
                 else:
                     case_IDs.append(5)
 
+        if country_to=="France":
+            if area_type=="SAFE":
+                if cross_border_resident==True or transport_health_worker==True:
+                    case_IDs.append(0)
+                else:
+                    case_IDs.append(6)
+            elif area_type=="RISK":
+                if plane_travel==False:
+                    case_IDs.append(0)
+                else:
+                    case_IDs.append(7)
+
+
+        elif country_to=="Germany":
+            if less_than_48h==True or transport_health_worker==True:
+                case_IDs.append(0)
+            else:
+                case_IDs.append(1.0)
+
+
         return case_IDs
 
     def local_regulations_case_IDs(self, country_to, different_household):
@@ -321,6 +341,16 @@ class CustomActionQueryKB(Action):
                 case_IDs.append(9)
                 case_IDs.append(11)
 
+        elif country_to=="France":
+            case_IDs.append(17)
+            case_IDs.append(15)
+            case_IDs.append(16)
+
+        elif country_to=="Germany":
+            case_IDs.append(20)
+            case_IDs.append(18)
+            case_IDs.append(19)
+
         return case_IDs
 
     def vaccine_regulations_case_ID(self, country_to):
@@ -335,6 +365,12 @@ class CustomActionQueryKB(Action):
         elif country_to=="Netherlands":
                 case_IDs.append(4)
                 case_IDs.append(5)
+        elif country_to=="France":
+                case_IDs.append(6)
+                case_IDs.append(7)
+        elif country_to=="Germany":
+                case_IDs.append(8)
+                case_IDs.append(9)
 
         return case_IDs
 
@@ -349,11 +385,19 @@ class CustomActionQueryKB(Action):
                     case_IDs.append(2)
                 elif country_to=="Netherlands":
                     case_IDs.append(4)
+                elif country_to=="France":
+                    case_IDs.append(5)
+                elif country_to=="Germany":
+                    case_IDs.append(7)
             elif regulations_type=="local_regulations":
                 if country_to=="Belgium":
                     case_IDs.append(1)
                 elif country_to=="Luxembourg":
                     case_IDs.append(3)
+                elif country_to=="France":
+                    case_IDs.append(6)
+                elif country_to=="Germany":
+                    case_IDs.append(8)
 
         return case_IDs
 
