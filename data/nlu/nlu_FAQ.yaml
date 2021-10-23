@@ -1,0 +1,67 @@
+version: "2.0"
+nlu:
+#===== FAQ ======
+#- intent: test_details
+#  examples: |
+#    - any special requirement on tests?
+#    - what kind of test is needed?
+#    - what should be in the test?
+#    - tell me more about the test
+#    - what test is required
+#    - what test should i do?
+- intent: go_back
+  examples: |
+    - can we go back?
+    - can you go back?
+    - wait, i want to rephrase that
+    - go back
+    - go back please
+    - can you go to the previous question?
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - are you a bot?
+    - am I talking to an actual person?
+    - you're a bot aren't you?
+    - are you even a real person?
+- intent: ask_other_countries
+  examples: |
+    - what about other countries?
+    - do you know the rules in other countries?
+    - what if I am from France?
+    - do you know about rules in other countries?
+    - I am from Belgium, can you help?
+    - i'm going to Belgium, can you help?
+    - how about another country?
+    - i'm not from these countries
+    - i'm not going to these countries
+    - how about other countries in Europe?
+    - any other country you know about?
+    - no other countries apply?
+    - no other country works?
+- intent: ask_which_countries
+  examples: |
+    - which countries do you know about?
+    - which countries you know?
+    - again, which countries do you know?
+    - list the countries that apply
+    - repeat the country list
+    - which countries can I ask about?
+    - list the countries again please
+    - what countries is that?
+    - what countries were you designed for?
+
+- intent: what_can_u_do
+  examples: |
+    - what do you know?
+    - what can you do?
+    - what exactly do you do?
+    - what can I ask you?
+    - what can you help me with?
+    - explain what can you do
+    - explain how can you help
+    - explain your purpose
+    - how can you help?

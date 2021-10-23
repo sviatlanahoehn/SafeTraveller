@@ -1,0 +1,55 @@
+version: "2.0"
+nlu:
+- synonym: local_regulations
+  examples: |
+    - local measures
+    - local measurements
+    - local covid rules
+    - covid rules
+    - covid rules inside
+    - current measures
+    - current covid measures
+    - measures inside
+    - measures in
+    - measures inside country
+    - inside country measures
+- synonym: entry_regulations
+  examples: |
+    - regulations for travel
+    - travel
+    - entrance regulations
+    - entry rules
+    - rules on entry
+    - regulations on entry
+    - rules to enter
+    - entry regulations
+    - regulations to enter
+    - regulations to go to
+    - rules for going to
+    - rules to go to
+    - rules to get to
+    - travel regulations
+- synonym: family
+  examples: |
+    - relatives
+- synonym: both
+  examples: |
+    - all of the regulations
+    - both of them
+    - all of these
+- synonym: Netherlands
+  examples: |
+    - Holland
+    - the Netherlands
+    - netherlands
+    - nethlands
+    - NL
+- synonym: Belgium
+  examples: |
+    - belgium
+    - BE
+- synonym: Luxembourg
+  examples: |
+    - LUX
+    - LU
+    - luxembourg

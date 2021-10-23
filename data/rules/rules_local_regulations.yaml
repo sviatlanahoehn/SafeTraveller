@@ -1,0 +1,60 @@
+version: "2.0"
+rules:
+# ==== LOCAL REGULATIONS ====
+#  - rule: open places query
+#    steps:
+#    - intent: query_open_places
+#    - action: action_set_local
+#    - action: action_set_open
+#    - action: action_query_knowledgebase_cases
+  - rule: ask correct_local
+    steps:
+    - intent: query_local_regulations
+#    - action: action_extract_countries
+    - action: correct_local_form
+    - active_loop: correct_local_form
+  - rule: denied local_regulations_form
+    condition:
+    - active_loop: correct_local_form
+    - slot_was_set:
+      - correct_info: false
+    steps:
+    - action: correct_local_form
+    - active_loop: null
+    - action: utter_rephrase
+  - rule: confirmed local_regulations_form
+    condition:
+    - active_loop: correct_local_form
+    - slot_was_set:
+      - correct_info: true
+    steps:
+    - action: correct_local_form
+    - active_loop: null
+    - action: action_set_local
+    - action: action_validate_countries
+    - action: local_regulations_form
+    - active_loop: local_regulations_form
+
+  - rule: choose local regulations type
+    condition:
+    - active_loop: regulations_type_form
+    - slot_was_set:
+      - regulations_type: local_regulations
+    steps:
+    - action: regulations_type_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: local_regulations_form
+    - active_loop: local_regulations_form
+
+  - rule: submit local_regulations_form
+    condition:
+    - active_loop: local_regulations_form
+    steps:
+    - action: local_regulations_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_query_knowledgebase_cases
+    wait_for_user_input: false
