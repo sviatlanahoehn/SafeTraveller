@@ -41,11 +41,9 @@ class ActionCheckBorders(Action):
         else:
             area_type = "RISK"
 
-
         slots.append(SlotSet("common_border", common_border))
         slots.append(SlotSet("area_type", area_type))
         return slots
-
 
 class ValidateKeepContext(Action):
     def name(self):
@@ -61,7 +59,6 @@ class ActionResetRegulationsType(Action):
         return 'action_reset_regulations_type'
     def run(self, dispatcher, tracker, domain):
         return [SlotSet("regulations_type", None)]
-
 class ActionSetLocal(Action):
     def name(self):
         return 'action_set_local'
@@ -77,7 +74,6 @@ class ActionRepeatLast(Action):
         return 'action_repeat_last'
     def run(self, dispatcher, tracker, domain):
         return [UserUtteranceReverted(), ActionReverted()]
-
 class ActionValidateTransit(Action):
     def name(self):
         return 'action_validate_transit'
@@ -159,7 +155,6 @@ class ActionUtterDisclaimer(Action):
     def run(self, dispatcher, tracker, domain):
         dispatcher.utter_message(f"| Important: I'm based in Luxembourg and was designed only for people based in and travelling within the BeNeLux countries. |\n")
         return []
-
 
 
 class ActionDefaultFallback(Action):
@@ -330,6 +325,7 @@ class CustomActionQueryKB(Action):
                 else:
                     case_IDs.append(7)
 
+
         elif country_to=="Germany":
             if less_than_48h==True or transport_health_worker==True:
                 case_IDs.append(0)
@@ -473,6 +469,60 @@ class CustomActionQueryKB(Action):
 
         elif regulations_type=="vaccine_regulations":
 
+
+    def run(self, dispatcher, tracker, domain):
+
+        regulations_type = tracker.get_slot("regulations_type")
+        country_to = tracker.get_slot("country_to")
+        country_from = tracker.get_slot("country_from")
+        travel_with_children = tracker.get_slot("travelling_with_children")
+        plane_travel = tracker.get_slot("plane_travel")
+        transport_health_worker = tracker.get_slot("transport_health_worker")
+        less_than_48h = tracker.get_slot("<48h")
+#        transit_BE = tracker.get_slot("transit_BE")
+        area_type = tracker.get_slot("area_type")
+        different_household = tracker.get_slot("different_household")
+#        choice=tracker.get_slot("vaccine_regulations_type")
+        case_IDs = []
+        buttons = []
+
+
+        slots = self.slots_to_return()
+
+
+        if regulations_type=="local_regulations":
+            case_IDs = self.local_regulations_case_IDs(country_to, different_household)
+            rule_indoors = self.query_KB_rules(case_IDs, regulations_type)[2]
+            rule_outdoors = self.query_KB_rules(case_IDs, regulations_type)[1]
+            rule_open_places = self.query_KB_rules(case_IDs, regulations_type)[0]
+            dispatcher.utter_message(f"The following regulations apply in {country_to} : \n {rule_indoors} \n {rule_outdoors} \n {rule_open_places} \n ")
+
+        elif regulations_type=="entry_regulations":
+            case_IDs = self.entry_regulations_case_IDs(plane_travel, less_than_48h, area_type, country_to, transport_health_worker)
+            rule_entry = self.query_KB_rules(case_IDs, regulations_type)[0]
+            dispatcher.utter_message(f"{country_to} considers {country_from} a {area_type} area. The following regulations apply: \n {rule_entry}")
+#            form_details = self.query_KB_form_details(case_IDs, regulations_type)
+#            if form_details[0]:
+#                title = form_details[0]
+#                payload = form_details[1]
+#                buttons.append(
+#                    {"title": title, "payload": payload})
+#                dispatcher.utter_message(buttons)
+
+            #rule_transit = query_KB_rules(case_ID_transit)
+            #if rule_transit:
+            #    dispatcher.utter_message(f"The following regulations apply for transitting through {country_to_transit}: \n {rule_transit}\n")
+            case_IDs = self.children_regulations_case_ID(country_to, regulations_type, travel_with_children)
+            if case_IDs[0]!=None:
+                rule_child = self.query_KB_rules(case_IDs, "children_exceptions")[0]
+                if rule_child:
+                    dispatcher.utter_message(f"The exceptions for children are: \n {rule_child}\n")
+
+        elif regulations_type=="vaccine_regulations":
+            case_IDs = self.vaccine_regulations_case_ID(country_to)
+            vaccination_validity = self.query_KB_rules(case_IDs, regulations_type)[0]
+            approved_vaccines = self.query_KB_rules(case_IDs, regulations_type)[1]
+            dispatcher.utter_message(f"The following applies in {country_to} : \n {vaccination_validity} \n\n {approved_vaccines} \n ")
 
     def run(self, dispatcher, tracker, domain):
 
