@@ -55,6 +55,10 @@ intents:
     use_entities: true
 - query_transit:
     use_entities: true
+- query_regulations:
+    use_entities: true
+- query_open_places:
+    use_entities: true
 entities:
 - regulations_type
 - transit_BE
@@ -232,10 +236,10 @@ slots:
 responses:
   utter_ask_cross_border_resident:
   - buttons:
-    - payload: '/affirm'
-      title: "Yes"
-    - payload: '/deny'
-      title: "No"
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No
     text: Are you a cross-border resident living withing 30km from France?
   utter_ask_transit:
   - buttons:
@@ -432,15 +436,20 @@ actions:
 - action_check_area
 - action_go_back
 - regulation_type_form
+- want_local_info_form
+- transit_BE_form
+- indoors/outdoors_form
+- want_more_local_info_form
 forms:
   cross_border_resident_form:
-    cross_border_resident:
-    - intent: affirm
-      type: from_intent
-      value: true
-    - intent: deny
-      type: from_intent
-      value: false
+    required_slots:
+      cross_border_resident:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
   stay_OR_transit_form:
     required_slots:
       transit:
