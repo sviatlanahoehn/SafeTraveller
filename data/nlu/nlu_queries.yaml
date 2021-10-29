@@ -3,6 +3,7 @@ nlu:
 - intent: query_generic_regulations
   examples: |
     - regulations in [Portugal](country)
+    - I want to travel to [Germany](country) via [France](country)
     - covid restrictions [Luxembourg](country)
     - [Portugal](country) covid rules
     - rules for [Luxembourg](country)
@@ -14,6 +15,7 @@ nlu:
     - covid rules in [Sweden](country)
     - [Sweden](country) corona rules
     - covid measures [Germany](country)
+    - Are there any regulations in [Brussels](country)
 - intent: query_vaccine_regulations
   examples: |
     - vaccine details
@@ -100,6 +102,13 @@ nlu:
     - entry regulations [Luxembourg](country)
     - entry restrictions in [USA](country)
     - travel restrictions [Malta](country)
+    - What are the regulations to travel to [France](country)
+    - travelling from [BE](country) to [LU](country)
+    - rules for going to [germany](country)
+    - go from [BE](country) to [LU](country)
+    - travel from the [netherlands](country) to [BE](country)
+    - travel to [Holland](country) from [BE](country)
+    - restrictions for travellers from [Luxembourg](country)
 - intent: query_transit
   examples: |
     - transit thorugh [France](country)
@@ -135,8 +144,8 @@ nlu:
     - boarding regulations [Germany](country)
 - intent: inform_countries
   examples: |
-    - travelling from [BE](country) to [LU](country)
-    - restrictions for travellers from [Luxembourg](country)
+    - [Belgium](country)
+    - [luxembourg](country)
     - from [Luxembourg](country)
     - going from [Belgium](country)
     - rules for going from [germany](country)
@@ -147,10 +156,7 @@ nlu:
     - I'm going to [Germany](country)
     - I'm going to [belgium](country)
     - i'm travelling to [Switzerland](country)
-    - rules for going to [germany](country)
-    - go from [BE](country) to [LU](country)
-    - travel from the [netherlands](country) to [BE](country)
-    - travel to [Holland](country) from [BE](country)
+
     - go to [LU](country) from [BE](country)
     - travel from the [NL](country) to [LU](country)
     - from [BE](country) to [LU](country)

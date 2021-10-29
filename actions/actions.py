@@ -85,7 +85,7 @@ class ActionExtractCountries(Action):
     def name(self):
         return 'action_extract_countries'
     def run(self, dispatcher, tracker, domain):
-        country_names = {"Belgium":['be', 'belgium'],"Luxembourg":['lu', 'lux', 'luxembourg'],"Netherlands":['holland', 'nl', 'netherlands', 'netherlands', 'the']}
+        country_names = {"Germany":['cologne', 'berlin', 'frankfurt', 'germany', 'deutchland', 'de', 'german'], "France":['paris', 'metz' 'france', 'fr', 'french'], "Belgium":['brussels', 'belgium'],"Luxembourg":['lu', 'lux', 'luxembourg'],"Netherlands":['holland', 'nl', 'netherlands', 'netherlands', 'the']}
         slots = [] #SlotSet("regulations_type", "entry_regulations")]
 
         country_from = []
@@ -122,10 +122,13 @@ class ActionValidateCountries(Action):
     def name(self):
         return 'action_validate_countries'
     def run(self, dispatcher, tracker, domain):
-        country_names = ["Belgium", "Luxembourg","Netherlands"]
+        country_names = ["France", "Germany", "Belgium", "Luxembourg","Netherlands"]
         slots = [] #SlotSet("regulations_type", "entry_regulations")]
         prepositions = ["to", "from"]
+        regulations_type = tracker.get_slot("regulations_type")
         for p in prepositions:
+            if regulations_type=="vaccine_regulations":
+                p = "to"
             country = tracker.get_slot(f"country_{p}")
             if country not in country_names:
                 dispatcher.utter_message(response=f"utter_wrong_country_{p}")
@@ -256,7 +259,7 @@ class CustomActionQueryKB(Action):
         return "action_query_knowledgebase_cases"
 
     def __init__(self):
-#        self.knowledge_base = InMemoryKnowledgeBase("/app/actions/knowledge_base_data.json")
+        #self.knowledge_base = InMemoryKnowledgeBase("/app/actions/knowledge_base_data.json")
         self.knowledge_base = InMemoryKnowledgeBase("actions/knowledge_base_data.json")
 
     def custom_get_attribute_of(

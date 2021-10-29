@@ -286,6 +286,10 @@ responses:
       title: Netherlands
     - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
       title: Belgium
+    - payload: '/inform_countries{{"country": "Germany", "correct_countries":true}}'
+      title: Germany
+    - payload: '/inform_countries{{"country": "France", "correct_countries":true}}'
+      title: France
     text: Let me know which country you are planning to travel from
   utter_ask_country_to:
   - buttons:
@@ -295,6 +299,10 @@ responses:
       title: Netherlands
     - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
       title: Belgium
+    - payload: '/inform_countries{{"country": "Germany", "correct_countries":true}}'
+      title: Germany
+    - payload: '/inform_countries{{"country": "France", "correct_countries":true}}'
+      title: France
     text: Which country are you planning to travel to?
   utter_ask_want_to_continue:
   - buttons:
@@ -586,7 +594,7 @@ forms:
     required_slots:
       country_to:
       - entity: country
-        intent: query_local_regulations
+        #intent: query_local_regulations
         type: from_entity
       different_household:
       - intent: affirm

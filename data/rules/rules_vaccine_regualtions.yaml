@@ -21,6 +21,23 @@ rules:
     - slot_was_set:
       - requested_slot: null
     - action: action_validate_countries
+
+  - rule: wrong country of vaccine_regulations
+    condition:
+    - slot_was_set:
+      - regulations_type: vaccine_regulations
+      - country_to: None
+    steps:
+    - action: action_validate_countries
+    - action: vaccine_regulations_form
+    - active_loop: vaccine_regulations_form
+
+  - rule: correct country of vaccine_regulations
+    condition:
+    - slot_was_set:
+      - regulations_type: vaccine_regulations
+    steps:
+    - action: action_validate_countries
     - action: action_query_knowledgebase_cases
     wait_for_user_input: false
 
