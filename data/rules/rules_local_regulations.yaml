@@ -7,12 +7,30 @@ rules:
 #    - action: action_set_local
 #    - action: action_set_open
 #    - action: action_query_knowledgebase_cases
-  - rule: ask correct_local
+#  - rule: ask correct_local
+#    steps:
+#    - intent: query_local_regulations
+##    - action: action_extract_countries
+#    - action: correct_local_form
+#    - active_loop: correct_local_form
+  - rule: intent query_local_regulations
     steps:
     - intent: query_local_regulations
-#    - action: action_extract_countries
+    - action: set_regulations_type_form
+    - active_loop: set_regulations_type_form
+
+  - rule: query local regulations
+    condition:
+    - active_loop: set_regulations_type_form
+    - slot_was_set:
+      - regulations_type: local_regulations
+    steps:
+    - action: set_regulations_type_form
+    - active_loop: set_regulations_type_form
+    - active_loop: null
     - action: correct_local_form
     - active_loop: correct_local_form
+
   - rule: denied local_regulations_form
     condition:
     - active_loop: correct_local_form

@@ -53,3 +53,24 @@ nlu:
     - LUX
     - LU
     - luxembourg
+- synonym: France
+  examples: |
+    - FR
+    - france
+    - France
+- synonym: Germany
+  examples: |
+    - DE
+    - Germany
+    - germany
+    - Deutchland
+
+- synonym: outdoors
+  examples: |
+    - outdoor rules
+    - in open spaces
+- synonym: indoors
+  examples: |
+    - rules indoors
+    - in closed areas
+    - in closed spaces

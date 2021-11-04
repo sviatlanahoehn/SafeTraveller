@@ -5,6 +5,10 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: false
 intents:
+- new_travel_plans:
+    use_entities: true
+- everything:
+    use_entities: false
 - query_generic_regulations:
     use_entities: true
 - inform_countries:
@@ -234,13 +238,15 @@ slots:
     auto_fill: true
     influence_conversation: false
 responses:
+  utter_please_choose:
+  - text: Please choose one option, you can return to the regulations menu later.
   utter_ask_cross_border_resident:
   - buttons:
     - payload: /affirm
       title: Yes
     - payload: /deny
       title: No
-    text: Are you a cross-border resident living withing 30km from France?
+    text: Are you a cross-border resident living withing 30km from {country_to}?
   utter_ask_transit:
   - buttons:
     - payload: '/affirm {{"<48h": "True"}}'
@@ -344,7 +350,7 @@ responses:
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
   utter_welcome_message:
-  - text: I am SafeTraveller, a chatbot designed to help BeNeLux travellers prepare for trips during the pandemic. I can share information on Covid-19 travel restrictions, measures applicable upon arrival and the vaccination requirements for travel.
+  - text: I am SafeTraveller, a chatbot designed to help travellers of France, Germany and BeNeLux prepare for trips during the pandemic. I can share information on Covid-19 travel restrictions, measures applicable upon arrival and the vaccination requirements for travel.
   utter_ask_trip_details:
   - text: Please tell me where you are travelling from and what is the country of your destination.
   utter_ask_additional:
@@ -365,9 +371,9 @@ responses:
   - text: Luxembourg, Belgium and the Netherlands
   - text: The Netherlands, Belgium and Luxembourg
   utter_wrong_country_to:
-  - text: Sorry, I couldn't recognise your destination. Make sure that it is one of the BeNeLux countries.
+  - text: Sorry, I couldn't recognise your destination. Make sure that it is one of the countries specified above.
   utter_wrong_country_from:
-  - text: Sorry, I could not recognise the departure country. Make sure that it is one of the BeNeLux countries.
+  - text: Sorry, I could not recognise the departure country. Make sure that it is one of the countries specified above.
   - text: I am still learning and could not understand all of the information I need.
   utter_ask_correct_info:
   - buttons:
@@ -443,12 +449,17 @@ actions:
 - action_repeat_last
 - action_check_area
 - action_go_back
-- regulation_type_form
 - want_local_info_form
 - transit_BE_form
 - indoors/outdoors_form
 - want_more_local_info_form
 forms:
+  discard_details_form:
+    required_slots:
+      keep_details:
+      - intent: new_travel_plans
+        type: from_trigger_intent
+        value: false
   cross_border_resident_form:
     required_slots:
       cross_border_resident:
@@ -480,7 +491,7 @@ forms:
     required_slots:
       country_to:
       - entity: country
-        intent: query_vaccine_regulations
+        #intent: query_vaccine_regulations
         type: from_entity
   correct_local_form:
     required_slots:
@@ -531,9 +542,6 @@ forms:
         value: false
   set_regulations_type_form:
     required_slots:
-      country_to:
-      - entity: country
-        type: from_entity
       regulations_type:
       - intent: query_entry_regulations
         type: from_trigger_intent
@@ -547,6 +555,9 @@ forms:
       - intent: query_vaccine_regulations
         type: from_trigger_intent
         value: vaccine_regulations
+      country_to:
+      - entity: country
+        type: from_entity
   country_form_II:
     required_slots:
       country_from:

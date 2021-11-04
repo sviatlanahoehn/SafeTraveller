@@ -31,7 +31,7 @@ class ActionCheckBorders(Action):
         country_from = tracker.get_slot("country_from")
         common_border = False
         area_type = ""
-        safe_countries = {"Netherlands":[], "Belgium":["Luxembourg"], "Luxembourg":[]}
+        safe_countries = {"Netherlands":[], "Belgium":["Luxembourg"], "Luxembourg":[], "Germany":[], "France":[]}
 
         if country_to=="Belgium" or country_from=="Belgium":
             common_border = True
@@ -122,15 +122,15 @@ class ActionValidateCountries(Action):
     def name(self):
         return 'action_validate_countries'
     def run(self, dispatcher, tracker, domain):
-        country_names = ["France", "Germany", "Belgium", "Luxembourg","Netherlands"]
+        country_names = ["france", "germany", "belgium", "luxembourg","netherlands"]
         slots = [] #SlotSet("regulations_type", "entry_regulations")]
         prepositions = ["to", "from"]
         regulations_type = tracker.get_slot("regulations_type")
         for p in prepositions:
-            if regulations_type=="vaccine_regulations":
+            if regulations_type=="vaccine_regulations" or regulations_type=="local_regulations":
                 p = "to"
             country = tracker.get_slot(f"country_{p}")
-            if country not in country_names:
+            if country.lower() not in country_names:
                 dispatcher.utter_message(response=f"utter_wrong_country_{p}")
                 slots.append(SlotSet(f"country_{p}", None))
                 break
@@ -192,22 +192,23 @@ class ActionDefaultFallback(Action):
         return [UserUtteranceReverted()]
 
 
-#class ActionClearCountries(Action):
-#    def name(self) -> Text:
-#        return "action_clear_countries"
+class ActionClearCountries(Action):
+    def name(self) -> Text:
+        return "action_clear_countries"
 
-#    def run(
-#        self,
-#        dispatcher,
-#        tracker: Tracker,
-#        domain: "DomainDict",
-#    ) -> List[Dict[Text, Any]]:
-#        slots = []
-#        correct_countries = tracker.get_slot("correct_countries")
-#        if correct_countries==False:
-#            slots.append(SlotSet("country_to", None))
-#            slots.append(SlotSet("country_from", None))
-#        return slots
+    def run(
+        self,
+        dispatcher,
+        tracker: Tracker,
+        domain: "DomainDict",
+    ) -> List[Dict[Text, Any]]:
+        slots = []
+        correct_countries = tracker.get_slot("correct_countries")
+        if correct_countries==False:
+            slots.append(SlotSet("country_to", None))
+            slots.append(SlotSet("country_from", None))
+            slots.append(SlotSet("correct_countries", None))
+        return slots
 
 
 class ValidateWantLocalInfoForm(FormValidationAction):
