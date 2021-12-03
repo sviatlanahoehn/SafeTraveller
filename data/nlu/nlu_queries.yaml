@@ -7,6 +7,9 @@ nlu:
     - I need you to give me information
     - inform me about travel
     - answer my question
+    - I'd like to travel to [Germany](country)
+    - hi, I want to travel to [Germany](country)
+    - I want to travel to [belgium](country)
 
 
     - regulations in [Portugal](country)
@@ -118,6 +121,7 @@ nlu:
     - travel from the [netherlands](country) to [BE](country)
     - travel to [Holland](country) from [BE](country)
     - restrictions for travellers from [Luxembourg](country)
+    - travel restrictions from [Belgium](country) to [Luxembourg](country)
 - intent: query_transit
   examples: |
     - transit thorugh [France](country)

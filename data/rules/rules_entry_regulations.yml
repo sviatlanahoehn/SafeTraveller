@@ -71,7 +71,7 @@ rules:
     steps:
     - action: country_form
     - active_loop: null
-    - action: action_check_area
+    - action: action_check_borders
     - action: confirm_country_form
     - active_loop: confirm_country_form
   - rule: correct the countries
@@ -137,7 +137,7 @@ rules:
     - active_loop: null
     - slot_was_set:
       - requested_slot: null
-    - action: action_check_area
+    - action: action_check_borders
     - action: stay_OR_transit_form
     - active_loop: stay_OR_transit_form
 #====== FORMS ACTIVATION ======
@@ -147,7 +147,18 @@ rules:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
       - country_to: Belgium
-      - transit: false
+#      - transit: false
+    steps:
+    - action: stay_OR_transit_form
+    - active_loop: null
+    - action: <48h_form
+    - active_loop: <48h_form
+  - rule: journey to BE // DE
+    condition:
+    - active_loop: stay_OR_transit_form
+    - slot_was_set:
+      - country_to: Germany
+#      - transit: false
     steps:
     - action: stay_OR_transit_form
     - active_loop: null
@@ -197,7 +208,7 @@ rules:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
       - country_to: Netherlands
-      - transit: false
+#      - transit: false
     steps:
     - action: stay_OR_transit_form
     - active_loop: null
@@ -215,7 +226,7 @@ rules:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
       - country_to: Luxembourg
-      - transit: false
+#      - transit: false
     steps:
     - action: stay_OR_transit_form
     - active_loop: null
@@ -341,9 +352,23 @@ rules:
     - active_loop: null
     - slot_was_set:
       - requested_slot: null
-    #- action: action_ask_confirm_collected_info
-    #- action: confirm_form
-    #- active_loop: confirm_form
+    - action: action_query_knowledgebase_cases
+    wait_for_user_input: false
+
+  - rule: ask third_country_form
+    condition:
+    - active_loop: children_travel_form
+    - slot_was_set:
+      - plane_travel: false
+      - common_border: true
+    steps:
+    - action: children_travel_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: third_country_form
+    - active_loop: third_country_form
+    - active_loop: null
     - action: action_query_knowledgebase_cases
     wait_for_user_input: false
 

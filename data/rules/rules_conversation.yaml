@@ -73,6 +73,7 @@ rules:
     steps:
       - intent: goodbye
       - action: utter_goodbye
+      - action: action_restart
   - rule: thank you
     steps:
       - intent: thank_you
@@ -191,6 +192,7 @@ rules:
     - slot_was_set:
       - requested_slot: null
     - action: utter_goodbye
+    - action: action_restart
 
 #  - rule: end of convo afetr local info
 #    condition:
@@ -206,11 +208,13 @@ rules:
     steps:
     - action: utter_prompt_continue
     - intent: deny
-    - action: utter_goodbye  
+    - action: utter_goodbye
+    - action: action_restart
   - rule: nothing else
     steps:
     - intent: nothing_else
     - action: utter_goodbye
+    - action: action_restart
 
 #------IN BETWEEN QUERIES-----
 #- rule: ask keep context
@@ -284,6 +288,7 @@ rules:
     - action: regulations_type_form
     - active_loop: null
     - action: utter_goodbye
+    - action: action_restart
   - rule: regulations_type_form interrupt II
     condition:
     - active_loop: regulations_type_form
@@ -302,6 +307,7 @@ rules:
     - action: continue_form
     - active_loop: null
     - action: utter_goodbye
+    - action: action_restart
   - rule:  end continue_form II
     condition:
     - active_loop: continue_form
@@ -310,6 +316,7 @@ rules:
     - action: continue_form
     - active_loop: null
     - action: utter_goodbye
+    - action: action_restart
 #  - rule: details on test
 #    steps:
 #    - intent: test_details

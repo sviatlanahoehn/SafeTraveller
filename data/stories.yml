@@ -83,6 +83,7 @@ stories:
     - action: set_regulations_type_form
     - active_loop: set_regulations_type_form
     - active_loop: null
+    - action: action_validate_countries
     - slot_was_set:
       - country_to: France
       - regulations_type: local_regulations
@@ -115,7 +116,7 @@ stories:
       - common_border: true
     - action: country_form
     - active_loop: null
-    - action: action_check_area
+    - action: action_check_borders
     - slot_was_set:
       - common_border: true
     - action: confirm_country_form
@@ -149,7 +150,7 @@ stories:
     - slot_was_set:
       - correct_info: true
     - action: action_set_local
-    - action: action_validate_countries
+#    - action: action_validate_countries
     - action: local_regulations_form
     - active_loop: local_regulations_form
     - active_loop: null
@@ -179,10 +180,10 @@ stories:
       - country_from: Luxembourg
     - action: country_form
     - active_loop: null
-    - action: action_check_area
+    - action: action_check_borders
     - slot_was_set:
       - common_border: true
-      - area_type: SAFE
+      - common_border: true
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -211,7 +212,7 @@ stories:
       - regulations_type: entry_regulations
     - action: country_form
     - active_loop: null
-    - action: action_check_area
+    - action: action_check_borders
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -240,7 +241,7 @@ stories:
       - regulations_type: entry_regulations
     - action: country_form
     - active_loop: null
-    - action: action_check_area
+    - action: action_check_borders
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -266,7 +267,7 @@ stories:
     - active_loop: null
     - slot_was_set:
       - country_to: Luxembourg
-    - action: action_check_area
+    - action: action_check_borders
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:
@@ -294,6 +295,7 @@ stories:
     - slot_was_set:
       - want_to_continue: false
     - action: utter_goodbye
+    - action: action_restart
 
 #  - story: from NL to LUX + by land
 #    steps:
@@ -302,7 +304,7 @@ stories:
 #    - slot_was_set:
 #      - country_to: Luxembourg
 #      - country_from: Netherlands
-#    - action: action_check_area
+#    - action: action_check_borders
 #    - action: confirm_country_form
 #    - active_loop: null
 #    - slot_was_set:
@@ -380,7 +382,7 @@ stories:
       - country_from: Luxembourg
     - action: country_form
     - active_loop: null
-    - action: action_check_area
+    - action: action_check_borders
     - action: confirm_country_form
     - active_loop: null
     - slot_was_set:

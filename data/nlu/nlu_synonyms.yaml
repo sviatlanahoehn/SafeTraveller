@@ -44,26 +44,41 @@ nlu:
     - netherlands
     - nethlands
     - NL
+    - Pays-Bas
+    - pays-bas
+    - Niederlande
+    - niederlande
 - synonym: Belgium
   examples: |
     - belgium
     - BE
+    - Belgique
+    - belgique
+    - Belgien
+    - belgien
 - synonym: Luxembourg
   examples: |
     - LUX
     - LU
     - luxembourg
+    - Luxemburg
+    - luxemburg
 - synonym: France
   examples: |
     - FR
     - france
     - France
+    - Frankreich
+    - frankreich
 - synonym: Germany
   examples: |
     - DE
     - Germany
     - germany
-    - Deutchland
+    - Deutschland
+    - deutschland
+    - Allemagne
+    - allemagne
 
 - synonym: outdoors
   examples: |
