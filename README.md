@@ -4,9 +4,7 @@ This is a prototype of a chatbot presented at the BNAIC conference in November 2
 
 The artificial conversational assistant SafeTraveller was created as a Bachelor student project in 2021. In the context of ever-changing COVID-19 regulations, the idea behind the project is to facilitate access to travel-related rules for people living in regions where cross-border traffic is essential. The current implementation covers travel regulations for the Benelux and the Greater Region countries and informs users in English.
 
-The assistant is implemented using RASA and works in Facebook Messenger. The prototype was created considering design recommendations for chatbot usability. A heuristic-based evaluation of the user experience of the prototype showed that the assistant outperforms the results of its colleagues in the eHealth sector on average.
-
-The assistant works by filling slots with user travel details and querying the knowledge base of regulations to provide relevant information. The code for queries is implemented using Python framework. The regulations knowledge base is stored in a <em>knowledge_base_data.json</em> file in the <em>actions</em> directory.
+The assistant is implemented using RASA and works in Facebook Messenger. The assistant works by filling slots with user travel details and querying the knowledge base of regulations to provide relevant information. The code for queries is implemented using Python framework. The regulations knowledge base is stored in a <em>knowledge_base_data.json</em> file in the <em>actions</em> directory.
 
 Authors: Kristina Kudryavtseva, Sviatlana Höhn
 
