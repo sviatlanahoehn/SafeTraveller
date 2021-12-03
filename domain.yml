@@ -5,6 +5,10 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: false
 intents:
+- new_travel_plans:
+    use_entities: true
+- everything:
+    use_entities: false
 - query_generic_regulations:
     use_entities: true
 - inform_countries:
@@ -55,6 +59,10 @@ intents:
     use_entities: true
 - query_transit:
     use_entities: true
+- query_regulations:
+    use_entities: true
+- query_open_places:
+    use_entities: true
 entities:
 - regulations_type
 - transit_BE
@@ -68,6 +76,11 @@ entities:
 - country
 - <48h
 slots:
+  third_country:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
   cross_border_resident:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
@@ -163,9 +176,11 @@ slots:
     auto_fill: true
     influence_conversation: true
     values:
-    - luxembourg
-    - belgium
-    - netherlands
+    - Luxembourg
+    - Belgium
+    - Netherlands
+    - France
+    - Germany
   country_from:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
@@ -230,27 +245,36 @@ slots:
     auto_fill: true
     influence_conversation: false
 responses:
-  utter_ask_cross_border_resident:
-  - buttons:
-    - payload: '/affirm'
-      title: "Yes"
-    - payload: '/deny'
-      title: "No"
-    text: Are you a cross-border resident living withing 30km from France?
-  utter_ask_transit:
-  - buttons:
-    - payload: '/affirm {{"<48h": "True"}}'
-      title: Yes
-    - payload: /deny
-      title: No
-    text: Are you going to {country_to} for transit?
-  utter_ask_keep_details:
+  utter_ask_third_country:
   - buttons:
     - payload: /affirm
       title: Yes
     - payload: /deny
       title: No
-    text: Would you like to keep the details I collected?
+    text: Do you consider transiting through a third country?
+  utter_please_choose:
+  - text: Please choose one option, you can return to the regulations menu later.
+  utter_ask_cross_border_resident:
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No
+    text: Are you a cross-border resident living withing 30km from {country_to}?
+  utter_ask_transit:
+  - buttons:
+    - payload: /deny
+      title: Yes
+    - payload: '/affirm {{"<48h": "True"}}'
+      title: No
+    text: Is {country_to} your final destination?
+  utter_ask_keep_details:
+  - buttons:
+    - payload: /deny
+      title: "Restart"
+    - payload: /affirm
+      title: "Keep Details"
+    text: Would you like to restart with new information or to keep the collected details?
   utter_type_restart:
   - text: You can type 'restart' to restart the conversation.
   utter_restart_please:
@@ -275,23 +299,31 @@ responses:
       title: Vaccination Details
     text: What would you like to know?
   utter_ask_country_from:
-  - buttons:
-    - payload: '/inform_countries{{"country": "Luxembourg", "correct_countries":true}}'
-      title: Luxembourg
-    - payload: '/inform_countries{{"country": "Netherlands", "correct_countries":true}}'
-      title: Netherlands
-    - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
-      title: Belgium
-    text: Let me know which country you are planning to travel from
+#  - buttons:
+#    - payload: '/inform_countries{{"country": "Luxembourg", "correct_countries":true}}'
+#      title: Luxembourg
+#    - payload: '/inform_countries{{"country": "Netherlands", "correct_countries":true}}'
+#      title: Netherlands
+#    - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
+#      title: Belgium
+#    - payload: '/inform_countries{{"country": "Germany", "correct_countries":true}}'
+#      title: Germany
+#    - payload: '/inform_countries{{"country": "France", "correct_countries":true}}'
+#      title: France
+  - text: Please let me know your departure country.
   utter_ask_country_to:
-  - buttons:
-    - payload: '/inform_countries{{"country": "Luxembourg", "correct_countries":true}}'
-      title: Luxembourg
-    - payload: '/inform_countries{{"country": "Netherlands", "correct_countries":true}}'
-      title: Netherlands
-    - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
-      title: Belgium
-    text: Which country are you planning to travel to?
+#  - buttons:
+#    - payload: '/inform_countries{{"country": "Luxembourg", "correct_countries":true}}'
+#      title: Luxembourg
+#    - payload: '/inform_countries{{"country": "Netherlands", "correct_countries":true}}'
+#      title: Netherlands
+#    - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
+#      title: Belgium
+#    - payload: '/inform_countries{{"country": "Germany", "correct_countries":true}}'
+#      title: Germany
+#    - payload: '/inform_countries{{"country": "France", "correct_countries":true}}'
+#      title: France
+  - text: Which country are you planning to travel to?
   utter_ask_want_to_continue:
   - buttons:
     - payload: /affirm
@@ -332,9 +364,9 @@ responses:
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
   utter_welcome_message:
-  - text: I am SafeTraveller, a chatbot designed to help BeNeLux travellers prepare for trips during the pandemic. I can share information on Covid-19 travel restrictions, measures applicable upon arrival and the vaccination requirements for travel.
+  - text: I am SafeTraveller, a chatbot designed to help travellers of France, Germany and BeNeLux prepare for trips during the pandemic. I can share information on Covid-19 travel restrictions, measures applicable upon arrival and the vaccination requirements for travel.
   utter_ask_trip_details:
-  - text: Please tell me where you are travelling from and what is the country of your destination.
+  - text: Please tell me where you are travelling from and what is your destination country.
   utter_ask_additional:
   - text: Hint:... you can add other trip details, too, for the query to go faster.
   utter_warn_collect_info:
@@ -350,12 +382,11 @@ responses:
   utter_query_failed:
   - text: Failed to query the knowledge-base...
   utter_list_the_countries:
-  - text: Luxembourg, Belgium and the Netherlands
-  - text: The Netherlands, Belgium and Luxembourg
+  - text: France, Germany, Netherlands, Belgium, Luxembourg
   utter_wrong_country_to:
-  - text: Sorry, I couldn't recognise your destination. Make sure that it is one of the BeNeLux countries.
+  - text: Sorry, I couldn't recognise your destination. Make sure that it is one of the countries specified above.
   utter_wrong_country_from:
-  - text: Sorry, I could not recognise the departure country. Make sure that it is one of the BeNeLux countries.
+  - text: Sorry, I could not recognise the departure country. Make sure that it is one of the countries specified above.
   - text: I am still learning and could not understand all of the information I need.
   utter_ask_correct_info:
   - buttons:
@@ -363,7 +394,7 @@ responses:
       title: Yes
     - payload: /deny
       title: No
-    text: You would like me to look for local regulations, is that correct?
+    text: You would like to look for local regulations, is that correct?
   utter_ask_going_from_work:
   - text: Are planning to be outside to go to/from work or studies?
   utter_ask_different_household:
@@ -390,7 +421,7 @@ responses:
       title: Yes
     - payload: /deny
       title: No
-    text: Are you a worker in the transport or health sector?
+    text: Are you a worker of either transport or health sector?
   utter_ask_plane_travel:
   - buttons:
     - payload: /affirm
@@ -400,8 +431,8 @@ responses:
     text: Are you planning to travel by plane?
   utter_ask_location:
   - text: For which country would you like to know the local regulations?
-  utter_restart:
-  - text: Okay, I have restarted our conversation.
+  #utter_restart:
+  - text: I have restarted our conversation.
   utter_ask_rephrase:
   - text: Sorry, I did not quite understand. Can you please rephrase?
   utter_rephrase:
@@ -429,18 +460,37 @@ actions:
 - action_extract_countries
 - action_validate_countries
 - action_repeat_last
-- action_check_area
+- action_check_borders
 - action_go_back
-- regulation_type_form
+- want_local_info_form
+- transit_BE_form
+- indoors/outdoors_form
+- want_more_local_info_form
 forms:
+  third_country_form:
+    required_slots:
+      third_country:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
+  discard_details_form:
+    required_slots:
+      keep_details:
+      - intent: new_travel_plans
+        type: from_trigger_intent
+        value: false
   cross_border_resident_form:
-    cross_border_resident:
-    - intent: affirm
-      type: from_intent
-      value: true
-    - intent: deny
-      type: from_intent
-      value: false
+    required_slots:
+      cross_border_resident:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
   stay_OR_transit_form:
     required_slots:
       transit:
@@ -463,7 +513,7 @@ forms:
     required_slots:
       country_to:
       - entity: country
-        intent: query_vaccine_regulations
+        #intent: query_vaccine_regulations
         type: from_entity
   correct_local_form:
     required_slots:
@@ -514,9 +564,6 @@ forms:
         value: false
   set_regulations_type_form:
     required_slots:
-      country_to:
-      - entity: country
-        type: from_entity
       regulations_type:
       - intent: query_entry_regulations
         type: from_trigger_intent
@@ -530,6 +577,9 @@ forms:
       - intent: query_vaccine_regulations
         type: from_trigger_intent
         value: vaccine_regulations
+      country_to:
+      - entity: country
+        type: from_entity
   country_form_II:
     required_slots:
       country_from:
@@ -577,7 +627,7 @@ forms:
     required_slots:
       country_to:
       - entity: country
-        intent: query_local_regulations
+        #intent: query_local_regulations
         type: from_entity
       different_household:
       - intent: affirm

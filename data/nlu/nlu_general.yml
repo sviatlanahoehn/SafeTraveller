@@ -28,7 +28,6 @@ nlu:
     - that's it
     - i'm good, bye
     - i want to go now
-    - that's all, thanks
     - I want to quit
     - stop
     - quit
@@ -147,3 +146,14 @@ nlu:
     - retsart the conversation
     - start again
     - start from the beginning
+- intent: everything
+  examples: |
+    - all of that
+    - everything
+    - i want everything
+    - all regulations
+    - both
+    - both options
+    - all options
+    - tell me about both options
+    - tell me about both options

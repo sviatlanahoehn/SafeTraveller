@@ -2,7 +2,18 @@ version: "2.0"
 nlu:
 - intent: query_generic_regulations
   examples: |
+    - I have a question
+    - I want information
+    - I need you to give me information
+    - inform me about travel
+    - answer my question
+    - I'd like to travel to [Germany](country)
+    - hi, I want to travel to [Germany](country)
+    - I want to travel to [belgium](country)
+
+
     - regulations in [Portugal](country)
+    - I want to travel to [Germany](country) via [France](country)
     - covid restrictions [Luxembourg](country)
     - [Portugal](country) covid rules
     - rules for [Luxembourg](country)
@@ -14,6 +25,7 @@ nlu:
     - covid rules in [Sweden](country)
     - [Sweden](country) corona rules
     - covid measures [Germany](country)
+    - Are there any regulations in [Brussels](country)
 - intent: query_vaccine_regulations
   examples: |
     - vaccine details
@@ -22,7 +34,9 @@ nlu:
     - approved vaccines
     - vaccines allowed in [LU](country)
     - vaccination details [Belgium](country)
-    - vaccines [Germany]
+    - vaccines [Germany](country)
+    - vaccines [france](country)
+    - vaccines in [Belgium](country)
     - when is my covid certificate valid
     - when my vaccination is valid for travel
     - vaccine requirements for border crossing
@@ -100,6 +114,14 @@ nlu:
     - entry regulations [Luxembourg](country)
     - entry restrictions in [USA](country)
     - travel restrictions [Malta](country)
+    - What are the regulations to travel to [France](country)
+    - travelling from [BE](country) to [LU](country)
+    - rules for going to [germany](country)
+    - go from [BE](country) to [LU](country)
+    - travel from the [netherlands](country) to [BE](country)
+    - travel to [Holland](country) from [BE](country)
+    - restrictions for travellers from [Luxembourg](country)
+    - travel restrictions from [Belgium](country) to [Luxembourg](country)
 - intent: query_transit
   examples: |
     - transit thorugh [France](country)
@@ -135,8 +157,19 @@ nlu:
     - boarding regulations [Germany](country)
 - intent: inform_countries
   examples: |
-    - travelling from [BE](country) to [LU](country)
-    - restrictions for travellers from [Luxembourg](country)
+    - how about [Belgium](country)
+    - what about [germany](country)
+    - regulations in [spain](country)
+    - how about [Spain](country)
+    - [DE](country)
+    - [france](country)
+    - [portugal](country)
+    - to [NL](country)
+    - to [france](country)
+    - [germany](country)
+    - [luxembourg](country)
+    - [Belgium](country)
+    - [luxembourg](country)
     - from [Luxembourg](country)
     - going from [Belgium](country)
     - rules for going from [germany](country)
@@ -147,10 +180,7 @@ nlu:
     - I'm going to [Germany](country)
     - I'm going to [belgium](country)
     - i'm travelling to [Switzerland](country)
-    - rules for going to [germany](country)
-    - go from [BE](country) to [LU](country)
-    - travel from the [netherlands](country) to [BE](country)
-    - travel to [Holland](country) from [BE](country)
+
     - go to [LU](country) from [BE](country)
     - travel from the [NL](country) to [LU](country)
     - from [BE](country) to [LU](country)
@@ -175,12 +205,70 @@ nlu:
     - from [LU](country) to [BE](country)
     - travel from [LUX](country) to [BE](country)
     - going from [NL](country) to [LU](country)
-- synonym: outdoors
+
+    - [Austria](country)
+    - [Italy](country)
+    - [Belgium](country)
+    - [Latvia](country)
+    - [Bulgaria](country)
+    - [Lithuania](country)
+    - [Croatia](country)
+    - [Luxembourg](country)
+    - [Cyprus](country)
+    - [Malta](country)
+    - [Czechia](country)
+    - [Netherlands](country)
+    - [Denmark](country)
+    - [Poland](country)
+    - [Estonia](country)
+    - [Portugal](country)
+    - [Finland](country)
+    - [Romania](country)
+    - [France](country)
+    - [Slovakia](country)
+    - [Germany](country)
+    - [Slovenia](country)
+    - [Greece](country)
+    - [Spain](country)
+    - [Hungary](country)
+    - [Sweden](country)
+    - [Ireland](country)
+
+    - [austria](country)
+    - [italy](country)
+    - [belgium](country)
+    - [latvia](country)
+    - [bulgaria](country)
+    - [lithuania](country)
+    - [croatia](country)
+    - [luxembourg](country)
+    - [cyprus](country)
+    - [malta](country)
+    - [czechia](country)
+    - [hetherlands](country)
+    - [denmark](country)
+    - [poland](country)
+    - [estonia](country)
+    - [portugal](country)
+    - [finland](country)
+    - [romania](country)
+    - [france](country)
+    - [slovakia](country)
+    - [germany](country)
+    - [slovenia](country)
+    - [greece](country)
+    - [spain](country)
+    - [hungary](country)
+    - [sweden](country)
+    - [ireland](country)
+
+- intent: new_travel_plans
   examples: |
-    - outdoor rules
-    - in open spaces
-- synonym: indoors
-  examples: |
-    - rules indoors
-    - in closed areas
-    - in closed spaces
+    - I have new travel plans
+    - i want to check for another trip
+    - look up another trip
+    - change of plans
+    - look for new destination
+    - a different trip
+    - new trip scenario
+    - - I have a new trip plan

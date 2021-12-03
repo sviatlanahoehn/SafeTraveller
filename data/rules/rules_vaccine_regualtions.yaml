@@ -21,15 +21,54 @@ rules:
     - slot_was_set:
       - requested_slot: null
     - action: action_validate_countries
+    wait_for_user_input: false
+
+  - rule: wrong country of vaccine_regulations
+    condition:
+    - slot_was_set:
+      - regulations_type: vaccine_regulations
+      - country_to: None
+    steps:
+    - action: action_validate_countries
+    - action: vaccine_regulations_form
+    - active_loop: vaccine_regulations_form
+
+  - rule: correct country of vaccine_regulations
+    condition:
+    - slot_was_set:
+      - regulations_type: vaccine_regulations
+    steps:
+    - action: action_validate_countries
     - action: action_query_knowledgebase_cases
     wait_for_user_input: false
 
-  - rule: query vaccine regulations
+  - rule: intent query_vaccine_regulations
     steps:
     - intent: query_vaccine_regulations
-#    - action: action_extract_countries
+    - action: set_regulations_type_form
+    - active_loop: set_regulations_type_form
+
+  - rule: query vaccine regulations
+    condition:
+    - active_loop: set_regulations_type_form
+    - slot_was_set:
+      - regulations_type: vaccine_regulations
+    steps:
     - action: set_regulations_type_form
     - active_loop: set_regulations_type_form
     - active_loop: null
+    - action: vaccine_regulations_form
+    - active_loop: vaccine_regulations_form
+
+  - rule: choose vaccine regulations type
+    condition:
+    - active_loop: regulations_type_form
+    - slot_was_set:
+      - regulations_type: vaccine_regulations
+    steps:
+    - action: regulations_type_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
     - action: vaccine_regulations_form
     - active_loop: vaccine_regulations_form

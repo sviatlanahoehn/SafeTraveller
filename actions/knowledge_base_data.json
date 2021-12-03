@@ -3,7 +3,7 @@
         {
             "ID": 0,
             "name": "No restrictions (EU)",
-            "conditions": "No special special requirements for transit apply."
+            "conditions": "No special requirements for transit apply."
         },
         {
             "ID": 1,
@@ -18,21 +18,28 @@
         {
             "ID": 0,
             "name": "No restrictions (EU)",
-            "conditions": "No special special requirements upon entry apply.",
+            "conditions": "You are exempted from showing the proof of testing or vaccination based on the nature of your travel.",
             "title": "",
             "payload": ""
         },
         {
             "ID": 1.0,
             "name": "3G/TGV (PCR or antigen test) (EU)(DE)",
-            "conditions": "Present a negative rapid antigen or PCR covid test result, a recovery certificate or a vaccination certificate.",
+            "conditions": "You have to present a negative rapid antigen or PCR covid test result, a recovery certificate or a vaccination certificate.",
             "title": "",
             "payload": ""
         },
         {
             "ID": 1.1,
             "name": "3G/TGV (PCR test) (EU)",
-            "conditions": "Present a negative PCR covid test result, a recovery certificate or a vaccination certificate.",
+            "conditions": "You have to present a negative PCR covid test result, a recovery certificate or a vaccination certificate.",
+            "title": "",
+            "payload": ""
+        },
+        {
+            "ID": 1.2,
+            "name": "Transit proof (DE)",
+            "conditions": "Proof of transit or a stay of maximum 24 hours is required.",
             "title": "",
             "payload": ""
         },
@@ -46,7 +53,7 @@
         {
             "ID": 3,
             "name": "Health declaration AND 3G/TGV (NL)",
-            "conditions": "Present a negative rapid antigen or PCR covid test result, a recovery certificate or a vaccination certificate. You need to fill out a health declaration before boarding.",
+            "conditions": "You have to present a negative rapid antigen or PCR covid test result, a recovery certificate or a vaccination certificate. You need to fill out a health declaration before boarding.",
             "title": "Online Declaration",
             "payload": "https://www.government.nl/topics/coronavirus-covid-19/documents/publications/2020/07/07/information-for-passengers-flying-to-and-from-the-netherlands"
 
@@ -61,7 +68,14 @@
         {
             "ID": 5,
             "name": "PLF AND 3G/TGV (BE)",
-            "conditions": "Present a negative PCR test result, a recovery certificate or a vaccination certificate. You must fill out a self-assessment form within 48 hours before arrival.",
+            "conditions": "You have to present a negative PCR test result, a recovery certificate or a vaccination certificate. You must fill out a self-assessment form within 48 hours before arrival.",
+            "title": "Online Form",
+            "payload": "https://travel.info-coronavirus.be/public-health-passenger-locator-form"
+        },
+        {
+            "ID": 5.0,
+            "name": "PLF AND 3G/TGV (BE)",
+            "conditions": "You must fill out a Passenger Locator Form within 48 hours before arriving in Belgium. You should fill in, sign and carry with them a statement indicating the reason of their journey (more information and the form can be found at: https://www.info-coronavirus.be/en/travels/).",
             "title": "Online Form",
             "payload": "https://travel.info-coronavirus.be/public-health-passenger-locator-form"
         },
@@ -73,7 +87,7 @@
         {
             "ID": 7,
             "name": "3G/TGV (FR) RISK country",
-            "conditions": "You have to present a vaccination proof and a sworn COVID-19 declaration or alternatively a negative result of a PCR test taken less than 24h ago or a recovery certificate."
+            "conditions": "You must present a negative COVID-19 test taken within 72 hours prior to arrival (for PCR test) or within 48 hours prior to arrival (for antigenic test)."
         }
     ],
 
