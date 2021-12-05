@@ -1,6 +1,5 @@
 from typing import Text, Dict, Any, List, Union, Optional
 
-#import rasa_core
 from rasa_sdk.events import UserUtteranceReverted, ActionReverted
 from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
@@ -13,13 +12,7 @@ from rasa_sdk.events import AllSlotsReset
 from rasa_sdk.events import FollowupAction
 
 
-class ActionGoBack(Action):
-    def name(self):
-        return 'action_go_back'
-    def run(self, dispatcher, tracker, domain):
-        return [UserUtteranceReverted(), ActionReverted(), UserUtteranceReverted(), ActionReverted()]
-
-
+""" Action to ckeck if the two countries have a common border. """
 class ActionCheckBorders(Action):
     def name(self):
         return 'action_check_borders'
@@ -34,10 +27,10 @@ class ActionCheckBorders(Action):
         if country_to in neighbours[country_from]:
             common_border = True
 
-
         return [SlotSet("common_border", common_border)]
-#        return [SlotSet("common_border", common_border), SlotSet("third_country", True)]
 
+
+""" Action executed after queries to keep or discard context collected for the last query. """
 class ValidateKeepContext(Action):
     def name(self):
         return "validate_keep_context"
@@ -47,34 +40,33 @@ class ValidateKeepContext(Action):
             return []
         else:
             return [AllSlotsReset()]
+
+
+""" Action executed when a new regulations type should be entered by the user. """
 class ActionResetRegulationsType(Action):
     def name(self):
         return 'action_reset_regulations_type'
     def run(self, dispatcher, tracker, domain):
         return [SlotSet("regulations_type", None)]
+
+
+""" Action executed after confirmation of local regualations intent by the user. """
 class ActionSetLocal(Action):
     def name(self):
         return 'action_set_local'
     def run(self, dispatcher, tracker, domain):
         return [SlotSet("regulations_type", "local_regulations")]
+
+
+""" Action to fill in the boolean slot that records whether open places information is wanted by the user. """
 class ActionSetOpen(Action):
     def name(self):
         return 'action_set_open'
     def run(self, dispatcher, tracker, domain):
         return [SlotSet("want_open_places", True)]
-class ActionRepeatLast(Action):
-    def name(self):
-        return 'action_repeat_last'
-    def run(self, dispatcher, tracker, domain):
-        return [UserUtteranceReverted(), ActionReverted()]
-class ActionValidateTransit(Action):
-    def name(self):
-        return 'action_validate_transit'
-    def run(self, dispatcher, tracker, domain):
-        slots = []
-        return slots
 
 
+""" Action to extract country values from the latest user message. """
 class ActionExtractCountries(Action):
     def name(self):
         return 'action_extract_countries'
@@ -86,8 +78,6 @@ class ActionExtractCountries(Action):
         country_to = []
         prepositions = ["to", "from"]
         sentence = list(tracker.latest_message['text'].split(" "))
-#        countries = tracker.get_latest_entity_values(entity_type="country")
-# countries = ['luxembourg', 'netherlands']
         for p in prepositions:
             if p in sentence:
                 index = sentence.index(p)
@@ -99,19 +89,11 @@ class ActionExtractCountries(Action):
                     if country.lower() in country_names.get(country_key):
                         slots.append(SlotSet(country_role, country_key))
                         break
-#                dispatcher.utter_message(response=f"utter_wrong_country_{p}")
-#                slots.append(SlotSet(country_role, None))
-
-#        num_country_from = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="from")))
-#        num_country_to = len(list(tracker.get_latest_entity_values(entity_type="country", entity_role="to")))
-#        country_from = next(tracker.get_latest_entity_values(entity_type="country", entity_role="from"), None)
-#        country_to = next(tracker.get_latest_entity_values(entity_type="country", entity_role="to"), None)
-
-#        if num_country_to==2 or num_country_from==2:
-#            dispatcher.utter_message("Sorry, I am still learning and could not understand what countries you mentioned.")
 
         return slots
 
+
+"""Action to validate that valid country values were extracted."""
 class ActionValidateCountries(Action):
     def name(self):
         return 'action_validate_countries'
@@ -129,23 +111,11 @@ class ActionValidateCountries(Action):
                     dispatcher.utter_message(response=f"utter_wrong_country_{p}")
                     slots.append(SlotSet(f"country_{p}", None))
                     break
-#        else:
-#            dispatcher.utter_message(response=f"utter_wrong_country_to")
 
         return slots
 
-#class ActionResetTransportSlot(Action):
-#    def name(self):
-#        return 'action_reset_transport_slot'
-#    def run(self, dispatcher, tracker, domain):
-#        transit = tracker.get_slot("transit_BE")
-#        if transit==False:
-#            plane_travel = "plane"
-#        else:
-#            plane_travel = None
-#        return [SlotSet("plane_travel", plane_travel)]
 
-
+""" Action to utter the conversation beginning disclaimer. """
 class ActionUtterDisclaimer(Action):
     def name(self):
         return 'action_utter_disclaimer'
@@ -154,6 +124,7 @@ class ActionUtterDisclaimer(Action):
         return []
 
 
+""" Overwrite of default fallback action with a new utterance."""
 class ActionDefaultFallback(Action):
 
     def name(self) -> Text:
@@ -167,49 +138,36 @@ class ActionDefaultFallback(Action):
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(response="utter_custom_fallback")
 
-        current_slots = []
-        country_from = tracker.get_slot("country_from")
-        current_slots.append(country_from)
-        country_to = tracker.get_slot("country_to")
-        current_slots.append(country_to)
-        regulations_type = tracker.get_slot("regulations_type")
-        current_slots.append(regulations_type)
-        plane_travel = tracker.get_slot("plane_travel")
-        current_slots.append(plane_travel)
-        #visit_purpose = tracker.get_slot("visit_purpose")
-        #current_slots.append(visit_purpose)
-        one_day = tracker.get_slot("<48h")
-        current_slots.append(one_day)
-
         dispatcher.utter_message(f"I could not undersatnd that, sorry.")
         dispatcher.utter_message(f"Please rephrase, so that we can continue.")
 
         return [UserUtteranceReverted()]
 
 
+""" Action to empty context of user countries. Empties slots country_to, country_from, correct_countries."""
 class ActionClearCountries(Action):
     def name(self) -> Text:
         return "action_clear_countries"
 
-    def run(
-        self,
-        dispatcher,
-        tracker: Tracker,
-        domain: "DomainDict",
-    ) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher, tracker: Tracker, domain: "DomainDict",) -> List[Dict[Text, Any]]:
+
         slots = []
         correct_countries = tracker.get_slot("correct_countries")
         if correct_countries==False:
             slots.append(SlotSet("country_to", None))
             slots.append(SlotSet("country_from", None))
             slots.append(SlotSet("correct_countries", None))
+
         return slots
 
 
+""" Action to validate the local regultions intent."""
 class ValidateWantLocalInfoForm(FormValidationAction):
     def name(self) -> Text:
         return "validate_want_local_info_form"
 
+
+"""Adds regulations_type slot to the required slots."""
     async def required_slots(
         self,
         slots_mapped_in_domain: List[Text],
@@ -220,6 +178,8 @@ class ValidateWantLocalInfoForm(FormValidationAction):
         required_slots = slots_mapped_in_domain + ["regulations_type"]
         return required_slots
 
+
+"""Fills in the regulations_type slot."""
     async def extract_regulations_type(
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> Dict[Text, Any]:
@@ -232,21 +192,6 @@ class ValidateWantLocalInfoForm(FormValidationAction):
         return {"regulations_type": regulations_type}
 
 
-class ActionAskCorrectCountries(Action):
-    def name(self):
-        return "action_ask_correct_countries"
-
-    def run(
-        self,
-        dispatcher,
-        tracker: Tracker,
-        domain: "DomainDict",
-    ) -> List[Dict[Text, Any]]:
-        country_to = tracker.get_slot("country_to")
-        country_from = tracker.get_slot("country_from")
-        dispatcher.utter_message(f"I am going to look for regulations on travel from {country_from} to {country_to}. Is that what you are looking for?")
-        return []
-
 
 # =========== Adaptation of ActionQueryAttribute class from tutorial-knowledge-base.actions
 class CustomActionQueryKB(Action):
@@ -255,9 +200,9 @@ class CustomActionQueryKB(Action):
         return "action_query_knowledgebase_cases"
 
     def __init__(self):
-        #self.knowledge_base = InMemoryKnowledgeBase("/app/actions/knowledge_base_data.json")
         self.knowledge_base = InMemoryKnowledgeBase("actions/knowledge_base_data.json")
 
+"""Retrieves attribute value with key_attribute corresponding to entity value."""
     def custom_get_attribute_of(
         self, regulations_type: Text, key_attribute: Text, entity: Text, attribute: Text
     ) -> List[Any]:
@@ -267,13 +212,11 @@ class CustomActionQueryKB(Action):
         entity_of_interest = list(
             filter(lambda e: e[key_attribute] == entity, entities)
         )
-       # if not entity_of_interest or len(entity_of_interest) > 1:
         if not entity_of_interest:
             return []
         return [entity_of_interest[0][attribute]]
 
-
-    #def update_counter(self, dispatcher, tracker, domain):
+"""Based on the slot values filled in by user, defines the entry regulations case ID passed for the knowledge base query."""
     def entry_regulations_case_IDs(self, cross_border_resident, plane_travel, less_than_48h, area_type, country_to, transport_health_worker, transit):
         case_IDs = []
 
@@ -346,6 +289,7 @@ class CustomActionQueryKB(Action):
 
         return case_IDs
 
+"""Based on the slot values filled in by user, defines the local regulations case ID passed for the knowledge base query."""
     def local_regulations_case_IDs(self, country_to, different_household):
         case_IDs = []
 
@@ -388,6 +332,7 @@ class CustomActionQueryKB(Action):
 
         return case_IDs
 
+"""Based on the slot values filled in by user, defines the vaccination regulations case ID passed for the knowledge base query."""
     def vaccine_regulations_case_ID(self, country_to):
         case_IDs = []
 
@@ -409,6 +354,7 @@ class CustomActionQueryKB(Action):
 
         return case_IDs
 
+"""Based on the slot values filled in by user, defines the children exceptions regulations case ID passed for the knowledge base query."""
     def children_regulations_case_ID(self, country_to, regulations_type, travel_with_children):
         case_IDs = [None]
         if travel_with_children==True:
@@ -436,40 +382,22 @@ class CustomActionQueryKB(Action):
 
         return case_IDs
 
+"""Based on the slot values filled in by user, defines the transit regulations case ID passed for the knowledge base query."""
     def transit_regulations_case_ID(self, country_to, transit):
         case_IDs = []
         if transit == True:
             case_IDs.append(0)
         return case_IDs
 
+"""Calls custom_get_attribute_of for each applicable regulations case ID."""
     def query_KB_rules(self, case_IDs, regulations_type):
         rules = []
         for case_ID in case_IDs:
             if case_ID != None:
                 rules.append(self.custom_get_attribute_of(regulations_type, "ID", case_ID, "conditions")[0])
         return rules
-    def query_KB_form_details(self, case_IDs, regulations_type):
-        form_details = []
-        for case_ID in case_IDs:
-            if case_ID != None:
-                form_details.append(self.custom_get_attribute_of(regulations_type, "ID", case_ID, "title")[0])
-                form_details.append(self.custom_get_attribute_of(regulations_type, "ID", case_ID, "payload")[0])
-        return form_details
 
-    def slots_to_return(self):
-#        slots = [SlotSet("indoors/outdoors", None), SlotSet("different_household", None)]
-        # SlotSet("transit_BE", None), SlotSet("plane_travel", None)]
-                # SlotSet("transit", None)
-#        counter = tracker.get_slot("query_counter")
-#        if counter==None:
-#            counter = 1
-#        elif counter==1:
-#            pass
-#        slots.append(SlotSet("query_counter", counter))
-        slots = [SlotSet("want_to_continue", None), SlotSet("keep_details", None), SlotSet("third_country", None)]
-        return slots
-
-
+"""Fills in the area_type slot based on the status of the country corresponding to the country_from value."""
     def area_check(self, country_to, country_from):
 
         safe_countries = {"Netherlands":[], "Belgium":["France"], "Luxembourg":["Germany", "Netherlands", "France", "Belgium"], "Germany":["France", "Netherlands", "France", "Belgium"], "France":["Germany", "Netherlands", "Luxembourg", "Belgium"]}
@@ -480,10 +408,11 @@ class CustomActionQueryKB(Action):
             area_type = "RISK"
         return area_type
 
-
+"""Extracts collected slot values.
+   Based on the regulations_type value, calls a regulations_case_ID function
+   and queries the knowledge_base by calling query_KB_rules.
+   Sends a message to the user with generic text and the regulations from the knowledge_base."""
     def run(self, dispatcher, tracker, domain):
-
-#        codes = {"Luxembourg":"LU", "Germany":"DE", "Belgium":"BE", "France":"FR", "Netherlands":"NL"}
 
         neighbours = {"Luxembourg":["France", "Belgium", "Germany"], "Germany":["Netherlands", "France", "Luxembourg", "Belgium"], "France":["Belgium", "Luxembourg", "Germany"], "Belgium":["Luxembourg", "Germany", "Netherlands", "France"], "Netherlands":["Germany", "Belgium"]}
 
@@ -494,22 +423,16 @@ class CustomActionQueryKB(Action):
         plane_travel = tracker.get_slot("plane_travel")
         transport_health_worker = tracker.get_slot("transport_health_worker")
         less_than_48h = tracker.get_slot("<48h")
-#        transit_BE = tracker.get_slot("transit_BE")
-#        area_type = tracker.get_slot("area_type")
         area_type = self.area_check(country_to, country_from)
         different_household = tracker.get_slot("different_household")
         third_country = tracker.get_slot("third_country")
         common_border = tracker.get_slot("common_border")
         transit = tracker.get_slot("transit")
         cross_border_resident = tracker.get_slot("cross_border_resident")
-
-#        choice=tracker.get_slot("vaccine_regulations_type")
         case_IDs = []
         buttons = []
 
-
-        slots = self.slots_to_return()
-
+        slots = [SlotSet("want_to_continue", None), SlotSet("keep_details", None), SlotSet("third_country", None)]
 
         if regulations_type=="local_regulations":
             case_IDs = self.local_regulations_case_IDs(country_to, different_household)
@@ -538,24 +461,10 @@ class CustomActionQueryKB(Action):
                     rule_entry = self.query_KB_rules(case_IDs, regulations_type)[0]
                     dispatcher.utter_message(f"{neighbour} considers {country_from} a {area_type} area: \n {rule_entry}")
 
-
-
-#            form_details = self.query_KB_form_details(case_IDs, regulations_type)
-#            if form_details[0]:
-#                title = form_details[0]
-#                payload = form_details[1]
-#                buttons.append(
-#                    {"title": title, "payload": payload})
-#                dispatcher.utter_message(buttons)
-
-            #rule_transit = query_KB_rules(case_ID_transit)
-            #if rule_transit:
-            #    dispatcher.utter_message(f"The following regulations apply for transitting through {country_to_transit}: \n {rule_transit}\n")
             case_IDs = self.children_regulations_case_ID(country_to, regulations_type, travel_with_children)
             if case_IDs[0]!=None:
                 rule_child = self.query_KB_rules(case_IDs, "children_exceptions")[0]
                 if rule_child:
-#                    dispatcher.utter_message(f"The exceptions for children are: \n {rule_child}\n")
                     dispatcher.utter_message(f"\n{rule_child}\n")
 
         elif regulations_type=="vaccine_regulations":

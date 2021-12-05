@@ -32,22 +32,6 @@ rules:
     - action: action_reset_regulations_type
     - action: regulation_type_form
     - active_loop: regulation_type_form
-#  - rule: inquiry about other countries
-#    steps:
-#      - intent: ask_other_countries
-#      - action: utter_answer_for_other_countries
-#  - rule: user asks to list the countries
-#    steps:
-#      - intent: ask_which_countries
-#      - action: utter_list_the_countries
-#  - rule: user asks functionality
-#    steps:
-#      - intent: what_can_u_do
-#      - action: utter_explain_functionality
-#  - rule: repeating
-#    steps:
-#      - intent: repeat_please
-#      - action: action_repeat_last
 
 
 # -------CONVERSATION BEGINNING--------
@@ -181,20 +165,6 @@ rules:
     steps:
     - action: action_query_knowledgebase_cases
     - intent: query_regulations
-    - action: action_validate_transit
-    wait_for_user_input: false
-
-  - rule: 2nd query
-    steps:
-    - action: action_validate_transit
-    - action: action_query_knowledgebase_cases
-  - rule: 2nd query LU+plane
-    condition:
-    - slot_was_set:
-      - plane_travel: plane
-      - country_to: Luxembourg
-    steps:
-    - action: action_validate_transit
     - action: transport_health_worker_form
     - active_loop: null
     - action: action_query_knowledgebase_cases
@@ -221,14 +191,7 @@ rules:
     - action: local_regulations_form
     - active_loop: null
     - action: utter_goodbye
-#  - rule: country_form interrupt
-#    condition:
-#    - active_loop: country_form
-#    steps:
-#    - intent: ask_which_countries
-#    - action: utter_list_the_countries
-#    - action: country_form
-#    - active_loop: country_form
+
   - rule: regulation_type_form interrupt
     condition:
     - active_loop: regulation_type_form
@@ -237,10 +200,3 @@ rules:
     - action: regulation_type_form
     - active_loop: null
     - action: utter_goodbye
-#  - rule: details on test
-#    steps:
-#    - intent: test_details
-#    - action: action_query_knowledgebase_cases
-
-
-

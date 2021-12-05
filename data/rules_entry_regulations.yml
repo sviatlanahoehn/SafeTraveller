@@ -178,7 +178,7 @@ rules:
     - action: action_query_knowledgebase_cases
    # wait_for_user_input: false
 
-#TRANSIT ---> ????
+#TRANSIT --->
   - rule: LU/NL Submit transit_BE_form
     condition:
     - active_loop: transit_BE_form

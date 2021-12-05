@@ -21,8 +21,6 @@ intents:
     use_entities: true
 - restart:
     use_entities: true
-- go_back:
-    use_entities: true
 - greet:
     use_entities: true
 - goodbye:
@@ -449,19 +447,15 @@ actions:
 - action_set_open
 - action_reset_regulations_type
 - action_set_local
-- action_validate_transit
 - action_clear_countries
 - action_query_knowledgebase_cases
 - action_set_country_slots_to_none
 - validate_want_local_info_form
 - action_default_fallback_custom
 - action_utter_disclaimer
-- action_reset_transport_slot
 - action_extract_countries
 - action_validate_countries
-- action_repeat_last
 - action_check_borders
-- action_go_back
 - want_local_info_form
 - transit_BE_form
 - indoors/outdoors_form
