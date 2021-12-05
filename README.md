@@ -13,7 +13,7 @@ Authors: Kristina Kudryavtseva, Sviatlana Höhn
 
 # Getting Started
 
-## Talking to the bot in the terminal
+## Installation
 1. Download or clone this repository
 2. Install [RASA](https://rasa.com/docs/rasa/installation/)
 3. Navigate to the project directory in the terminal
@@ -21,12 +21,10 @@ Authors: Kristina Kudryavtseva, Sviatlana Höhn
 - <em>rasa shell</em>
 - <em>rasa run actions</em>
 
-## Talking to the bot in Messenger
-1. Install ngrok
-2. Generate a link with ngrok
-3. Login to Facebook Developers account and add the generated HTTPS link
-4. Follow steps 1-4 for running in terminal replacing <em>rasa shell</em> by <em>rasa run</em> command
-
+## Deploying the bot
+There are several options for deploying the SafeTraveller bot:
+- Deploy to the bot in [RasaX](https://rasa.com/docs/rasa-x/) - a Conversation-Deriven Development tool made by Rasa.
+- Deploy the bot on you website or on a different channel (e.g. Messenger, Slack, etc.). The instructions are provided in [Rasa](https://rasa.com/docs/rasa/messaging-and-voice-channels) doccumentation.
 
 # Future Work
 In the future, we hope to be able to improve this prototype, fulfiling the following points:
