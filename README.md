@@ -20,11 +20,16 @@ Authors: Kristina Kudryavtseva, Sviatlana Höhn
 4. To talk to the bot in the terminal run two commands in separate windows:
 - <em>rasa shell</em>
 - <em>rasa run actions</em>
+5. To train a new model use
+- <em>rasa train</em>
 
 ## Deploying the bot
 There are several options for deploying the SafeTraveller bot:
 - Deploy to the bot in [RasaX](https://rasa.com/docs/rasa-x/) - a Conversation-Deriven Development tool made by Rasa.
 - Deploy the bot on you website or on a different channel (e.g. Messenger, Slack, etc.). The instructions are provided in [Rasa doccumentation](https://rasa.com/docs/rasa/messaging-and-voice-channels).
+
+## Rasa
+Please find all relevant information in [RASA documentation](https://rasa.com/docs/).
 
 # Future Work
 In the future, we hope to be able to improve this prototype, fulfiling the following points:
