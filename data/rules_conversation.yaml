@@ -1,4 +1,4 @@
-version: "2.0"
+version: "3.0"
 rules:
 
 #--------BASIC-CONVERSATION-MANAGEMENT--------
@@ -122,24 +122,6 @@ rules:
     wait_for_user_input: false
 
 #------------END OF CONVERSATION----------------
-  - rule: second thank you
-    condition:
-    - slot_was_set:
-      - regulations_type: local_regulations
-    steps:
-    - intent: thank_you
-    - action: utter_ur_welcome
-    - action: utter_prompt_continue
-  - rule: first thank you
-    condition:
-    - slot_was_set:
-      - query_counter: 1
-      - regulations_type: entry_regulations
-    steps:
-    - intent: thank_you
-    - action: utter_ur_welcome
-    - action: want_local_info_form
-    - active_loop: want_local_info_form
   - rule: end of convo afetr local info
     condition:
     - slot_was_set:

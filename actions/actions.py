@@ -175,7 +175,7 @@ class ValidateWantLocalInfoForm(FormValidationAction):
         tracker: "Tracker",
         domain: "DomainDict",
     ) -> Optional[List[Text]]:
-        required_slots = slots_mapped_in_domain + ["regulations_type"]
+        required_slots = domain_slots + ["regulations_type"]
         return required_slots
 
 

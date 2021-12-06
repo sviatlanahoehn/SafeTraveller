@@ -1,4 +1,4 @@
-version: '2.0'
+version: '"3.0"'
 config:
   store_entities_as_slots: true
 session_config:
@@ -77,101 +77,202 @@ slots:
   third_country:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: third_country_form
+        requested_slot: third_country
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: third_country_form
+        requested_slot: third_country
   cross_border_resident:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: cross_border_resident_form
+        requested_slot: cross_border_resident
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: cross_border_resident_form
+        requested_slot: cross_border_resident
   keep_details:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: false
+    mappings:
+    - intent: new_travel_plans
+      type: from_trigger_intent
+      value: false
+      conditions:
+      - active_loop: discard_details_form
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: keep_details_form
+        requested_slot: keep_details
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: keep_details_form
+        requested_slot: keep_details
   want_vaccine_regulations:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - type: custom
   want_more_local_info:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - type: custom
   want_to_continue:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - intent: thank_you
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: continue_form
+        requested_slot: want_to_continue
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: continue_form
+        requested_slot: want_to_continue
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: continue_form
+        requested_slot: want_to_continue
   local_regulations_type:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
     values:
     - indoors/outdoors
     - open_places
     - both
-  incorrect_slot:
-    type: rasa.shared.core.slots.CategoricalSlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: true
-    values:
-    - visit_purpose
-    - plane_travel
-    - <48h
-    - transit_de
-    - transport_health_worker
+    mappings:
+    - type: from_entity
+      entity: local_regulations_type
   area_type:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
     values:
     - risk
     - safe
-  query_counter:
-    type: rasa.shared.core.slots.FloatSlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: true
-    max_value: 2.0
-    min_value: 1.0
+    mappings:
+    - type: custom
   common_border:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - type: custom
   want_open_places:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: false
+    mappings:
+    - type: custom
   travelling_with_children:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: false
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: children_travel_form
+        requested_slot: travelling_with_children
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: children_travel_form
+        requested_slot: travelling_with_children
   want_localinfo:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - type: custom
   regulations_type:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
     values:
     - entry_regulations
     - local_regulations
     - vaccine_regulations
+    mappings:
+    - intent: query_entry_regulations
+      type: from_intent
+      value: entry_regulations
+      conditions:
+      - active_loop: regulations_type_form
+        requested_slot: regulations_type
+    - intent: query_local_regulations
+      type: from_intent
+      value: local_regulations
+      conditions:
+      - active_loop: regulations_type_form
+        requested_slot: regulations_type
+    - intent: query_vaccine_regulations
+      type: from_intent
+      value: vaccine_regulations
+      conditions:
+      - active_loop: regulations_type_form
+        requested_slot: regulations_type
+    - intent: query_transit
+      type: from_trigger_intent
+      value: entry_regulations
+      conditions:
+      - active_loop: set_transit_form
+      - active_loop: set_regulations_type_form
+    - intent: query_entry_regulations
+      type: from_trigger_intent
+      value: entry_regulations
+      conditions:
+      - active_loop: set_regulations_type_form
+    - intent: query_local_regulations
+      type: from_trigger_intent
+      value: local_regulations
+      conditions:
+      - active_loop: set_regulations_type_form
+    - intent: query_vaccine_regulations
+      type: from_trigger_intent
+      value: vaccine_regulations
+      conditions:
+      - active_loop: set_regulations_type_form
+    - type: from_entity
+      entity: regulations_type
   country_to:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
     values:
     - Luxembourg
@@ -179,69 +280,213 @@ slots:
     - Netherlands
     - France
     - Germany
+    mappings:
+    - entity: country
+      type: from_entity
+      conditions:
+      - active_loop: vaccine_regulations_form
+    - entity: country
+      type: from_entity
+      conditions:
+      - active_loop: set_regulations_type_form
+    - entity: country
+      type: from_entity
+      conditions:
+      - active_loop: country_form_II
+    - entity: country
+      type: from_entity
+      conditions:
+      - active_loop: country_form
+    - entity: country
+      type: from_entity
+      conditions:
+      - active_loop: local_regulations_form
+    - entity: country
+      intent: query_transit
+      type: from_entity
+      conditions:
+      - active_loop: set_transit_form
+    - entity: country
+      intent: query_generic_regulations
+      type: from_entity
+      conditions:
+      - active_loop: generic_query_country_form
   country_from:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
     values:
     - luxembourg
     - belgium
     - netherlands
+    mappings:
+    - entity: country
+      type: from_entity
+      conditions:
+      - active_loop: country_form_II
+      - active_loop: country_form
   correct_info:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - intent: thank_you
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: correct_local_form
+        requested_slot: correct_info
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: correct_local_form
+        requested_slot: correct_info
+      - active_loop: confirm_form
+        requested_slot: correct_info
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: correct_local_form
+        requested_slot: correct_info
+      - active_loop: confirm_form
+        requested_slot: correct_info
   correct_countries:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: confirm_country_form
+        requested_slot: correct_countries
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: confirm_country_form
+        requested_slot: correct_countries
   indoors/outdoors:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
     values:
     - indoors
     - outdoors
     - both
-  going_from_work:
-    type: rasa.shared.core.slots.BooleanSlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: indoors/outdoors
   different_household:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: false
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: local_regulations_form
+        requested_slot: different_household
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: local_regulations_form
+        requested_slot: different_household
   transit:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: stay_OR_transit_form
+        requested_slot: transit
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: stay_OR_transit_form
+        requested_slot: transit
+    - intent: query_transit
+      type: from_trigger_intent
+      value: true
+      conditions:
+      - active_loop: set_transit_form
+    - type: from_entity
+      entity: transit
   <48h:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: <48h_form
+        requested_slot: <48h
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: <48h_form
+        requested_slot: <48h
+    - type: from_entity
+      entity: <48h
   transport_health_worker:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: transport_health_worker_form
+        requested_slot: transport_health_worker
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: transport_health_worker_form
+        requested_slot: transport_health_worker
   plane_travel:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
-    auto_fill: true
     influence_conversation: true
-  requested_slot:
-    type: rasa.shared.core.slots.UnfeaturizedSlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: false
+    mappings:
+    - intent: inform_air_travel
+      type: from_trigger_intent
+      value: true
+      conditions:
+      - active_loop: transportation_type_form
+    - intent: inform_land_travel
+      type: from_trigger_intent
+      value: false
+      conditions:
+      - active_loop: transportation_type_form
+    - intent: affirm
+      type: from_intent
+      value: true
+      conditions:
+      - active_loop: plane_travel_form
+        requested_slot: plane_travel
+    - intent: deny
+      type: from_intent
+      value: false
+      conditions:
+      - active_loop: plane_travel_form
+        requested_slot: plane_travel
+    - type: from_entity
+      entity: plane_travel
+
 responses:
   utter_ask_third_country:
   - buttons:
@@ -269,9 +514,9 @@ responses:
   utter_ask_keep_details:
   - buttons:
     - payload: /deny
-      title: "Restart"
+      title: Restart
     - payload: /affirm
-      title: "Keep Details"
+      title: Keep Details
     text: Would you like to restart with new information or to keep the collected details?
   utter_type_restart:
   - text: You can type 'restart' to restart the conversation.
@@ -297,30 +542,8 @@ responses:
       title: Vaccination Details
     text: What would you like to know?
   utter_ask_country_from:
-#  - buttons:
-#    - payload: '/inform_countries{{"country": "Luxembourg", "correct_countries":true}}'
-#      title: Luxembourg
-#    - payload: '/inform_countries{{"country": "Netherlands", "correct_countries":true}}'
-#      title: Netherlands
-#    - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
-#      title: Belgium
-#    - payload: '/inform_countries{{"country": "Germany", "correct_countries":true}}'
-#      title: Germany
-#    - payload: '/inform_countries{{"country": "France", "correct_countries":true}}'
-#      title: France
   - text: Please let me know your departure country.
   utter_ask_country_to:
-#  - buttons:
-#    - payload: '/inform_countries{{"country": "Luxembourg", "correct_countries":true}}'
-#      title: Luxembourg
-#    - payload: '/inform_countries{{"country": "Netherlands", "correct_countries":true}}'
-#      title: Netherlands
-#    - payload: '/inform_countries{{"country": "Belgium", "correct_countries":true}}'
-#      title: Belgium
-#    - payload: '/inform_countries{{"country": "Germany", "correct_countries":true}}'
-#      title: Germany
-#    - payload: '/inform_countries{{"country": "France", "correct_countries":true}}'
-#      title: France
   - text: Which country are you planning to travel to?
   utter_ask_want_to_continue:
   - buttons:
@@ -429,7 +652,6 @@ responses:
     text: Are you planning to travel by plane?
   utter_ask_location:
   - text: For which country would you like to know the local regulations?
-  #utter_restart:
   - text: I have restarted our conversation.
   utter_ask_rephrase:
   - text: Sorry, I did not quite understand. Can you please rephrase?
@@ -462,222 +684,101 @@ actions:
 - want_more_local_info_form
 forms:
   third_country_form:
+    ignored_intents: []
     required_slots:
-      third_country:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - third_country
   discard_details_form:
+    ignored_intents: []
     required_slots:
-      keep_details:
-      - intent: new_travel_plans
-        type: from_trigger_intent
-        value: false
+    - keep_details
   cross_border_resident_form:
+    ignored_intents: []
     required_slots:
-      cross_border_resident:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - cross_border_resident
   stay_OR_transit_form:
+    ignored_intents: []
     required_slots:
-      transit:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - transit
   keep_details_form:
+    ignored_intents: []
     required_slots:
-      keep_details:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - keep_details
   vaccine_regulations_form:
+    ignored_intents: []
     required_slots:
-      country_to:
-      - entity: country
-        #intent: query_vaccine_regulations
-        type: from_entity
+    - country_to
   correct_local_form:
+    ignored_intents: []
     required_slots:
-      correct_info:
-      - intent: thank_you
-        type: from_intent
-        value: true
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - correct_info
   regulations_type_form:
+    ignored_intents: []
     required_slots:
-      regulations_type:
-      - intent: query_entry_regulations
-        type: from_intent
-        value: entry_regulations
-      - intent: query_local_regulations
-        type: from_intent
-        value: local_regulations
-      - intent: query_vaccine_regulations
-        type: from_intent
-        value: vaccine_regulations
+    - regulations_type
   set_transit_form:
+    ignored_intents: []
     required_slots:
-      country_to:
-      - entity: country
-        intent: query_transit
-        type: from_entity
-      regulations_type:
-      - intent: query_transit
-        type: from_trigger_intent
-        value: entry_regulations
-      transit:
-      - intent: query_transit
-        type: from_trigger_intent
-        value: true
+    - country_to
+    - regulations_type
+    - transit
   transportation_type_form:
+    ignored_intents: []
     required_slots:
-      plane_travel:
-      - intent: inform_air_travel
-        type: from_trigger_intent
-        value: true
-      - intent: inform_land_travel
-        type: from_trigger_intent
-        value: false
+    - plane_travel
   set_regulations_type_form:
+    ignored_intents: []
     required_slots:
-      regulations_type:
-      - intent: query_entry_regulations
-        type: from_trigger_intent
-        value: entry_regulations
-      - intent: query_transit
-        type: from_trigger_intent
-        value: entry_regulations
-      - intent: query_local_regulations
-        type: from_trigger_intent
-        value: local_regulations
-      - intent: query_vaccine_regulations
-        type: from_trigger_intent
-        value: vaccine_regulations
-      country_to:
-      - entity: country
-        type: from_entity
+    - regulations_type
+    - country_to
   country_form_II:
+    ignored_intents: []
     required_slots:
-      country_from:
-      - entity: country
-        type: from_entity
-      country_to:
-      - entity: country
-        type: from_entity
+    - country_from
+    - country_to
   generic_query_country_form:
+    ignored_intents: []
     required_slots:
-      country_to:
-      - entity: country
-        intent: query_generic_regulations
-        type: from_entity
+    - country_to
   country_form:
+    ignored_intents: []
     required_slots:
-      country_from:
-      - entity: country
-        type: from_entity
-      country_to:
-      - entity: country
-        type: from_entity
+    - country_from
+    - country_to
   continue_form:
+    ignored_intents: []
     required_slots:
-      want_to_continue:
-      - intent: thank_you
-        type: from_intent
-        value: true
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - want_to_continue
   children_travel_form:
+    ignored_intents: []
     required_slots:
-      travelling_with_children:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - travelling_with_children
   local_regulations_form:
+    ignored_intents: []
     required_slots:
-      country_to:
-      - entity: country
-        #intent: query_local_regulations
-        type: from_entity
-      different_household:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - country_to
+    - different_household
   incorrect_slot_form:
+    ignored_intents: []
     required_slots:
-      incorrect_slot:
-      - entity: incorrect_slot
-        type: from_entity
+    - incorrect_slot
   confirm_form:
+    ignored_intents: []
     required_slots:
-      correct_info:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - correct_info
   confirm_country_form:
+    ignored_intents: []
     required_slots:
-      correct_countries:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - correct_countries
   <48h_form:
+    ignored_intents: []
     required_slots:
-      <48h:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - <48h
   plane_travel_form:
+    ignored_intents: []
     required_slots:
-      plane_travel:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - plane_travel
   transport_health_worker_form:
+    ignored_intents: []
     required_slots:
-      transport_health_worker:
-      - intent: affirm
-        type: from_intent
-        value: true
-      - intent: deny
-        type: from_intent
-        value: false
+    - transport_health_worker
 e2e_actions: []
