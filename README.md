@@ -9,7 +9,7 @@ The assistant is implemented using RASA and works in Facebook Messenger. The ass
 Authors: Kristina Kudryavtseva, Sviatlana Höhn
 
 # Application Snapshot
-<img src="SafeTraveller.png" alt="app snapshot" width=200>
+<img src="SafeTraveller.png" alt="app snapshot" width=300>
 
 # Getting Started
 
