@@ -1,0 +1,184 @@
+version: "3.0"
+rules:
+
+#--------BASIC-CONVERSATION-MANAGEMENT--------
+  - rule: greet
+    steps:
+      - intent: greet
+      - action: utter_greet
+  - rule: goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+  - rule: thank you
+    steps:
+      - intent: thank_you
+      - action: utter_ur_welcome
+  - rule: wellbeing check
+    steps:
+      - intent: wellbeing_check
+      - action: utter_mood
+  - rule: bot challenge
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+  - rule: return
+    steps:
+    - intent: go_back
+    - action: action_go_back
+  - rule: going to main_menu
+    steps:
+    - intent: main_menu
+    - action: action_reset_regulations_type
+    - action: regulation_type_form
+    - active_loop: regulation_type_form
+
+
+# -------CONVERSATION BEGINNING--------
+  - rule: greet at the beggining
+    conversation_start: true
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - action: utter_welcome_message
+      - action: action_utter_disclaimer
+      - action: regulation_type_form
+      - active_loop: regulation_type_form
+  - rule: choose entry regulations type
+    condition:
+    - active_loop: regulation_type_form
+    - slot_was_set:
+      - regulations_type: entry_regulations
+    steps:
+    - action: regulation_type_form
+    - active_loop: null
+    - action: utter_ask_trip_details
+  - rule: validate countries
+    steps:
+    - intent: query_regulations
+    - action: action_validate_countries
+    wait_for_user_input: false
+  - rule: wrong country_to extracted
+    condition:
+    - slot_was_set:
+      - country_to: None
+    steps:
+    - action: action_validate_countries
+    - action: utter_not_understood
+    - action: country_form
+    - active_loop: country_form
+  - rule: wrong country_from extracted
+    condition:
+    - slot_was_set:
+      - country_from: None
+    steps:
+    - action: action_validate_countries
+    - action: utter_not_understood
+    - action: country_form
+    - active_loop: country_form
+  - rule: correct countries extracted
+    condition:
+    - slot_was_set:
+      - regulations_type: entry_regulations
+    steps:
+    - action: action_validate_countries
+    - action: country_form
+    - active_loop: country_form
+  - rule: submit country_form//activate confirm_country_form
+    condition:
+    - active_loop: country_form
+    steps:
+    - action: country_form
+    - active_loop: null
+    - action: action_check_area
+    - action: confirm_country_form
+    - active_loop: confirm_country_form
+  - rule: correct the countries
+    condition:
+    - active_loop: confirm_country_form
+    - slot_was_set:
+      - correct_countries: false
+    steps:
+    - action: confirm_country_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_clear_countries
+    - action: country_form_II
+    - active_loop: country_form_II
+
+#==== Intermediate step before collecting info ====
+  - rule: intermediate step
+    condition:
+    - active_loop: confirm_country_form
+    - slot_was_set:
+      - correct_countries: true
+    steps:
+    - action: confirm_country_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: utter_warn_collect_info
+    wait_for_user_input: false
+
+#------------END OF CONVERSATION----------------
+  - rule: end of convo afetr local info
+    condition:
+    - slot_was_set:
+      - want_localinfo: false
+    steps:
+      - action: want_local_info_form
+      - active_loop: null
+      - slot_was_set:
+        - requested_slot: null
+      - action: utter_prompt_continue
+  - rule: don't continue
+    steps:
+    - action: utter_prompt_continue
+    - intent: deny
+    - action: utter_goodbye  
+  - rule: nothing else
+    steps:
+    - intent: nothing_else
+    - action: utter_goodbye
+
+# ----- SECOND QUERY -----
+  - rule: run second query
+    steps:
+    - action: action_query_knowledgebase_cases
+    - intent: query_regulations
+    - action: transport_health_worker_form
+    - active_loop: null
+    - action: action_query_knowledgebase_cases
+  - rule: continue convo
+    condition:
+    - slot_was_set:
+      - want_localinfo: true
+    steps:
+      - action: want_local_info_form
+      - active_loop: null
+      - slot_was_set:
+        - requested_slot: null
+      - action: local_regulations_form
+      - active_loop: local_regulations_form
+
+#----------FORM INTERRUPTS------
+  - rule: local_rules_form interrupt
+    condition:
+    - active_loop: local_regulations_form
+    - slot_was_set:
+      - requested_slot: indoors/outdoors
+    steps:
+    - intent: nothing_else
+    - action: local_regulations_form
+    - active_loop: null
+    - action: utter_goodbye
+
+  - rule: regulation_type_form interrupt
+    condition:
+    - active_loop: regulation_type_form
+    steps:
+    - intent: nothing_else
+    - action: regulation_type_form
+    - active_loop: null
+    - action: utter_goodbye

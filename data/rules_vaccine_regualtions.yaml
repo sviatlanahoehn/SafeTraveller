@@ -1,0 +1,26 @@
+version: "3.0"
+rules:
+
+  - rule: choose vaccine regulations type
+    condition:
+    - active_loop: regulation_type_form
+    - slot_was_set:
+      - regulations_type: vaccine_regulations
+    steps:
+    - action: regulation_type_form
+    - active_loop: null
+    - action: vaccine_regulations_form
+    - active_loop: vaccine_regulations_form
+  - rule: query vaccine regulations
+    steps:
+    - intent: query_vaccine_regulations
+    - action: vaccine_regulations_form
+    - active_loop: vaccine_regulations_form
+  - rule: submit vaccine_regulations_form
+    steps:
+    - action: vaccine_regulations_form
+    - active_loop: vaccine_regulations_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_query_knowledgebase_cases
