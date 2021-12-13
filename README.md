@@ -9,7 +9,7 @@ The assistant is implemented using RASA and works in Facebook Messenger. The ass
 Authors: Kristina Kudryavtseva, Sviatlana Höhn
 
 # Application Snapshot
-<img src="SafeTraveller.png" alt="app snapshot" width=200>
+<img src="SafeTraveller.png" alt="app snapshot" width=300>
 
 # Getting Started
 
@@ -26,7 +26,7 @@ Authors: Kristina Kudryavtseva, Sviatlana Höhn
 ## Deploying the bot
 There are several options for deploying the SafeTraveller bot:
 - Deploy the bot in [RasaX](https://rasa.com/docs/rasa-x/) - a Conversation-Driven Development tool made by Rasa.
-- Deploy the bot on you website or on a different channel (e.g. Messenger, Slack, etc.). The instructions are provided in [Rasa doccumentation](https://rasa.com/docs/rasa/messaging-and-voice-channels).
+- Deploy the bot on you website or on a channel (e.g. Messenger, Slack, etc.). The instructions are provided in [Rasa doccumentation](https://rasa.com/docs/rasa/messaging-and-voice-channels).
 
 ## Rasa
 Please find all other relevant information in [RASA documentation](https://rasa.com/docs/).
