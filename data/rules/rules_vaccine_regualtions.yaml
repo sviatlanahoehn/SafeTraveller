@@ -1,7 +1,7 @@
-version: "2.0"
+version: "3.0"
 rules:
 
-  - rule: choose vaccine regulations type
+  - rule: user chose vaccine_regulations
     condition:
     - active_loop: regulation_type_form
     - slot_was_set:
@@ -23,7 +23,7 @@ rules:
     - action: action_validate_countries
     wait_for_user_input: false
 
-  - rule: wrong country of vaccine_regulations
+  - rule: wrong country given, vaccine_regulations
     condition:
     - slot_was_set:
       - regulations_type: vaccine_regulations
@@ -33,7 +33,7 @@ rules:
     - action: vaccine_regulations_form
     - active_loop: vaccine_regulations_form
 
-  - rule: correct country of vaccine_regulations
+  - rule: correct country, vaccine_regulations
     condition:
     - slot_was_set:
       - regulations_type: vaccine_regulations
@@ -45,30 +45,5 @@ rules:
   - rule: intent query_vaccine_regulations
     steps:
     - intent: query_vaccine_regulations
-    - action: set_regulations_type_form
-    - active_loop: set_regulations_type_form
-
-  - rule: query vaccine regulations
-    condition:
-    - active_loop: set_regulations_type_form
-    - slot_was_set:
-      - regulations_type: vaccine_regulations
-    steps:
-    - action: set_regulations_type_form
-    - active_loop: set_regulations_type_form
-    - active_loop: null
-    - action: vaccine_regulations_form
-    - active_loop: vaccine_regulations_form
-
-  - rule: choose vaccine regulations type
-    condition:
-    - active_loop: regulations_type_form
-    - slot_was_set:
-      - regulations_type: vaccine_regulations
-    steps:
-    - action: regulations_type_form
-    - active_loop: null
-    - slot_was_set:
-      - requested_slot: null
     - action: vaccine_regulations_form
     - active_loop: vaccine_regulations_form

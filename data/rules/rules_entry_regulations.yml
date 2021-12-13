@@ -1,7 +1,7 @@
-version: "2.0"
+version: "3.0"
 rules:
 
-  - rule: choose entry regulations type
+  - rule: user chose entry_regulations, no countries context
     condition:
     - active_loop: regulations_type_form
     - slot_was_set:
@@ -12,7 +12,7 @@ rules:
     - action: regulations_type_form
     - active_loop: null
     - action: utter_ask_trip_details
-  - rule: choose entry regulations type
+  - rule: user chose entry_regulations
     condition:
     - active_loop: regulations_type_form
     - slot_was_set:
@@ -29,52 +29,55 @@ rules:
   - rule: intent query_entry_regulations
     steps:
     - intent: query_entry_regulations
-    - action: set_regulations_type_form
-    - active_loop: set_regulations_type_form
-
-  - rule: query entry regulations
-    condition:
-    - active_loop: set_regulations_type_form
-    - slot_was_set:
-      - regulations_type: entry_regulations
-    steps:
-    - action: set_regulations_type_form
-    - active_loop: set_regulations_type_form
-    - active_loop: null
     - action: action_validate_countries
     wait_for_user_input: false
-
-  - rule: validation -> extra check
+  - rule: country_to not validated
     condition:
-    - slot_was_set:
-      - regulations_type: entry_regulations
+      - slot_was_set:
+        - country_to: None
     steps:
     - action: action_validate_countries
-    - action: country_form
-    - active_loop: country_form
+    - action: country_form_from
+    - active_loop: country_form_from
+  - rule: country_from not validated
+    condition:
+      - slot_was_set:
+        - country_from: None
+    steps:
+    - action: action_validate_countries
+    - action: country_form_to
+    - active_loop: country_form_to
 
 # -----------------------------------
 # ------ Countries extraction -------
 # -----------------------------------
-
-  - rule: extraction -> extra check
+  - rule: fill in missing countries after action_extract_countries
     condition:
     - slot_was_set:
       - regulations_type: entry_regulations
     steps:
     - action: action_extract_countries
-    - action: country_form
-    - active_loop: country_form
-  - rule: submit country_form//activate confirm_country_form
+    - action: country_form_from
+    - active_loop: country_form_from
+  - rule: submit country_form_from
     condition:
-    - active_loop: country_form
+    - active_loop: country_form_from
     steps:
-    - action: country_form
+    - action: country_form_from
+    - active_loop: null
+    - action: country_form_to
+    - active_loop: country_form_to
+
+  - rule: submit activate confirm_country_form_from
+    condition:
+    - active_loop: country_form_to
+    steps:
+    - action: country_form_to
     - active_loop: null
     - action: action_check_borders
     - action: confirm_country_form
     - active_loop: confirm_country_form
-  - rule: correct the countries
+  - rule: verify countries with the user
     condition:
     - active_loop: confirm_country_form
     - slot_was_set:
@@ -86,38 +89,13 @@ rules:
       - requested_slot: null
     - action: action_clear_countries
     wait_for_user_input: false
-
-  - rule: cleaning countries
+  - rule: clearing countries
     steps:
     - action: action_clear_countries
-    - action: country_form
-    - active_loop: country_form
+    - action: country_form_from
+    - active_loop: country_form_from
 
-#------Second query-----
-  - rule: air_travel
-    steps:
-    - intent: inform_air_travel
-    - action: transportation_type_form
-    - active_loop: transportation_type_form
-  - rule: land_travel
-    steps:
-    - intent: inform_land_travel
-    - action: transportation_type_form
-    - active_loop: transportation_type_form
-
-#    - action: set_regulations_type_form
-#    - active_loop: set_regulations_type_form
-#    - active_loop: null
-  - rule: Submit transportation_type_form
-    condition:
-    - active_loop: transportation_type_form
-    steps:
-    - action: transportation_type_form
-    - active_loop: null
-    - action: action_extract_countries
-    wait_for_user_input: false
-#====== RULES FOR RUNNING THE QUERY ACTION ======
-  - rule: correct country->activate stay_OR_transit_form II
+  - rule: user confirmed correct countries
     condition:
     - active_loop: confirm_country_form
     - slot_was_set:
@@ -129,36 +107,23 @@ rules:
       - requested_slot: null
     - action: stay_OR_transit_form
     - active_loop: stay_OR_transit_form
-  - rule: correct country_II->activate stay_OR_transit_form II
-    condition:
-    - active_loop: country_form_II
-    steps:
-    - action: country_form_II
-    - active_loop: null
-    - slot_was_set:
-      - requested_slot: null
-    - action: action_check_borders
-    - action: stay_OR_transit_form
-    - active_loop: stay_OR_transit_form
-#====== FORMS ACTIVATION ======
-# ===== BELGIUM =====
-  - rule: journey to BE // DE
+
+# ===== BELGIUM & GERMANY =====
+  - rule: journey to BE or DE
     condition:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
       - country_to: Belgium
-#      - transit: false
     steps:
     - action: stay_OR_transit_form
     - active_loop: null
     - action: <48h_form
     - active_loop: <48h_form
-  - rule: journey to BE // DE
+  - rule: journey to BE or DE
     condition:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
       - country_to: Germany
-#      - transit: false
     steps:
     - action: stay_OR_transit_form
     - active_loop: null
@@ -176,7 +141,7 @@ rules:
       - requested_slot: null
     - action: plane_travel_form
     - active_loop: plane_travel_form
-  - rule: BE/NL deactivate plane_travel_form
+  - rule: BE or NL deactivate plane_travel_form
     condition:
     - active_loop: plane_travel_form
     steps:
@@ -186,8 +151,9 @@ rules:
       - requested_slot: null
     - action: children_travel_form
     - active_loop: children_travel_form
+
 # ===== BELGIUM =====
-  - rule: <48h_rule
+  - rule: <48h rule, BE
     condition:
     - active_loop: <48h_form
     - slot_was_set:
@@ -202,31 +168,23 @@ rules:
     wait_for_user_input: false
 
 # ===== NETHERLANDS =====
-#====== FORMS ACTIVATION ======
   - rule: journey to NL
     condition:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
       - country_to: Netherlands
-#      - transit: false
     steps:
     - action: stay_OR_transit_form
     - active_loop: null
     - action: plane_travel_form
     - active_loop: plane_travel_form
-# ===== NETHERLANDS =====
-#====== FORMS DEACTIVATION ======
-# ===== NETHERLANDS =====
 
-
-#====== FORMS ACTIVATION ======
 # ===== LUXEMBOURG =====
   - rule: journey to LU
     condition:
     - active_loop: stay_OR_transit_form
     - slot_was_set:
       - country_to: Luxembourg
-#      - transit: false
     steps:
     - action: stay_OR_transit_form
     - active_loop: null
@@ -258,9 +216,9 @@ rules:
       - requested_slot: null
     - action: transport_health_worker_form
     - active_loop: transport_health_worker_form
-#====== FORMS DEACTIVATION ======
+
 # ===== LUXEMBOURG =====
-  - rule: LU // DE // FR Submit transport_health_worker_form
+  - rule: LU or DE or FR Submit transport_health_worker_form
     condition:
     - active_loop: transport_health_worker_form
     steps:
@@ -271,7 +229,6 @@ rules:
     - action: children_travel_form
     - active_loop: children_travel_form
 
-#====== FORMS ACTIVATION ======
 # ===== FRANCE =====
   - rule: journey to FR
     condition:
@@ -312,7 +269,6 @@ rules:
     - action: transport_health_worker_form
     - active_loop: transport_health_worker_form
 
-#====== FORMS ACTIVATION ======
 # ===== GERMANY =====
   - rule: DE submit <48h_form
     condition:
@@ -327,7 +283,7 @@ rules:
       - requested_slot: null
     - action: children_travel_form
     - active_loop: children_travel_form
-  - rule: <48h_rule
+  - rule: <48h rule
     condition:
     - active_loop: <48h_form
     - slot_was_set:
@@ -341,10 +297,8 @@ rules:
     - action: transport_health_worker_form
     - active_loop: transport_health_worker_form
 
-
-
 # ===== QUERY ACTION CALL =====
-  - rule: Submit children_travel_form
+  - rule: make a query after children_travel_form
     condition:
     - active_loop: children_travel_form
     steps:
@@ -354,8 +308,7 @@ rules:
       - requested_slot: null
     - action: action_query_knowledgebase_cases
     wait_for_user_input: false
-
-  - rule: ask third_country_form
+  - rule: ask about crossing third country
     condition:
     - active_loop: children_travel_form
     - slot_was_set:
@@ -372,15 +325,24 @@ rules:
     - action: action_query_knowledgebase_cases
     wait_for_user_input: false
 
-#TRANSIT ---> ????
-#  - rule: LU/NL Submit transit_BE_form
-#    condition:
-#    - active_loop: transit_BE_form
-#    steps:
-#    - action: transit_BE_form
-#    - active_loop: null
-#    - slot_was_set:
-#      - requested_slot: null
-#    - action: children_travel_form
-#    - active_loop: children_travel_form
-
+# -----------------------------------
+# ------ User specifies new transportation type -------
+# -----------------------------------
+  - rule: air_travel
+    steps:
+    - intent: inform_air_travel
+    - action: transportation_type_form
+    - active_loop: transportation_type_form
+  - rule: land_travel
+    steps:
+    - intent: inform_land_travel
+    - action: transportation_type_form
+    - active_loop: transportation_type_form
+  - rule: Submit transportation_type_form
+    condition:
+    - active_loop: transportation_type_form
+    steps:
+    - action: transportation_type_form
+    - active_loop: null
+    - action: action_extract_countries
+    wait_for_user_input: false

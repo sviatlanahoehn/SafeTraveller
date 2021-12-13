@@ -1,4 +1,4 @@
-version: "2.0"
+version: "3.0"
 nlu:
 - intent: query_generic_regulations
   examples: |
@@ -103,7 +103,6 @@ nlu:
     - registration [Germany](country)
     - registration to enter [Netherlands](country)
     - doccument for entry [Belgium](country)
-    - ban on travel from [France](country) to [BE](country)
     - Entry rules in [LU](country)
     - [luxembourg](country) travel restrictions
     - [germany](country) travel restrictions
@@ -115,13 +114,8 @@ nlu:
     - entry restrictions in [USA](country)
     - travel restrictions [Malta](country)
     - What are the regulations to travel to [France](country)
-    - travelling from [BE](country) to [LU](country)
     - rules for going to [germany](country)
-    - go from [BE](country) to [LU](country)
-    - travel from the [netherlands](country) to [BE](country)
-    - travel to [Holland](country) from [BE](country)
-    - restrictions for travellers from [Luxembourg](country)
-    - travel restrictions from [Belgium](country) to [Luxembourg](country)
+
 - intent: query_transit
   examples: |
     - transit thorugh [France](country)
@@ -181,6 +175,11 @@ nlu:
     - I'm going to [belgium](country)
     - i'm travelling to [Switzerland](country)
 
+    - go from [BE](country) to [LU](country)
+    - travel from the [netherlands](country) to [BE](country)
+    - travel to [Holland](country) from [BE](country)
+    - restrictions for travellers from [Luxembourg](country)
+    - travel restrictions from [Belgium](country) to [Luxembourg](country)
     - go to [LU](country) from [BE](country)
     - travel from the [NL](country) to [LU](country)
     - from [BE](country) to [LU](country)
@@ -205,6 +204,7 @@ nlu:
     - from [LU](country) to [BE](country)
     - travel from [LUX](country) to [BE](country)
     - going from [NL](country) to [LU](country)
+    - ban on travel from [France](country) to [BE](country)
 
     - [Austria](country)
     - [Italy](country)

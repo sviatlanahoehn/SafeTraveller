@@ -8,7 +8,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.knowledge_base.storage import InMemoryKnowledgeBase
 from rasa_sdk.events import EventType
 from rasa_sdk.forms import FormValidationAction
-from rasa_sdk.forms import FormAction
+#from rasa_sdk.forms import FormAction
 from rasa_sdk.events import AllSlotsReset
 from rasa_sdk.events import FollowupAction
 
@@ -25,6 +25,7 @@ class ActionCheckBorders(Action):
         return 'action_check_borders'
 
     def run(self, dispatcher, tracker, domain):
+ #       return []
 
         neighbours = {"Luxembourg":["France", "Belgium", "Germany"], "Germany":["Netherlands", "France", "Luxembourg", "Belgium"], "France":["Belgium", "Luxembourg", "Germany"], "Belgium":["Luxembourg", "Germany", "Netherlands", "France"], "Netherlands":["Germany", "Belgium"]}
         country_to = tracker.get_slot("country_to")
@@ -34,8 +35,8 @@ class ActionCheckBorders(Action):
         if country_to in neighbours[country_from]:
             common_border = True
 
-        return [SlotSet("common_border", common_border)]
-#        return [SlotSet("common_border", common_border), SlotSet("third_country", True)]
+#        return [SlotSet("common_border", common_border)]
+        return [SlotSet("common_border", common_border), SlotSet("third_country", True)]
 
 class ValidateKeepContext(Action):
     def name(self):

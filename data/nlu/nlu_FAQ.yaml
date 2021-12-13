@@ -1,14 +1,6 @@
-version: "2.0"
+version: "3.0"
 nlu:
 #===== FAQ ======
-#- intent: test_details
-#  examples: |
-#    - any special requirement on tests?
-#    - what kind of test is needed?
-#    - what should be in the test?
-#    - tell me more about the test
-#    - what test is required
-#    - what test should i do?
 - intent: go_back
   examples: |
     - can we go back?

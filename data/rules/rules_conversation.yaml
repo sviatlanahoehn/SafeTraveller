@@ -1,15 +1,15 @@
-version: "2.0"
+version: "3.0"
 rules:
 
-#----USER AFFIRMS----
-  - rule: understood initial converstaion
+#----user affirms----
+  - rule: understood initial information
     conversation_start: true
     steps:
     - intent: affirm
     - action: regulations_type_form
     - active_loop: regulations_type_form
 
-#-----NEW TRAVEL PLANS------
+#-----new travle plans------
   - rule: inform new_travel_plans
     steps:
     - intent: new_travel_plans
@@ -20,7 +20,7 @@ rules:
     - action: utter_prompt_continue
 
 
-#------ intent INFORM_COUNTRIES -------
+#------rules after user informed countries-------
   - rule: inform_countries query
     steps:
     - intent: inform_countries
@@ -31,7 +31,6 @@ rules:
   - rule: query_generic_regulations query
     steps:
     - intent: query_generic_regulations
-#    - action: action_extract_countries ----->>>>>>>>>>>>>---------
     - action: generic_query_country_form
     - active_loop: generic_query_country_form
     - active_loop: null
@@ -64,6 +63,7 @@ rules:
     - intent: inform_countries
     - action: local_regulations_form
     - active_loop: local_regulations_form
+
 #--------BASIC-CONVERSATION-MANAGEMENT--------
   - rule: greet
     steps:
@@ -96,23 +96,6 @@ rules:
     - action: action_reset_regulations_type
     - action: regulations_type_form
     - active_loop: regulations_type_form
-#  - rule: inquiry about other countries
-#    steps:
-#      - intent: ask_other_countries
-#      - action: utter_answer_for_other_countries
-#  - rule: user asks to list the countries
-#    steps:
-#      - intent: ask_which_countries
-#      - action: utter_list_the_countries
-#  - rule: user asks functionality
-#    steps:
-#      - intent: what_can_u_do
-#      - action: utter_explain_functionality
-#  - rule: repeating
-#    steps:
-#      - intent: repeat_please
-#      - action: action_repeat_last
-
 
 # -------CONVERSATION BEGINNING--------
   - rule: greet at the beggining
@@ -122,37 +105,11 @@ rules:
       - intent: greet
       - action: utter_greet
       - action: utter_welcome_message
-#      - action: action_utter_disclaimer
       - action: utter_prompt_begin
       - action: utter_type_restart
-      #- action: regulations_type_form
-      #- active_loop: regulations_type_form
-
-
-
-
 
 
 #------------END OF CONVERSATION----------------
-#  - rule: second thank you
-#    condition:
-#    - slot_was_set:
-#      - regulations_type: local_regulations
-#    steps:
-#    - intent: thank_you
-#    - action: utter_ur_welcome
-#    - action: utter_prompt_continue
-
-#  - rule: first thank you
-#    condition:
-#    - slot_was_set:
-#      - query_counter: 1
-#      - regulations_type: entry_regulations
-#    steps:
-#    - intent: thank_you
-#    - action: utter_ur_welcome
-#    - action: want_local_info_form
-#    - active_loop: want_local_info_form
   - rule: ask continue_form after a query
     steps:
     - action: action_query_knowledgebase_cases
@@ -194,17 +151,7 @@ rules:
     - action: utter_goodbye
     - action: action_restart
 
-#  - rule: end of convo afetr local info
-#    condition:
-#    - slot_was_set:
-#      - want_localinfo: false
-#    steps:
-#      - action: want_local_info_form
-#      - active_loop: null
-#      - slot_was_set:
-#        - requested_slot: null
-#      - action: utter_prompt_continue
-  - rule: don't continue
+  - rule: don't want to continue
     steps:
     - action: utter_prompt_continue
     - intent: deny
@@ -216,70 +163,7 @@ rules:
     - action: utter_goodbye
     - action: action_restart
 
-#------IN BETWEEN QUERIES-----
-#- rule: ask keep context
-#  condition:
-#  - slot_was_set:
-#    query_counter: 1
-#  steps:
-#  - action:
-
-# ----- SECOND QUERY -----
-#  - rule: run second query
-#    steps:
-#    - action: action_query_knowledgebase_cases
-#    - intent: query_entry_regulations
-#    - action: action_validate_transit
-#    wait_for_user_input: false
-
-  - rule: 2nd query
-    steps:
-    - action: action_validate_transit
-    - action: action_query_knowledgebase_cases
-  - rule: 2nd query LU+plane
-    condition:
-    - slot_was_set:
-      - plane_travel: true
-      - country_to: Luxembourg
-    steps:
-    - action: action_validate_transit
-    - action: transport_health_worker_form
-    - active_loop: null
-    - action: action_query_knowledgebase_cases
-
-
-
-
-#  - rule: continue convo
-#    condition:
-#    - slot_was_set:
-#      - want_localinfo: true
-#    steps:
-#      - action: want_local_info_form
-#      - active_loop: null
-#      - slot_was_set:
-#        - requested_slot: null
-#      - action: action_query_knowledgebase_cases
-
 #----------FORM INTERRUPTS------
-#  - rule: local_rules_form interrupt
-#    condition:
-#    - active_loop: local_regulations_form
-#    - slot_was_set:
-#      - requested_slot: indoors/outdoors
-#    steps:
-#    - intent: nothing_else
-#    - action: local_regulations_form
-#    - active_loop: null
-#    - action: utter_goodbye
-#  - rule: country_form interrupt
-#    condition:
-#    - active_loop: country_form
-#    steps:
-#    - intent: ask_which_countries
-#    - action: utter_list_the_countries
-#    - action: country_form
-#    - active_loop: country_form
   - rule: regulations_type_form interrupt
     condition:
     - active_loop: regulations_type_form
@@ -299,7 +183,7 @@ rules:
     - active_loop: regulations_type_form
 
 
-  - rule: end continue_form form I
+  - rule: end continue_form form with goodbye
     condition:
     - active_loop: continue_form
     steps:
@@ -308,7 +192,7 @@ rules:
     - active_loop: null
     - action: utter_goodbye
     - action: action_restart
-  - rule:  end continue_form II
+  - rule:  end continue_form with nothing_else
     condition:
     - active_loop: continue_form
     steps:
@@ -317,10 +201,3 @@ rules:
     - active_loop: null
     - action: utter_goodbye
     - action: action_restart
-#  - rule: details on test
-#    steps:
-#    - intent: test_details
-#    - action: action_query_knowledgebase_cases
-
-
-
