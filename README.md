@@ -6,7 +6,7 @@ The artificial conversational assistant SafeTraveller was created as a Bachelor 
 
 The assistant is implemented using RASA and works in Facebook Messenger. The assistant works by filling slots with user travel details and querying the knowledge base of regulations to provide relevant information. The code for queries is implemented using Python framework. The regulations knowledge base is stored in a <em>knowledge_base_data.json</em> file in the <em>actions</em> directory.
 
-Authors: Kristina Kudryavtseva, Sviatlana Höhn
+Authors: Kristina Kudryavtseva, Dr. Sviatlana Höhn (University of Luxembourg)
 
 # Application Snapshot
 <img src="SafeTraveller.png" alt="app snapshot" width=300>

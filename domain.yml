@@ -21,6 +21,8 @@ intents:
     use_entities: true
 - restart:
     use_entities: true
+- go_back:
+    use_entities: true
 - greet:
     use_entities: true
 - goodbye:
@@ -176,6 +178,23 @@ slots:
     mappings:
     - type: from_entity
       entity: local_regulations_type
+  incorrect_slot:
+    type: rasa.shared.core.slots.CategoricalSlot
+    initial_value: null
+    influence_conversation: true
+    values:
+    - visit_purpose
+    - plane_travel
+    - <48h
+    - transit_de
+    - transport_health_worker
+    mappings:
+    - entity: incorrect_slot
+      type: from_entity
+      conditions:
+      - active_loop: incorrect_slot_form
+    - type: from_entity
+      entity: incorrect_slot
   area_type:
     type: rasa.shared.core.slots.CategoricalSlot
     initial_value: null
@@ -183,6 +202,14 @@ slots:
     values:
     - risk
     - safe
+    mappings:
+    - type: custom
+  query_counter:
+    type: rasa.shared.core.slots.FloatSlot
+    initial_value: null
+    influence_conversation: true
+    max_value: 2.0
+    min_value: 1.0
     mappings:
     - type: custom
   common_border:
@@ -326,7 +353,6 @@ slots:
       action: action_extract_countries
     - type: custom
       action: action_validate_countries
-
   correct_info:
     type: rasa.shared.core.slots.BooleanSlot
     initial_value: null
@@ -494,7 +520,6 @@ slots:
         requested_slot: plane_travel
     - type: from_entity
       entity: plane_travel
-      
 responses:
   utter_ask_third_country:
   - buttons:
@@ -677,15 +702,19 @@ actions:
 - action_set_open
 - action_reset_regulations_type
 - action_set_local
+- action_validate_transit
 - action_clear_countries
 - action_query_knowledgebase_cases
 - action_set_country_slots_to_none
 - validate_want_local_info_form
 - action_default_fallback_custom
 - action_utter_disclaimer
+- action_reset_transport_slot
 - action_extract_countries
 - action_validate_countries
+- action_repeat_last
 - action_check_borders
+- action_go_back
 - want_local_info_form
 - transit_BE_form
 - indoors/outdoors_form
@@ -737,7 +766,6 @@ forms:
     ignored_intents: []
     required_slots:
     - regulations_type
-    - country_to
   generic_query_country_form:
     ignored_intents: []
     required_slots:

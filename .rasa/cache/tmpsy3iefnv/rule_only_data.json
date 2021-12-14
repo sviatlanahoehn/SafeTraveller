@@ -1,0 +1,19 @@
+{
+  "rule_only_slots": [
+    "cross_border_resident"
+  ],
+  "rule_only_loops": [
+    "country_form_from",
+    "transportation_type_form",
+    "confirm_country_form",
+    "continue_form",
+    "local_regulations_form",
+    "cross_border_resident_form",
+    "transport_health_worker_form",
+    "regulations_type_form",
+    "<48h_form",
+    "stay_OR_transit_form",
+    "set_transit_form",
+    "regulation_type_form"
+  ]
+}

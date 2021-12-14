@@ -12,17 +12,6 @@ rules:
     - action: vaccine_regulations_form
     - active_loop: vaccine_regulations_form
 
-  - rule: submit vaccine_regulations_form
-    condition:
-    - active_loop: vaccine_regulations_form
-    steps:
-    - action: vaccine_regulations_form
-    - active_loop: null
-    - slot_was_set:
-      - requested_slot: null
-    - action: action_validate_countries
-    wait_for_user_input: false
-
   - rule: wrong country given, vaccine_regulations
     condition:
     - slot_was_set:

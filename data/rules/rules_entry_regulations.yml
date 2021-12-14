@@ -325,9 +325,9 @@ rules:
     - action: action_query_knowledgebase_cases
     wait_for_user_input: false
 
-# -----------------------------------
+# -----------------------------------------------------
 # ------ User specifies new transportation type -------
-# -----------------------------------
+# -----------------------------------------------------
   - rule: air_travel
     steps:
     - intent: inform_air_travel
